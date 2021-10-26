@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding="UTF-8" ?>
+
+<comportement>
+    <start>
+        <startincircle>
+            <priority>0.0</priority>
+        </startincircle>
+
+        <startinline>
+            <priority>1.0</priority>
+        </startinline>
+    </start>
+
+    <follow>
+        <followifcome>
+            <priority>0.0</priority>
+        </followifcome>
+
+        <followpheromones>
+            <priority>1.0</priority>
+        </followpheromones>
+    </follow>
+
+    <AvanceXYcases>
+        <priority>5.0</priority>
+        <time>5</time>
+    </AvanceXYcases>
+
+    <Split>
+        <priority>2.0</priority>
+    </Split>
+
+    <Repulsion>
+        <priority>1.0</priority>
+    </Repulsion>
+
+    <avoidobstacle>
+        <priority>0.0</priority>
+    </avoidobstacle>
+
+    <rightofway>
+        <priority>3.0</priority>
+    </rightofway>
+
+    <bouncebetweenthem>
+        <priority>4.0</priority>
+    </bouncebetweenthem>
+
+</comportement>

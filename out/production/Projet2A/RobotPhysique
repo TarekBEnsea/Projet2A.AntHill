@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><robot>
+    <position>
+        <PosX>30</PosX>
+        <PosY>30</PosY>
+        <theta>0.0</theta>
+    </position>
+
+    <taille>
+        <longueur>20.0</longueur>
+        <largeur>10.0</largeur>
+    </taille>
+
+    <vitesse>
+        <vitesseLigneMax>10.0</vitesseLigneMax>
+        <vitesseLigne>0.0</vitesseLigne>
+        <ordreVitesseLigne>0.0</ordreVitesseLigne>
+        <ordreTheta>0.0</ordreTheta>
+    </vitesse>
+
+    <fourmie>
+        <forme>cercle</forme>
+        <couleur>red</couleur>
+        <poid>0.0</poid>
+    </fourmie>
+
+    <variablestatic>
+        <tau>20</tau>
+    </variablestatic>
+
+</robot>

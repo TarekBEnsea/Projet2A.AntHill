@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding="UTF-8" ?>
+
+<Comportement>
+    <AvanceXY>
+        <time>5.0</time>
+        <priority></priority>
+    </AvanceXY>
+
+    <Recule>
+        <time>10</time>
+        <priority>2</priority>
+    </Recule>
+
+    <turn>
+        <time>10</time>
+        <angle>180</angle>
+        <priority>0</priority>
+    </turn>
+    <Stop>
+        <time>10</time>
+        <priority>1</priority>
+    </Stop>
+</Comportement>
