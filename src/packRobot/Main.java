@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-    	Fenetre test = new Fenetre();
+    	Fenetre Test = new Fenetre();
     	/*
         // D�finissez le frame
         JFrame frame = new JFrame("Hello World");
