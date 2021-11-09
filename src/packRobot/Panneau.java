@@ -1,7 +1,6 @@
 package packRobot;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -10,13 +9,16 @@ public class Panneau extends JPanel {
   private int posX = -50;
   private int posY = -50;
   private int theta = 0;
+  private double width;
+  private double height;
   public ArrayList<Robot> robots;
   
   public Panneau() {
-	    robots = new ArrayList<Robot>();
+
+	  robots = new ArrayList<Robot>();
 	    //robots.add(new Robot(30,30,0));
 	    //robots.add(new Robot(150,30,0));
-	    for(int i = 0; i<100; i++) {
+	    for(int i = 0; i<1000; i++) {
 	    	robots.add(new Robot());
 	    }
   }
@@ -60,7 +62,7 @@ public int getPosX() {
   public void go(){
 	  for(;;){
 		 for(Robot robot : robots) {
-			    robot.mouvInPanel(1000,500);
+			    robot.mouvInPanel(1366,768);
 		}
 
 		this.repaint();

@@ -12,7 +12,8 @@ import java.io.IOException;
 public class Robot extends Element {
 	private BufferedImage image;
 	/**position**/
-	private int tau=20; //valeur à déterminer ou configurer
+	private int tauRota=20; //valeur à déterminer ou configurer
+	private double tauAccel = 0.1;
 	private double theta; //2 pi modulo, sens horaire, origin on x vector
 		
 	/**commandes**/
@@ -63,8 +64,8 @@ public class Robot extends Element {
 		//this.rayon=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
 	}
 	public Robot(){
-		this.posX=Math.random()*500+00;
-		this.posY=Math.random()*500+00;
+		this.posX=Math.random()*Fenetre.width;
+		this.posY=Math.random()*Fenetre.height;
 		this.theta=0;
 		this.vitesseLigne= 0;
 		this.ordreVitesseLigne=1;
@@ -80,12 +81,13 @@ public class Robot extends Element {
 	
 	/**méthodes**/
 	public void updateMouv(double deltaT){
-		if(Math.abs(theta-ordreTheta)>ecartThetaChangement*0.05) ordreVitesseLigne=0; //a faire avec des exception peut-etre
+		if(Math.abs(theta-ordreTheta)>ecartThetaChangement*0.15) ordreVitesseLigne=0; //a faire avec des exception peut-etre
 		else ordreVitesseLigne=saveOrdreVitesse;
 		
-		double alpha=tau/deltaT;
-		vitesseLigne=(ordreVitesseLigne+vitesseLigne*alpha)/(1+alpha);
-		theta=(ordreTheta+theta*alpha)/(1+alpha);
+		double alphaRota=tauRota/deltaT;
+		double alphaAccel=tauAccel/deltaT;
+		vitesseLigne=(ordreVitesseLigne+vitesseLigne*alphaAccel)/(1+alphaAccel);
+		theta=(ordreTheta+theta*alphaRota)/(1+alphaRota);
 		
 		this.posX+=deltaT*vitesseLigne*Math.cos(theta);
 		this.posY+=deltaT*vitesseLigne*Math.sin(theta);
@@ -102,8 +104,8 @@ public class Robot extends Element {
 		//System.out.println("Fourmi en ("+(double) ((int) (x*100))/100+";"+(double) ((int) (y*100))/100+
 		//")\ttheta= "+(double) ((int) (fourmi1.getTheta()*100))/100+" ordreTheta: "+(double) ((int) (ordrAngle*100))/100);
 		
-		if ((x<220 && Math.cos(ordrAngle)<0) || (x>sizePanX-30 && Math.cos(ordrAngle)>0)) {ordrAngle=Math.PI-ordrAngle; change=true;}
-		if ((y<220 && Math.sin(ordrAngle)<0) || (y>sizePanY-30 && Math.sin(ordrAngle)>0)) {ordrAngle=-ordrAngle; change=true;}
+		if ((x<10 && Math.cos(ordrAngle)<0) || (x>sizePanX-30 && Math.cos(ordrAngle)>0)) {ordrAngle=Math.PI-ordrAngle; change=true;}
+		if ((y<10 && Math.sin(ordrAngle)<0) || (y>sizePanY-30 && Math.sin(ordrAngle)>0)) {ordrAngle=-ordrAngle; change=true;}
 		if (change) this.setOrdreTheta(ordrAngle);
 		
 		this.updateMouv(1);

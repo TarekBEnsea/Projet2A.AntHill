@@ -1,18 +1,24 @@
 package packRobot;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 public class Fenetre extends JFrame{
   private Panneau pan;
+  static double width;
+  static double height;
   
-  public Fenetre(){  
+  public Fenetre(){
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    this.width = screenSize.getWidth();
+    this.height = screenSize.getHeight();
 
 	pan = new Panneau();
     this.setTitle("Animation");
-    this.setSize(300, 300);
+    this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    this.setUndecorated(true);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLocationRelativeTo(null);
     this.setContentPane(pan);
