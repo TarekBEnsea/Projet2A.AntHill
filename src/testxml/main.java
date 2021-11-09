@@ -23,6 +23,8 @@ public class main {
         InterXml comportementsimple = new InterXml("src/testxml/ComportementSimple");
         comportementsimple.writeXml("4","2","3","1");
         //comportementsimple.readXml();
+        comportementsimple.WriteCompVal("Recule","priority","5");
+        comportementsimple.WriteCompVal("AvanceXY","antsnexto", "true");;
         comportementsimple.ReadCompPriority("Recule");
 
     }
