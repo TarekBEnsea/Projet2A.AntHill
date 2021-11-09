@@ -2,20 +2,28 @@
     <AvanceXY>
         <time>5.0</time>
         <priority>4</priority>
+        <antsnexto>true</antsnexto>
+        <ressourcesnexto>false</ressourcesnexto>
     </AvanceXY>
 
     <Recule>
         <time>10</time>
-        <priority>2</priority>
+        <priority>5</priority>
+        <antsnexto>true</antsnexto>
+        <ressourcesnextto>false</ressourcesnextto>
     </Recule>
 
     <turn>
         <time>10</time>
         <angle>180</angle>
         <priority>3</priority>
+        <antsnexto>true</antsnexto>
+        <ressourcesnexto>false</ressourcesnexto>
     </turn>
     <Stop>
         <time>10</time>
         <priority>1</priority>
+        <antsnextto>true</antsnextto>
+        <ressourcesnextto>false</ressourcesnextto>
     </Stop>
 </Comportement>
