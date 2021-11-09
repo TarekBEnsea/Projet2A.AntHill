@@ -9,8 +9,6 @@ public class Panneau extends JPanel {
   private int posX = -50;
   private int posY = -50;
   private int theta = 0;
-  private double width;
-  private double height;
   public ArrayList<Robot> robots;
   
   public Panneau() {
