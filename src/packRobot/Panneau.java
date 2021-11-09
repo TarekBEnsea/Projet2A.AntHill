@@ -42,32 +42,6 @@ public class Panneau extends JPanel {
 	  	}
 	}
   
-
-
-  	public int getTheta() {
-		return theta;
-	}
-
-	public void setTheta(int theta) {
-		this.theta = theta;
-	}
-
-	public int getPosX() {
-    	return posX;
-  	}
-
-  	public void setPosX(int posX) {
-    	this.posX = posX;
-  	}
-
-  	public int getPosY() {
-    	return posY;
-  	}
-
-  	public void setPosY(int posY) {
-    	this.posY = posY;
-  	}
-  
   	public void go(){
 		Robot fourmi1, fourmi2;
 		Ressources ressource1;
