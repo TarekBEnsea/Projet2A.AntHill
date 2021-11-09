@@ -7,36 +7,21 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Ressources {
+public class Ressources extends Element{
 
     double max1=Fenetre.width;
     double max2=Fenetre.height;
-    int min=1;
-    int randX= (int) (Math.random()*(max1-min));
-    int randY= (int) (Math.random()*(max2-min));
+    int min =1;
     private Image fb;
     private Image fraise;
     private Image pdt;
     private String name;
 
-    public int getRandX() {
-        return randX;
-    }
-
-    public int getRandY() {
-        return randY;
-    }
-
-    public void setRandX(Integer x) {
-        randX = x;
-    }
-
-    public void setY(Integer y) {
-        randY = y;
-    }
-
     public Ressources(String name){
         this.name=name;
+        rayon=10;
+        posY= (int) (Math.random()*(max2-min));
+        posX= (int) (Math.random()*(max1-min));
         try {
             BufferedImage tmp = ImageIO.read(new File("src/packRobot/fb.png"));
             fb = tmp.getScaledInstance(30,30,Image.SCALE_SMOOTH);
@@ -48,24 +33,16 @@ public class Ressources {
             System.out.println("image non cr�er");
         }
     }
-    public Ressources(int a, int b){
-        randX=a;
-        randY=b;
-    }
-    public void main(String[] args){
-        Point pt=new Point (randX, randY );
-
-    }
 
     @Override
     public String toString() {
-        return "Point{ X=" + randX +", Y=" + randY +'}';
+        return "Point{ X=" + posX +", Y=" + posY +'}';
     }
     public void draw(Graphics g){
         //g.setColor(Color.yellow);
         //g.fillOval(randX,randY,10,10);
-        if(name == "fb") g.drawImage(fb, (int) randX, (int) randY, null);
-        if(name == "fraise") g.drawImage(fraise,(int) randX, (int) randY, null);
-        if(name == "pdt") g.drawImage(pdt,(int) randX, (int) randY, null);
+        if(name == "fb") g.drawImage(fb, (int) (posX-rayon/2), (int) (posY-rayon/2), null);
+        if(name == "fraise") g.drawImage(fraise,(int) (posX-rayon/2), (int) (posY-rayon/2), null);
+        if(name == "pdt") g.drawImage(pdt,(int) (posX-rayon/2), (int) (posY-rayon/2), null);
     }
 }

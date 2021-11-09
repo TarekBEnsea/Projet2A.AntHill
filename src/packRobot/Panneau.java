@@ -18,10 +18,10 @@ public class Panneau extends JPanel {
 	  ressources= new ArrayList<Ressources>();
 	    //robots.add(new Robot(30,30,0));
 	    //robots.add(new Robot(150,30,0));
-	    for(int i = 0; i<500; i++) {
+	    for(int i = 0; i<100; i++) {
 	    	robots.add(new Robot());
 	    }
-	  for (int j =0; j<30;j++){
+	  for (int j =0; j<50;j++){
 		  String name;
 		  if(Math.random() < 0.5) name = "fraise";
 		  else name = "pdt";
@@ -70,6 +70,7 @@ public int getPosX() {
   
   public void go(){
 	  Robot fourmi1, fourmi2;
+	  Ressources ressource1;
 	  for(;;){
 		  for (int i=0; i<robots.size(); i++){
 			  fourmi1=robots.get(i);
@@ -79,6 +80,12 @@ public int getPosX() {
 				  if(fourmi1.enContact(fourmi2)){
 					  fourmi1.breakWheel();
 					  fourmi2.breakWheel();
+				  }
+			  }
+			  for (int j=0; j<ressources.size(); j++){
+				  ressource1=ressources.get(j);
+				  if(fourmi1.enContact(ressource1)){
+					  fourmi1.breakWheel();
 				  }
 			  }
 			}
