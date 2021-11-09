@@ -1,14 +1,12 @@
-<?xml version='1.0' encoding="UTF-8" ?>
-
-<Comportement>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
     <AvanceXY>
         <time>5.0</time>
-        <priority></priority>
+        <priority>2</priority>
     </AvanceXY>
 
     <Recule>
         <time>10</time>
-        <priority>2</priority>
+        <priority>1</priority>
     </Recule>
 
     <turn>
