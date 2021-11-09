@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 //import java.awt.Graphics2D;
 
-public class Robot extends Element {
+public class Robot extends Element{
 	private BufferedImage image;
 	/**position**/
 	private int tauRota=20; //valeur à déterminer ou configurer
@@ -27,7 +27,7 @@ public class Robot extends Element {
 	/**dimensions et hitboxes**/
 	private double longueur=20;
 	private double largeur=15;
-	private double rayon=5;
+	private Boolean broken = false;
 	
 	/**position geters & seters**/
 	public double getPosX(){return this.posX;}
@@ -71,7 +71,7 @@ public class Robot extends Element {
 		this.ordreVitesseLigne=1;
 		this.saveOrdreVitesse=ordreVitesseLigne;
 		this.ordreTheta=Math.random()*Math.PI;
-		//this.rayon=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
+		this.rayon=10;
 		try {
 			image = ImageIO.read(new File("src/packRobot/Ant.png"));
 		} catch (IOException e) {
@@ -92,9 +92,19 @@ public class Robot extends Element {
 		this.posX+=deltaT*vitesseLigne*Math.cos(theta);
 		this.posY+=deltaT*vitesseLigne*Math.sin(theta);
 	}
-	
+
+	public void breakWheel(){
+		//this.vitesseLigneMax=0;
+		this.vitesseLigne=0;
+		//this.ordreVitesseLigne=0;
+		//this.ordreTheta=this.theta;
+		//this.saveOrdreVitesse=0;
+		this.broken=true;
+	}
+
 	public void mouvInPanel(){
-		/**le robot avance linéairement dans un contour fermé et "rebondit" de manière commandée à l'approche d'une bordure**/		
+		/**le robot avance linéairement dans un contour fermé et "rebondit" de manière commandée à l'approche d'une bordure**/
+		if (broken) return;
 		int x= (int) this.getPosX();
 		int y= (int) this.getPosY();
 		double ordrAngle= this.getOrdreTheta();

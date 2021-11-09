@@ -58,10 +58,19 @@ public int getPosX() {
   }
   
   public void go(){
+	  Robot fourmi1, fourmi2;
 	  for(;;){
-		 for(Robot robot : robots) {
-			    robot.mouvInPanel();
-		}
+		  for (int i=0; i<robots.size(); i++){
+			  fourmi1=robots.get(i);
+			  fourmi1.mouvInPanel();
+			  for (int j=i+1; j<robots.size(); j++){
+				  fourmi2=robots.get(j);
+				  if(fourmi1.enContact(fourmi2)){
+					  fourmi1.breakWheel();
+					  fourmi2.breakWheel();
+				  }
+			  }
+			}
 
 		this.repaint();
 		
