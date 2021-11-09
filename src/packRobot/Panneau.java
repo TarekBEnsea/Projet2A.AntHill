@@ -1,23 +1,21 @@
 package packRobot;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class Panneau extends JPanel {
-  private int posX = -50;
-  private int posY = -50;
+public class Panneau extends JPanel implements KeyListener {
   private int theta = 0;
   public ArrayList<Robot> robots;
-	public ArrayList<Ressources> ressources;
+  public ArrayList<Ressources> ressources;
   
   public Panneau() {
-
+	  this.addKeyListener(this);
 	  robots = new ArrayList<Robot>();
 	  ressources= new ArrayList<Ressources>();
-	    //robots.add(new Robot(30,30,0));
-	    //robots.add(new Robot(150,30,0));
 	    for(int i = 0; i<500; i++) {
 	    	robots.add(new Robot());
 	    }
@@ -41,32 +39,7 @@ public class Panneau extends JPanel {
 		  unress.draw(g);
 	  }
   }
-  
 
-
-  public int getTheta() {
-	return theta;
-}
-
-public void setTheta(int theta) {
-	this.theta = theta;
-}
-
-public int getPosX() {
-    return posX;
-  }
-
-  public void setPosX(int posX) {
-    this.posX = posX;
-  }
-
-  public int getPosY() {
-    return posY;
-  }
-
-  public void setPosY(int posY) {
-    this.posY = posY;
-  }
   
   public void go(){
 	  Robot fourmi1, fourmi2;
@@ -82,7 +55,6 @@ public int getPosX() {
 				  }
 			  }
 			}
-
 		this.repaint();
 		
 	    try {
@@ -92,4 +64,15 @@ public int getPosX() {
 	    }
 	  }
   }
+  public void keyTyped(KeyEvent e){}
+  public void keyReleased(KeyEvent e){}
+  public void keyPressed(KeyEvent e){
+	  int key = e.getKeyCode();
+	  System.out.println("key pressed");
+	  if(key == KeyEvent.VK_ESCAPE){
+		  System.out.println("escape key pressed");
+		  System.exit(1);
+	  }
+  }
+
 }
