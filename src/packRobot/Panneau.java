@@ -60,7 +60,7 @@ public int getPosX() {
   public void go(){
 	  for(;;){
 		 for(Robot robot : robots) {
-			    robot.mouvInPanel(1366,768);
+			    robot.mouvInPanel();
 		}
 
 		this.repaint();

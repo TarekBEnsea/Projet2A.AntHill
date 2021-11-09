@@ -93,7 +93,7 @@ public class Robot extends Element {
 		this.posY+=deltaT*vitesseLigne*Math.sin(theta);
 	}
 	
-	public void mouvInPanel(int sizePanX, int sizePanY){
+	public void mouvInPanel(){
 		/**le robot avance linéairement dans un contour fermé et "rebondit" de manière commandée à l'approche d'une bordure**/		
 		int x= (int) this.getPosX();
 		int y= (int) this.getPosY();
@@ -104,8 +104,8 @@ public class Robot extends Element {
 		//System.out.println("Fourmi en ("+(double) ((int) (x*100))/100+";"+(double) ((int) (y*100))/100+
 		//")\ttheta= "+(double) ((int) (fourmi1.getTheta()*100))/100+" ordreTheta: "+(double) ((int) (ordrAngle*100))/100);
 		
-		if ((x<10 && Math.cos(ordrAngle)<0) || (x>sizePanX-30 && Math.cos(ordrAngle)>0)) {ordrAngle=Math.PI-ordrAngle; change=true;}
-		if ((y<10 && Math.sin(ordrAngle)<0) || (y>sizePanY-30 && Math.sin(ordrAngle)>0)) {ordrAngle=-ordrAngle; change=true;}
+		if ((x<10 && Math.cos(ordrAngle)<0) || (x>Fenetre.width-30 && Math.cos(ordrAngle)>0)) {ordrAngle=Math.PI-ordrAngle; change=true;}
+		if ((y<10 && Math.sin(ordrAngle)<0) || (y>Fenetre.height-30 && Math.sin(ordrAngle)>0)) {ordrAngle=-ordrAngle; change=true;}
 		if (change) this.setOrdreTheta(ordrAngle);
 		
 		this.updateMouv(1);
