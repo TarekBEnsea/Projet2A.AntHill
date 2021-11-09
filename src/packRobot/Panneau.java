@@ -5,15 +5,22 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class Panneau extends JPanel implements KeyListener {
   private int theta = 0;
   public ArrayList<Robot> robots;
   public ArrayList<Ressources> ressources;
+  JLabel label;
+  JTextField text;
+
   
   public Panneau() {
-	  this.addKeyListener(this);
+	  label = new JLabel();
+	  text = new JTextField();
+	  this.add(label);
+	  this.add(text);
+	  text.addKeyListener(this);
 	  robots = new ArrayList<Robot>();
 	  ressources= new ArrayList<Ressources>();
 	    for(int i = 0; i<500; i++) {
