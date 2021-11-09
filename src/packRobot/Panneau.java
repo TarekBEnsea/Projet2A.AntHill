@@ -1,27 +1,29 @@
 package packRobot;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
-public class Panneau extends JPanel {
-  private int posX = -50;
-  private int posY = -50;
+public class Panneau extends JPanel implements KeyListener {
   private int theta = 0;
   public ArrayList<Robot> robots;
-	public ArrayList<Ressources> ressources;
+  public ArrayList<Ressources> ressources;
+  JTextField text;
+
   
   public Panneau() {
-
+	  text = new JTextField();
+	  this.add(text);
+	  text.addKeyListener(this);
 	  robots = new ArrayList<Robot>();
 	  ressources= new ArrayList<Ressources>();
-	    //robots.add(new Robot(30,30,0));
-	    //robots.add(new Robot(150,30,0));
-	    for(int i = 0; i<100; i++) {
+	    for(int i = 0; i<500; i++) {
 	    	robots.add(new Robot());
 	    }
-	  for (int j =0; j<50;j++){
+	  for (int j =0; j<30;j++){
 		  String name;
 		  if(Math.random() < 0.5) name = "fraise";
 		  else name = "pdt";
@@ -41,36 +43,10 @@ public class Panneau extends JPanel {
 		  unress.draw(g);
 	  }
   }
-  
 
-
-  public int getTheta() {
-	return theta;
-}
-
-public void setTheta(int theta) {
-	this.theta = theta;
-}
-
-public int getPosX() {
-    return posX;
-  }
-
-  public void setPosX(int posX) {
-    this.posX = posX;
-  }
-
-  public int getPosY() {
-    return posY;
-  }
-
-  public void setPosY(int posY) {
-    this.posY = posY;
-  }
   
   public void go(){
 	  Robot fourmi1, fourmi2;
-	  Ressources ressource1;
 	  for(;;){
 		  for (int i=0; i<robots.size(); i++){
 			  fourmi1=robots.get(i);
@@ -82,14 +58,7 @@ public int getPosX() {
 					  fourmi2.breakWheel();
 				  }
 			  }
-			  for (int j=0; j<ressources.size(); j++){
-				  ressource1=ressources.get(j);
-				  if(fourmi1.enContact(ressource1)){
-					  fourmi1.breakWheel();
-				  }
-			  }
 			}
-
 		this.repaint();
 		
 	    try {
@@ -99,4 +68,15 @@ public int getPosX() {
 	    }
 	  }
   }
+  public void keyTyped(KeyEvent e){}
+  public void keyReleased(KeyEvent e){}
+  public void keyPressed(KeyEvent e){
+	  int key = e.getKeyCode();
+	  System.out.println("key pressed");
+	  if(key == KeyEvent.VK_ESCAPE){
+		  System.out.println("escape key pressed");
+		  System.exit(1);
+	  }
+  }
+
 }
