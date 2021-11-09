@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
     <AvanceXY>
         <time>5.0</time>
-        <priority>3</priority>
+        <priority>4</priority>
     </AvanceXY>
 
     <Recule>
@@ -12,7 +12,7 @@
     <turn>
         <time>10</time>
         <angle>180</angle>
-        <priority>0</priority>
+        <priority>3</priority>
     </turn>
     <Stop>
         <time>10</time>
