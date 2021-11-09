@@ -11,14 +11,11 @@ public class Panneau extends JPanel implements KeyListener {
   private int theta = 0;
   public ArrayList<Robot> robots;
   public ArrayList<Ressources> ressources;
-  JLabel label;
   JTextField text;
 
   
   public Panneau() {
-	  label = new JLabel();
 	  text = new JTextField();
-	  this.add(label);
 	  this.add(text);
 	  text.addKeyListener(this);
 	  robots = new ArrayList<Robot>();
