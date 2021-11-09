@@ -6,13 +6,13 @@
 
     <Recule>
         <time>10</time>
-        <priority>1</priority>
+        <priority>5</priority>
     </Recule>
 
     <turn>
         <time>10</time>
         <angle>180</angle>
-        <priority>0</priority>
+        <priority>3</priority>
     </turn>
     <Stop>
         <time>10</time>
