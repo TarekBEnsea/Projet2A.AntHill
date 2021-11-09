@@ -24,6 +24,8 @@ public class main {
         comportementsimple.writeXml("4","2","3","1");
         //comportementsimple.readXml();
         comportementsimple.ReadCompPriority("Recule");
+        comportementsimple.WriteCompPrio("Recule","5");
+        int i = comportementsimple.ReadCompPriority("Recule");
 
     }
 
