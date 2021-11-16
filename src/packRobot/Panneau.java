@@ -22,10 +22,10 @@ public class Panneau extends JPanel implements KeyListener {
 	  	ressources= new ArrayList<>();
 		//robots.add(new Robot(30,30,0));
 		//robots.add(new Robot(150,30,0));
-		for(int i = 0; i<100; i++) {
+		for(int i = 0; i<30; i++) {
 			robots.add(new Robot());
 		}
-		for (int j =0; j<50;j++){
+		for (int j =0; j<10;j++){
 			String name;
 			if(Math.random() < 0.5) name = "fraise";
 			else name = "pdt";
@@ -64,6 +64,8 @@ public class Panneau extends JPanel implements KeyListener {
 				  	ressource1=ressources.get(j);
 				  	if(fourmi1.enContact(ressource1)){
 					  	fourmi1.breakWheel();
+						//ressources.remove(ressources.size()-1);
+						//this.ressources.remove(ressources.size()-1);
 				  	}
 			  	}
 			}
