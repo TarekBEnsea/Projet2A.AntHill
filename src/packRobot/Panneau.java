@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class Panneau extends JPanel implements KeyListener {
 
@@ -53,7 +53,8 @@ public class Panneau extends JPanel implements KeyListener {
 		  	for (int i=0; i<robots.size(); i++){
 				fourmi1=robots.get(i);
 			  	fourmi1.mouvInPanel();
-			  	for (int j=i+1; j<robots.size(); j++){
+
+				for (int j=i+1; j<robots.size(); j++){
 				  	fourmi2=robots.get(j);
 				  	if(fourmi1.enContact(fourmi2)){
 					  	fourmi1.breakWheel();
