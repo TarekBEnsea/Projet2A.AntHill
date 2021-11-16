@@ -72,7 +72,7 @@ public class InterXml {
         System.out.println("priority: " + priority3);
 
     }
-*/
+
     public void writeXml(String priocomp1, String priocomp2, String priocomp3, String priocomp4){
         Node Comp1 = document.getElementsByTagName("AvanceXY").item(0);
         NodeList list1 = Comp1.getChildNodes();
@@ -125,14 +125,15 @@ public class InterXml {
             e.printStackTrace();
         }
     }
+*/
 
-     public Integer ReadCompPriority(String s){
-         Element node = (Element) document.getElementsByTagName(s).item(0);
-         System.out.println(s);
-         String priority = node.getElementsByTagName("priority").item(0).getTextContent();
-         System.out.println("priority: " + priority);
-         return Integer.valueOf(priority);
-     }
+    public Integer ReadCompState(String s, String Com){
+        Element node = (Element) document.getElementsByTagName(s).item(0);
+        System.out.println(s);
+        String value = node.getElementsByTagName(Com).item(0).getTextContent();
+        System.out.println(Com +" "+ value);
+        return Integer.valueOf(value);
+    }
 
     public void WriteCompVal(String s, String Com, String value){
         Node Comp = document.getElementsByTagName(s).item(0);
