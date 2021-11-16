@@ -1,19 +1,23 @@
 package packRobot;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class Panneau extends JPanel {
+public class Panneau extends JPanel implements KeyListener {
+
 	private int posX = -50;
 	private int posY = -50;
 	private int theta = 0;
 	public ArrayList<Robot> robots;
 	public ArrayList<Ressources> ressources;
-  
-	public Panneau() {
 
+	public Panneau() {
+		this.setFocusable(true);
+		this.addKeyListener(this);
 	  	robots = new ArrayList<>();
 	  	ressources= new ArrayList<>();
 		//robots.add(new Robot(30,30,0));
@@ -74,4 +78,13 @@ public class Panneau extends JPanel {
 
 		}
   	}
+
+  	public void keyTyped(KeyEvent e) {}
+	public void keyPressed(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			System.exit(1);
+		}
+
+	}
 }
