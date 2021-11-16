@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 //import java.awt.Graphics2D;
@@ -25,8 +26,8 @@ public class Robot extends Element{
 	private double saveOrdreVitesse;
 	
 	/**dimensions et hitboxes**/
-	private double longueur=20;
-	private double largeur=15;
+	private int longueur=24;
+	private int largeur=24;
 	private Boolean broken = false;
 	
 	/**position geters & seters**/
@@ -73,7 +74,9 @@ public class Robot extends Element{
 		this.ordreTheta=Math.random()*Math.PI;
 		this.rayon=10;
 		try {
-			image = ImageIO.read(new File("src/packRobot/Ant.png"));
+			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
+			this.image = new BufferedImage(largeur, longueur, 2);
+			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
 		} catch (IOException e) {
 			System.out.println("image non cr�er");
 		}
