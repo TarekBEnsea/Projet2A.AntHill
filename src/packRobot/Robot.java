@@ -124,7 +124,7 @@ public class Robot extends Element{
 	public void draw(Graphics g){
 		double locationX = image.getWidth() / 2;
 		double locationY = image.getHeight() / 2;
-		AffineTransform tx = AffineTransform.getRotateInstance(theta + 45, locationX, locationY);
+		AffineTransform tx = AffineTransform.getRotateInstance(theta + Math.PI/4, locationX, locationY);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
 		Graphics2D g2d = (Graphics2D) g;
