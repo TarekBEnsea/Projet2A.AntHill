@@ -27,8 +27,10 @@ public class Panneau extends JPanel implements KeyListener {
 		}
 		for (int j =0; j<10;j++){
 			String name;
-			if(Math.random() < 0.5) name = "fraise";
-			else name = "pdt";
+			double p = Math.random();
+			if(p < 0.33) name = "fraise";
+			else if (p <0.66) name = "pdt";
+			else name = "fb";
 			ressources.add(new Ressources(name));
 		}
 	}
