@@ -24,7 +24,7 @@ public class Robot extends Element{
 	private double ordreTheta;
 	private double ecartThetaChangement=Math.PI;
 	private double saveOrdreVitesse;
-	
+
 	/**dimensions et hitboxes**/
 	private int longueur=24;
 	private int largeur=24;
@@ -135,7 +135,15 @@ public class Robot extends Element{
 
 
 	}
-	
+	public void AvanceXY(int time){
+		long t = System.currentTimeMillis();
+		long end = t + time;
+		while(System.currentTimeMillis() < end){
+			mouvInPanel();
+		}
+
+
+	}
 	/** fonction test **/
 	public static void main(String[] args){
 		Robot michel = new Robot(0,0);

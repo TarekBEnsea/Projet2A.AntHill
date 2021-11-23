@@ -20,12 +20,13 @@ import java.io.IOException;
 
 public class main {
     public static void main(String[] args) {
+
         InterXml comportementsimple = new InterXml("src/testxml/ComportementSimple");
-        //comportementsimple.writeXml("4","2","3","1");
-        //comportementsimple.readXml();
-        comportementsimple.WriteCompVal("Recule","priority","5");
-        comportementsimple.WriteCompVal("Recule","antsnexto", "0");;
-        comportementsimple.ReadCompState("Recule", "antsnexto");
+
+        comportementsimple.ReadRootdoc();
+        comportementsimple.ReadXmlNode("Comportement");
+        comportementsimple.ReadXmlNode("AvanceXY");
+        comportementsimple.ReadCompState("AvanceXY","time");
 
     }
 
