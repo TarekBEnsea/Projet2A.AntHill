@@ -12,10 +12,18 @@ public class Ressources extends Element{
     double max1=Fenetre.width;
     double max2=Fenetre.height;
     int min =1;
-    private Image fb;
-    private Image fraise;
-    private Image pdt;
+    private Image image;
     private String name;
+
+    public void setTaille(int taille) {
+        this.taille = taille;
+    }
+
+    public int getTaille() {
+        return taille;
+    }
+
+    private int taille = 30;
 
     public Ressources(String name){
         this.name=name;
@@ -23,12 +31,18 @@ public class Ressources extends Element{
         posY= (int) (Math.random()*(max2-min));
         posX= (int) (Math.random()*(max1-min));
         try {
-            BufferedImage tmp = ImageIO.read(new File("src/packRobot/fb.png"));
-            fb = tmp.getScaledInstance(30,30,Image.SCALE_SMOOTH);
-            BufferedImage tmp2 = ImageIO.read(new File("src/packRobot/fraise.png"));
-            fraise = tmp2.getScaledInstance(30,30,Image.SCALE_SMOOTH);
-            BufferedImage tmp3 = ImageIO.read(new File("src/packRobot/pdt.png"));
-            pdt = tmp3.getScaledInstance(30,30,Image.SCALE_SMOOTH);
+            image = new BufferedImage(1,1,1);
+            switch (name) {
+                case("fb") :  image = ImageIO.read(new File("src/packRobot/fb.png"));
+                    break;
+                case("fraise") :  image = ImageIO.read(new File("src/packRobot/fraise.png"));
+                    break;
+                case("pdt") :  image = ImageIO.read(new File("src/packRobot/pdt.png"));
+                    break;
+                default:
+                    break;
+            }
+
         } catch (IOException e) {
             System.out.println("image non cr�er");
         }
@@ -41,8 +55,8 @@ public class Ressources extends Element{
     public void draw(Graphics g){
         //g.setColor(Color.yellow);
         //g.fillOval(randX,randY,10,10);
-        if(name == "fb") g.drawImage(fb, (int) (posX-rayon/2), (int) (posY-rayon/2), null);
-        if(name == "fraise") g.drawImage(fraise,(int) (posX-rayon/2), (int) (posY-rayon/2), null);
-        if(name == "pdt") g.drawImage(pdt,(int) (posX-rayon/2), (int) (posY-rayon/2), null);
+        Image tmp;
+        tmp = image.getScaledInstance(taille,taille,Image.SCALE_SMOOTH);
+        g.drawImage(tmp, (int) (posX-rayon/2), (int) (posY-rayon/2), null);
     }
 }

@@ -86,7 +86,7 @@ public class Robot extends Element{
 	public void updateMouv(double deltaT){
 		if(Math.abs(theta-ordreTheta)>ecartThetaChangement*0.15) ordreVitesseLigne=0; //a faire avec des exception peut-etre
 		else ordreVitesseLigne=saveOrdreVitesse;
-		
+
 		double alphaRota=tauRota/deltaT;
 		double alphaAccel=tauAccel/deltaT;
 		vitesseLigne=(ordreVitesseLigne+vitesseLigne*alphaAccel)/(1+alphaAccel);
