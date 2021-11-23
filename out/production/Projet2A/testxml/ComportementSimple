@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
-    <AvanceXY>
-        <time>10000</time>
+    <AvanceXY id="bonjour">
+        <time>5000</time>
         <priority>4</priority>
         <antsnexto>0</antsnexto>
         <ressourcesnexto>1</ressourcesnexto>
     </AvanceXY>
 
     <Recule>
-        <time>10</time>
+        <time>10000</time>
         <priority>5</priority>
-        <antsnexto>0</antsnexto>
+        <antsnexto>8</antsnexto>
         <ressourcesnextto>0</ressourcesnextto>
     </Recule>
 
     <turn>
-        <time>10</time>
+        <time>10000</time>
         <angle>180</angle>
-        <priority>3</priority>
+        <priority>5</priority>
         <antsnexto>1</antsnexto>
         <ressourcesnexto>0</ressourcesnexto>
     </turn>
     <Stop>
-        <time>10</time>
+        <time>10000</time>
         <priority>1</priority>
         <antsnextto>1</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>

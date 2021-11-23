@@ -15,6 +15,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class InterXml {
 
@@ -47,12 +48,24 @@ public class InterXml {
             System.out.println(node.getNodeName());
         }
     }
+
+    public ArrayList<String> ReturnXmlNode(String s){
+        Node comp = document.getElementsByTagName(s).item(0);
+        NodeList listcomp = comp.getChildNodes();
+        ArrayList<String> list = new ArrayList<>();
+        for(int i=0; i < (listcomp.getLength()-1)/2;i++){
+            Node node = listcomp.item(2*i+1);
+            list.add(node.getNodeName());
+        }
+        return list;
+    }
+
     //Lire la valeur d'une variable dans un noeud
     public Integer ReadCompState(String s, String Com){
         Element node = (Element) document.getElementsByTagName(s).item(0);
-        System.out.println(s);
+        //System.out.println(s);
         String value = node.getElementsByTagName(Com).item(0).getTextContent();
-        System.out.println(Com +" "+ value);
+        //System.out.println(Com +" "+ value);
         return Integer.valueOf(value);
     }
     // Modifier une variable d'état comprise dans un noeud
