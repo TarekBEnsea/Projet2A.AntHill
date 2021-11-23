@@ -27,6 +27,8 @@ public class main {
         comportementsimple.ReadXmlNode("Comportement");
         comportementsimple.ReadXmlNode("AvanceXY");
         comportementsimple.ReadCompState("AvanceXY","time");
+        comportementsimple.WriteCompVal("AvanceXY","time","10000");
+        comportementsimple.ReadCompState("AvanceXY","time");
 
     }
 
