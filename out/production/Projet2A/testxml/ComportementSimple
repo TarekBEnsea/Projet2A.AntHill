@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Comportement>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
     <AvanceXY>
-        <time>5</time>
+        <time>10000</time>
         <priority>4</priority>
         <antsnexto>0</antsnexto>
         <ressourcesnexto>1</ressourcesnexto>
