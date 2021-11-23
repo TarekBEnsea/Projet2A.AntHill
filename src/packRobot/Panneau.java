@@ -67,12 +67,10 @@ public class Panneau extends JPanel implements KeyListener {
 				  	ressource1=ressources.get(j);
 				  	if(fourmi1.enContact(ressource1)){
 					  	fourmi1.breakWheel();
-						//ressources.remove(ressources.size()-1);
-						//this.ressources.remove(ressources.size()-1);
+						ressources.remove(ressources.get(j));
 				  	}
 			  	}
 			}
-
 			this.repaint();
 
 			try {
