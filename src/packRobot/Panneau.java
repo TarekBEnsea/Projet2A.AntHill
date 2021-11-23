@@ -1,5 +1,7 @@
 package packRobot;
 
+import testxml.InterXml;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -54,8 +56,70 @@ public class Panneau extends JPanel implements KeyListener {
 	  	for(;;){
 		  	for (int i=0; i<robots.size(); i++){
 				fourmi1=robots.get(i);
-			  	//fourmi1.mouvInPanel();
-				fourmi1.AvanceXY(1);
+			  	fourmi1.mouvInPanel();
+
+				for (int j=i+1; j<robots.size(); j++){
+				  	fourmi2=robots.get(j);
+				  	if(fourmi1.enContact(fourmi2)){
+					  	fourmi1.breakWheel();
+					  	fourmi2.breakWheel();
+				  	}
+			  	}
+			  	for (int j=0; j<ressources.size(); j++){
+				  	ressource1=ressources.get(j);
+				  	if(fourmi1.enContact(ressource1)){
+					  	fourmi1.breakWheel();
+						if(ressource1.getTaille() > 5) ressource1.setTaille(ressource1.getTaille()-5);
+						//ressources.remove(ressources.size()-1);
+						//this.ressources.remove(ressources.size()-1);
+				  	}
+			  	}
+			}
+
+			this.repaint();
+
+			try {
+				Thread.sleep(25);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+  	}
+  	public void testgo(){
+		Robot fourmi1, fourmi2;
+		Ressources ressource1;
+		long past = System.currentTimeMillis();
+		long duration = 0;
+
+		InterXml comportementsimple = new InterXml("src/testxml/ComportementSimple");
+		for(Robot robot : robots) {
+			for(String comportement : comportementsimple.ReturnXmlNode("Comportement")){
+				robot.getListeComportement().add(comportement);
+			}
+		}
+
+		for(Robot robot : robots) robot.setTime(comportementsimple.ReadCompState(robot.getListeComportement().get(0), "time"));
+
+	  	while(robots.get(0).getListeComportement().size() > robots.get(0).getK() ){
+		  	for (int i=0; i<robots.size(); i++){
+				fourmi1=robots.get(i);
+
+				switch (fourmi1.getListeComportement().get(fourmi1.getK())){
+					case "AvanceXY":
+						fourmi1.AvanceXY(fourmi1.getTime());
+						break;
+					default:
+						break;
+				}
+
+				fourmi1.setTime(fourmi1.getTime() - duration);
+
+				if(fourmi1.getTime() < 0) {
+					fourmi1.setK(fourmi1.getK() + 1);
+					fourmi1.setTime(comportementsimple.ReadCompState(fourmi1.getListeComportement().get(fourmi1.getK()), "time"));
+				}
+
 				for (int j=i+1; j<robots.size(); j++){
 				  	fourmi2=robots.get(j);
 				  	if(fourmi1.enContact(fourmi2)){
@@ -79,6 +143,10 @@ public class Panneau extends JPanel implements KeyListener {
 				e.printStackTrace();
 			}
 
+
+			long now = System.currentTimeMillis();
+			duration = now - past;
+			past = now;
 		}
   	}
 

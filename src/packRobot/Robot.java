@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 //import java.awt.Graphics2D;
 
 public class Robot extends Element{
@@ -29,7 +30,28 @@ public class Robot extends Element{
 	private int longueur=24;
 	private int largeur=24;
 	private Boolean broken = false;
-	
+
+
+	// XML
+	private ArrayList<String> listeComportement = new ArrayList<>();
+	public long getTime() {
+		return time;
+	}
+	public void setTime(long time) {
+		this.time = time;
+	}
+	private long time;
+	public int getK() {
+		return k;
+	}
+	public void setK(int k) {
+		this.k = k;
+	}
+	private int k = 0;
+	public ArrayList<String> getListeComportement() {
+		return listeComportement;
+	}
+
 	/**position geters & seters**/
 	public double getPosX(){return this.posX;}
 	public double getPosY(){return this.posY;}
@@ -81,7 +103,11 @@ public class Robot extends Element{
 			System.out.println("image non cr�er");
 		}
 	}
-	
+
+	public void AvanceXY(long time){
+		if(time > 0) mouvInPanel();
+	}
+
 	/**méthodes**/
 	public void updateMouv(double deltaT){
 		if(Math.abs(theta-ordreTheta)>ecartThetaChangement*0.15) ordreVitesseLigne=0; //a faire avec des exception peut-etre
@@ -136,14 +162,10 @@ public class Robot extends Element{
 
 	}
 	public void AvanceXY(int time){
-		long t = System.currentTimeMillis();
-		long end = t + time;
-		while(System.currentTimeMillis() < end){
-			mouvInPanel();
-		}
-
-
+		if(time > 0) mouvInPanel();
 	}
+
+
 	/** fonction test **/
 	public static void main(String[] args){
 		Robot michel = new Robot(0,0);
