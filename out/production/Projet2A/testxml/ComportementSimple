@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
-    <AvanceXY id="bonjour">
-        <time>5.0</time>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Comportement>
+    <AvanceXY>
+        <time>5</time>
         <priority>4</priority>
         <antsnexto>0</antsnexto>
         <ressourcesnexto>1</ressourcesnexto>
