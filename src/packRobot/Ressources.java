@@ -15,25 +15,34 @@ public class Ressources extends Element{
     private Image image;
     private String name;
 
+    public void setTaille(int taille) {
+        this.taille = taille;
+    }
+
+    public int getTaille() {
+        return taille;
+    }
+
+    private int taille = 30;
+
     public Ressources(String name){
         this.name=name;
         rayon=10;
         posY= (int) (Math.random()*(max2-min));
         posX= (int) (Math.random()*(max1-min));
         try {
-            BufferedImage tmp = new BufferedImage(1,1,1);
+            image = new BufferedImage(1,1,1);
             switch (name) {
-                case("fb") :  tmp = ImageIO.read(new File("src/packRobot/fb.png"));
+                case("fb") :  image = ImageIO.read(new File("src/packRobot/fb.png"));
                     break;
-                case("fraise") :  tmp = ImageIO.read(new File("src/packRobot/fraise.png"));
+                case("fraise") :  image = ImageIO.read(new File("src/packRobot/fraise.png"));
                     break;
-                case("pdt") :  tmp = ImageIO.read(new File("src/packRobot/pdt.png"));
+                case("pdt") :  image = ImageIO.read(new File("src/packRobot/pdt.png"));
                     break;
                 default:
                     break;
             }
 
-             image = tmp.getScaledInstance(30,30,Image.SCALE_SMOOTH);
         } catch (IOException e) {
             System.out.println("image non cr�er");
         }
@@ -46,6 +55,8 @@ public class Ressources extends Element{
     public void draw(Graphics g){
         //g.setColor(Color.yellow);
         //g.fillOval(randX,randY,10,10);
-        g.drawImage(image, (int) (posX-rayon/2), (int) (posY-rayon/2), null);
+        Image tmp;
+        tmp = image.getScaledInstance(taille,taille,Image.SCALE_SMOOTH);
+        g.drawImage(tmp, (int) (posX-rayon/2), (int) (posY-rayon/2), null);
     }
 }
