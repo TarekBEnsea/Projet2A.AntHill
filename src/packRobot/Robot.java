@@ -161,10 +161,6 @@ public class Robot extends Element{
 
 
 	}
-	public void AvanceXY(int time){
-		if(time > 0) mouvInPanel();
-	}
-
 
 	/** fonction test **/
 	public static void main(String[] args){

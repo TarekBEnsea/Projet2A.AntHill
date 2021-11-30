@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
-    <AvanceXY id="bonjour">
+    <AvanceXY>
         <time>5000</time>
         <priority>4</priority>
         <antsnexto>0</antsnexto>
