@@ -41,6 +41,8 @@ public class Robot extends Element{
 		this.time = time;
 	}
 	private long time;
+	private double avanceX;
+	private double avanceY;
 	public int getK() {
 		return k;
 	}
@@ -51,6 +53,16 @@ public class Robot extends Element{
 	public ArrayList<String> getListeComportement() {
 		return listeComportement;
 	}
+
+	/**xml geters & seters **/
+
+	public void setAvanceX(double avanceX) {
+		this.avanceX = avanceX;
+	}
+	public void setAvanceY(double avanceY) {
+		this.avanceY = avanceY;
+	}
+
 
 	/**position geters & seters**/
 	public double getPosX(){return this.posX;}
@@ -89,7 +101,7 @@ public class Robot extends Element{
 	public Robot(){
 		this.posX=Math.random()*Fenetre.width;
 		this.posY=Math.random()*Fenetre.height;
-		this.theta=0;
+		this.theta=Math.random()*2*Math.PI;
 		this.vitesseLigne= 0;
 		this.ordreVitesseLigne=1;
 		this.saveOrdreVitesse=ordreVitesseLigne;
@@ -104,13 +116,21 @@ public class Robot extends Element{
 		}
 	}
 
-	public void AvanceXY(long time){
-		if(time > 0) mouvInPanel();
+	public boolean AvanceXY(){
+		if(avanceX-posX > 0) this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX)));
+		else this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX))+Math.PI);
+		updateMouv(1);
+		return Math.abs(avanceY-posY) < 1 && Math.abs(avanceX-posX) < 1;
+	}
+
+	public void turn(int angle, long time){
+
 	}
 
 	/**méthodes**/
 	public void updateMouv(double deltaT){
-		if(Math.abs(theta-ordreTheta)>ecartThetaChangement*0.15) ordreVitesseLigne=0; //a faire avec des exception peut-etre
+
+		if(Math.abs(theta-ordreTheta)>0.1) ordreVitesseLigne=0; //a faire avec des exception peut-etre
 		else ordreVitesseLigne=saveOrdreVitesse;
 
 		double alphaRota=tauRota/deltaT;

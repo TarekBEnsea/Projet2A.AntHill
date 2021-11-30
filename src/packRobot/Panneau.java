@@ -24,7 +24,7 @@ public class Panneau extends JPanel implements KeyListener {
 	  	ressources= new ArrayList<>();
 		//robots.add(new Robot(30,30,0));
 		//robots.add(new Robot(150,30,0));
-		for(int i = 0; i<30; i++) {
+		for(int i = 0; i<300; i++) {
 			robots.add(new Robot());
 		}
 		for (int j =0; j<10;j++){
@@ -99,26 +99,42 @@ public class Panneau extends JPanel implements KeyListener {
 			}
 		}
 
-		for(Robot robot : robots) robot.setTime(comportementsimple.ReadCompState(robot.getListeComportement().get(0), "time"));
+		for(Robot robot : robots) XMLtoJava(robot, robot.getK(), comportementsimple);
 
 	  	while(robots.get(0).getListeComportement().size() > robots.get(0).getK() ){
 		  	for (int i=0; i<robots.size(); i++){
 				fourmi1=robots.get(i);
 
 				switch (fourmi1.getListeComportement().get(fourmi1.getK())){
-					case "AvanceXY":
-						fourmi1.AvanceXY(fourmi1.getTime());
+					case "MouvXY":
+						if(fourmi1.AvanceXY()) {
+							fourmi1.setK(fourmi1.getK() + 1);
+							XMLtoJava(fourmi1, fourmi1.getK(), comportementsimple);
+						};
+						break;
+					case "GoToXY":
+						if(fourmi1.AvanceXY()) {
+							fourmi1.setK(fourmi1.getK() + 1);
+							XMLtoJava(fourmi1, fourmi1.getK(), comportementsimple);
+						};
+						break;
+					case "Stop":
+						fourmi1.setTime(fourmi1.getTime() - duration);
+						if(fourmi1.getTime() < 0) {
+							fourmi1.setK(fourmi1.getK() + 1);
+							XMLtoJava(fourmi1, fourmi1.getK(), comportementsimple);
+						}
 						break;
 					default:
 						break;
 				}
 
-				fourmi1.setTime(fourmi1.getTime() - duration);
+				/*fourmi1.setTime(fourmi1.getTime() - duration);
 
 				if(fourmi1.getTime() < 0) {
 					fourmi1.setK(fourmi1.getK() + 1);
 					fourmi1.setTime(comportementsimple.ReadCompState(fourmi1.getListeComportement().get(fourmi1.getK()), "time"));
-				}
+				}*/
 
 				for (int j=i+1; j<robots.size(); j++){
 				  	fourmi2=robots.get(j);
@@ -149,6 +165,23 @@ public class Panneau extends JPanel implements KeyListener {
 			past = now;
 		}
   	}
+
+    public void XMLtoJava(Robot robot, int k, InterXml comportementsimple){
+		switch (robot.getListeComportement().get(robot.getK())){
+			case "MouvXY":
+				robot.setAvanceX(comportementsimple.ReadCompState(robot.getListeComportement().get(k), "x") + robot.getPosX());
+				robot.setAvanceY(comportementsimple.ReadCompState(robot.getListeComportement().get(k), "y") + robot.getPosY());
+				break;
+			case "GoToXY":
+				robot.setAvanceX(comportementsimple.ReadCompState(robot.getListeComportement().get(k), "x"));
+				robot.setAvanceY(comportementsimple.ReadCompState(robot.getListeComportement().get(k), "y"));
+				break;
+			case "Stop":
+				robot.setTime(comportementsimple.ReadCompState(robot.getListeComportement().get(k), "time"));
+			default:
+				break;
+		}
+	}
 
   	public void keyTyped(KeyEvent e) {}
 	public void keyPressed(KeyEvent e) {}

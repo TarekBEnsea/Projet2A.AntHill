@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
-    <AvanceXY>
-        <time>5000</time>
+    <MouvXY>
+        <time>500000</time>
+        <x>20</x>
+        <y>100</y>
         <priority>4</priority>
         <antsnexto>0</antsnexto>
         <ressourcesnexto>1</ressourcesnexto>
-    </AvanceXY>
+    </MouvXY>
 
-    <Recule>
-        <time>10000</time>
-        <priority>5</priority>
-        <antsnexto>8</antsnexto>
+    <Stop>
+        <time>1000</time>
+        <priority>1</priority>
+        <antsnextto>1</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
-    </Recule>
+        <outofbound>0</outofbound>
+    </Stop>
 
-    <turn>
-        <time>10000</time>
+    <GoToXY>
+        <x>700</x>
+        <y>500</y>
+        <priority>0</priority>
+    </GoToXY>
+
+    <Turn>
         <angle>180</angle>
         <priority>5</priority>
         <antsnexto>1</antsnexto>
         <ressourcesnexto>0</ressourcesnexto>
-    </turn>
-    <Stop>
-        <time>10000</time>
-        <priority>1</priority>
-        <antsnextto>1</antsnextto>
-        <ressourcesnextto>0</ressourcesnextto>
-    </Stop>
+    </Turn>
+
 </Comportement>
