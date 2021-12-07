@@ -27,7 +27,7 @@ public class Ressources extends Element{
 
     public Ressources(String name){
         this.name=name;
-        rayon=10;
+        rayonContact =7;
         posY= (int) (Math.random()*(max2-min));
         posX= (int) (Math.random()*(max1-min));
         try {

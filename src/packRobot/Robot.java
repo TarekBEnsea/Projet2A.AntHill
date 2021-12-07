@@ -19,19 +19,19 @@ public class Robot extends Element{
 	private double theta; //2 pi modulo, sens horaire, origin on x vector
 		
 	/**commandes**/
-	private double vitesseLigneMax=5;
+	public final double vitesseLigneMax=3;
 	private double vitesseLigne;
 	private double ordreVitesseLigne;
 	private double ordreTheta;
 	private double ecartThetaChangement=Math.PI;
 	private double saveOrdreVitesse;
-
+	
 	/**dimensions et hitboxes**/
-	private int longueur=24;
-	private int largeur=24;
-	private Boolean broken = false;
-
-
+	private double longueur=20;
+	private double largeur=15;
+	private boolean broken = false;
+	
+	
 	// XML
 	private ArrayList<String> listeComportement = new ArrayList<>();
 	public long getTime() {
@@ -62,21 +62,18 @@ public class Robot extends Element{
 	public void setAvanceY(double avanceY) {
 		this.avanceY = avanceY;
 	}
-
-
-	/**position geters & seters**/
-	public double getPosX(){return this.posX;}
-	public double getPosY(){return this.posY;}
+	
+	/**position getters & setters**/
 	public double getTheta(){return this.theta;}
 	
-	/**commands geters & seters**/
+	/**commands getters & setters**/
 	public double getOrdreVitesseLigne(){return ordreVitesseLigne;}
 	public double getOrdreTheta(){return ordreTheta;}
 	public void setOrdreVitesseLigne(double ordre){
 		if (ordre<0) this.ordreVitesseLigne=0;
 		else if(ordre>vitesseLigneMax) this.ordreVitesseLigne=vitesseLigne;
 		else ordreVitesseLigne=ordre;
-		
+
 		saveOrdreVitesse=ordreVitesseLigne;
 	}
 	public void setOrdreTheta(double ordre){
@@ -87,35 +84,49 @@ public class Robot extends Element{
 		ecartThetaChangement=Math.abs(theta-ordreTheta);
 	}
 
+	public boolean getBroken(){return broken;}
+
 	/**Constructeurs**/
-	public Robot(double x, double y){
+	public Robot(double x, double y, double theta){
 		this.posX=x;
 		this.posY=y;
-		this.theta=0;
+		this.theta=theta;
 		this.vitesseLigne= 0;
 		this.ordreVitesseLigne=0;
 		this.saveOrdreVitesse=ordreVitesseLigne;
 		this.ordreTheta=Math.PI;
-		//this.rayon=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
+		this.rayonContact =10;
+		//this.rayonContact=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
+		try {
+			//image = ImageIO.read(new File("src/packRobot/Ant.png"));
+			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
+			this.image = new BufferedImage(largeur, longueur, 2);
+			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
+		} catch (IOException e) {
+			System.out.println("image non créée");
+		}
 	}
 	public Robot(){
 		this.posX=Math.random()*Fenetre.width;
 		this.posY=Math.random()*Fenetre.height;
 		this.theta=Math.random()*2*Math.PI;
 		this.vitesseLigne= 0;
-		this.ordreVitesseLigne=1;
+		this.ordreVitesseLigne=vitesseLigneMax;
 		this.saveOrdreVitesse=ordreVitesseLigne;
-		this.ordreTheta=Math.random()*Math.PI;
-		this.rayon=10;
+		this.ordreTheta=theta;
+		this.rayonContact =10;
+		this.rayonDetect=rayonContact+30;
 		try {
+			//image = ImageIO.read(new File("src/packRobot/Ant.png"));
 			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
 			this.image = new BufferedImage(largeur, longueur, 2);
 			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
 		} catch (IOException e) {
-			System.out.println("image non cr�er");
+			System.out.println("image non créée");
 		}
 	}
-
+	
+	/**méthodes**/
 	public boolean AvanceXY(){
 		if(avanceX-posX > 0) this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX)));
 		else this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX))+Math.PI);
@@ -126,12 +137,12 @@ public class Robot extends Element{
 	public void turn(int angle, long time){
 
 	}
-
-	/**méthodes**/
 	public void updateMouv(double deltaT){
-
-		if(Math.abs(theta-ordreTheta)>0.1) ordreVitesseLigne=0; //a faire avec des exception peut-etre
-		else ordreVitesseLigne=saveOrdreVitesse;
+		/*if(Math.abs(theta-ordreTheta)>ecartThetaChangement*0.15) ordreVitesseLigne=vitesseLigneMax/4; //a faire avec des exception peut-etre
+		else {
+			ordreVitesseLigne=saveOrdreVitesse;
+			//theta=ordreTheta;
+		}*/
 
 		double alphaRota=tauRota/deltaT;
 		double alphaAccel=tauAccel/deltaT;
@@ -144,11 +155,33 @@ public class Robot extends Element{
 
 	public void breakWheel(){
 		//this.vitesseLigneMax=0;
-		this.vitesseLigne=0;
 		//this.ordreVitesseLigne=0;
 		//this.ordreTheta=this.theta;
 		//this.saveOrdreVitesse=0;
+
+		if (! broken) System.out.println(this.toString()+":\t"+getPprocheDistance());
+		this.vitesseLigne=0;
 		this.broken=true;
+	}
+	public void freewheel(){broken=false;}
+
+	public void eviter(double theta){
+		double angle=((this.theta-theta)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
+
+		if (getPprocheDistance()>rayonDetect || getPprocheDistance()== -1) setOrdreVitesseLigne(vitesseLigneMax);
+		else if (getPprocheDistance()<rayonContact) breakWheel();
+		else{
+			double relativeMultiplier=(getPprocheDistance()-rayonContact)/(rayonDetect-rayonContact);
+			setOrdreVitesseLigne(vitesseLigneMax*relativeMultiplier*0.7+0.1);
+			if (voisin==this.getClass()) {
+				if (angle < Math.PI) setOrdreTheta(theta + Math.PI * (1 - relativeMultiplier));
+				else if (angle > Math.PI) setOrdreTheta(theta - Math.PI * (1 - relativeMultiplier));
+			}
+			else {
+				if (angle<Math.PI/2) setOrdreTheta(theta+2*Math.PI/3);
+				else if (angle>3*Math.PI/2) setOrdreTheta(theta-2*Math.PI/3);
+			}
+		}
 	}
 
 	public void mouvInPanel(){
@@ -158,15 +191,18 @@ public class Robot extends Element{
 		int y= (int) this.getPosY();
 		double ordrAngle= this.getOrdreTheta();
 		boolean change=false;
-		double angle;
 		
 		//System.out.println("Fourmi en ("+(double) ((int) (x*100))/100+";"+(double) ((int) (y*100))/100+
 		//")\ttheta= "+(double) ((int) (fourmi1.getTheta()*100))/100+" ordreTheta: "+(double) ((int) (ordrAngle*100))/100);
 		
 		if ((x<10 && Math.cos(ordrAngle)<0) || (x>Fenetre.width-30 && Math.cos(ordrAngle)>0)) {ordrAngle=Math.PI-ordrAngle; change=true;}
 		if ((y<10 && Math.sin(ordrAngle)<0) || (y>Fenetre.height-30 && Math.sin(ordrAngle)>0)) {ordrAngle=-ordrAngle; change=true;}
-		if (change) this.setOrdreTheta(ordrAngle);
-		
+		if (change) {
+			this.setOrdreTheta(ordrAngle);
+		}
+		if (x<10 || x>Fenetre.width-30 || y<10 || y>Fenetre.height-30) this.setOrdreVitesseLigne(0.5);
+
+
 		this.updateMouv(1);
 	}
 
@@ -181,10 +217,10 @@ public class Robot extends Element{
 
 
 	}
-
+	
 	/** fonction test **/
 	public static void main(String[] args){
-		Robot michel = new Robot(0,0);
+		Robot michel = new Robot(0,0,0);
 		for(int i=0;i<Integer.parseInt(args[0]);i++){ 
 			System.out.println("michel est en ("+michel.posX+";"+michel.posY+")");
 			michel.updateMouv(1);
