@@ -5,8 +5,11 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+//import java.awt.Graphics2D;
 
 public class Robot extends Element{
 	private BufferedImage image;
@@ -27,6 +30,38 @@ public class Robot extends Element{
 	private double longueur=20;
 	private double largeur=15;
 	private boolean broken = false;
+	
+	
+	// XML
+	private ArrayList<String> listeComportement = new ArrayList<>();
+	public long getTime() {
+		return time;
+	}
+	public void setTime(long time) {
+		this.time = time;
+	}
+	private long time;
+	private double avanceX;
+	private double avanceY;
+	public int getK() {
+		return k;
+	}
+	public void setK(int k) {
+		this.k = k;
+	}
+	private int k = 0;
+	public ArrayList<String> getListeComportement() {
+		return listeComportement;
+	}
+
+	/**xml geters & seters **/
+
+	public void setAvanceX(double avanceX) {
+		this.avanceX = avanceX;
+	}
+	public void setAvanceY(double avanceY) {
+		this.avanceY = avanceY;
+	}
 	
 	/**position getters & setters**/
 	public double getTheta(){return this.theta;}
@@ -63,9 +98,12 @@ public class Robot extends Element{
 		this.rayonContact =10;
 		//this.rayonContact=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
 		try {
-			image = ImageIO.read(new File("src/packRobot/Ant.png"));
+			//image = ImageIO.read(new File("src/packRobot/Ant.png"));
+			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
+			this.image = new BufferedImage(largeur, longueur, 2);
+			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
 		} catch (IOException e) {
-			System.out.println("image non cr�er");
+			System.out.println("image non créée");
 		}
 	}
 	public Robot(){
@@ -79,13 +117,26 @@ public class Robot extends Element{
 		this.rayonContact =10;
 		this.rayonDetect=rayonContact+30;
 		try {
-			image = ImageIO.read(new File("src/packRobot/Ant.png"));
+			//image = ImageIO.read(new File("src/packRobot/Ant.png"));
+			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
+			this.image = new BufferedImage(largeur, longueur, 2);
+			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
 		} catch (IOException e) {
-			System.out.println("image non cr�er");
+			System.out.println("image non créée");
 		}
 	}
 	
 	/**méthodes**/
+	public boolean AvanceXY(){
+		if(avanceX-posX > 0) this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX)));
+		else this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX))+Math.PI);
+		updateMouv(1);
+		return Math.abs(avanceY-posY) < 1 && Math.abs(avanceX-posX) < 1;
+	}
+
+	public void turn(int angle, long time){
+
+	}
 	public void updateMouv(double deltaT){
 		/*if(Math.abs(theta-ordreTheta)>ecartThetaChangement*0.15) ordreVitesseLigne=vitesseLigneMax/4; //a faire avec des exception peut-etre
 		else {
@@ -158,7 +209,7 @@ public class Robot extends Element{
 	public void draw(Graphics g){
 		double locationX = image.getWidth() / 2;
 		double locationY = image.getHeight() / 2;
-		AffineTransform tx = AffineTransform.getRotateInstance(theta +Math.PI/4, locationX, locationY);
+		AffineTransform tx = AffineTransform.getRotateInstance(theta + Math.PI/4, locationX, locationY);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
 		Graphics2D g2d = (Graphics2D) g;
