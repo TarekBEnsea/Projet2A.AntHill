@@ -38,7 +38,7 @@ public class InterXml {
         String rootTag = document.getDocumentElement().getTagName();
         System.out.println("root tag: " + rootTag);
     }
-    // Lire les noeuds contenu dans un noeud
+    // Lire les variables contenu dans un noeud
     public void ReadXmlNode(String s){
         Node comp = document.getElementsByTagName(s).item(0);
         NodeList listcomp = comp.getChildNodes();

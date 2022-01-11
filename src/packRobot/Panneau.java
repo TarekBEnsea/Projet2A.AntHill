@@ -1,30 +1,34 @@
 package packRobot;
 
 import testxml.InterXml;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.concurrent.SynchronousQueue;
+
 import javax.swing.*;
 
 public class Panneau extends JPanel implements KeyListener {
+
 	private int posX = -50;
 	private int posY = -50;
 	private int theta = 0;
 	public ArrayList<Robot> robots;
 	public ArrayList<Ressources> ressources;
-  
+
 	public Panneau() {
 		this.setFocusable(true);
 		this.addKeyListener(this);
-
 	  	robots = new ArrayList<>();
 	  	ressources= new ArrayList<>();
 		//robots.add(new Robot(30,30,0));
-		for(int i = 0; i<50; i++) {
+		//robots.add(new Robot(150,30,0));
+		for(int i = 0; i<30; i++) {
 			robots.add(new Robot());
 		}
-		for (int j =0; j<15;j++){
+		for (int j =0; j<0;j++){
 			String name;
 			double p = Math.random();
 			if(p < 0.33) name = "fraise";
@@ -39,12 +43,12 @@ public class Panneau extends JPanel implements KeyListener {
 		this.setBackground(Color.white);
 		g.setColor(getBackground());
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-	  	for (Ressources unress : ressources){
-		  	unress.draw(g);
-	  	}
 		for(Robot robot : robots) {
 			robot.draw(g);
 		}
+	  	for (Ressources unress : ressources){
+		  	unress.draw(g);
+	  	}
 	}
   
   	public void go(){
@@ -54,41 +58,23 @@ public class Panneau extends JPanel implements KeyListener {
 		  	for (int i=0; i<robots.size(); i++){
 				fourmi1=robots.get(i);
 			  	fourmi1.mouvInPanel();
-				fourmi1.resetPprocheDistance();
-				fourmi1.setOrdreVitesseLigne(fourmi1.vitesseLigneMax);
-				
-				if (!fourmi1.getBroken()) {
-					for (int j = 0; j < robots.size(); j++) {
-						if (i != j) {
-							fourmi2 = robots.get(j);
-							if (fourmi1.estProche(fourmi2)) {
-						  /*if (fourmi1.enContact(fourmi2)) {
-							  fourmi1.breakWheel();
-							  fourmi2.breakWheel();
-						  }*/
-								//else {
-								fourmi1.eviter(fourmi1.getDirection(fourmi2));
-								//fourmi2.eviter(fourmi2.getDirection(fourmi1));
-								//}
-							}
-						}
-					}
-					
-					for (int j = 0; j < ressources.size(); j++) {
-						ressource1 = ressources.get(j);
-						if (fourmi1.estProche(ressource1)) {
-							if (fourmi1.enContact(ressource1)) {
-							//	  fourmi1.breakWheel();
-								if(ressource1.getTaille() > 5) ressource1.setTaille(ressource1.getTaille()-5);
-								//ressources.remove(ressources.size()-1);
-								//this.ressources.remove(ressources.size()-1);
-							}
-							else {
-							fourmi1.eviter(fourmi1.getDirection(ressource1));
-							}
-						}
-					}
-				}
+
+				for (int j=i+1; j<robots.size(); j++){
+				  	fourmi2=robots.get(j);
+				  	if(fourmi1.enContact(fourmi2)){
+					  	fourmi1.breakWheel();
+					  	fourmi2.breakWheel();
+				  	}
+			  	}
+			  	for (int j=0; j<ressources.size(); j++){
+				  	ressource1=ressources.get(j);
+				  	if(fourmi1.enContact(ressource1)){
+					  	fourmi1.breakWheel();
+						if(ressource1.getTaille() > 5) ressource1.setTaille(ressource1.getTaille()-5);
+						//ressources.remove(ressources.size()-1);
+						//this.ressources.remove(ressources.size()-1);
+				  	}
+			  	}
 			}
 
 			this.repaint();
@@ -101,52 +87,54 @@ public class Panneau extends JPanel implements KeyListener {
 
 		}
   	}
-	
-	public void testgo(){
+  	public void testgo(){
 		Robot fourmi1, fourmi2;
 		Ressources ressource1;
 		long past = System.currentTimeMillis();
 		long duration = 0;
 
+
 		InterXml comportementsimple = new InterXml("src/testxml/ComportementSimple");
+
+
 		for(Robot robot : robots) {
-			for(String comportement : comportementsimple.ReturnXmlNode("Comportement")){
-				robot.getListeComportement().add(comportement);
-			}
+			robot.setComportement(new Comportement(robot, robots, ressources, comportementsimple)); ;
+			robot.getComportement().XMLtoJava();
 		}
 
-		for(Robot robot : robots) XMLtoJava(robot, robot.getK(), comportementsimple);
-
-	  	while(robots.get(0).getListeComportement().size() > robots.get(0).getK() ){
+	  	while(true){
 		  	for (int i=0; i<robots.size(); i++){
 				fourmi1=robots.get(i);
-
-				switch (fourmi1.getListeComportement().get(fourmi1.getK())){
+				String oldName = fourmi1.getComportement().getName();
+				fourmi1.setComportement(new Comportement(fourmi1, robots, ressources, comportementsimple));
+				String newName = fourmi1.getComportement().getName();
+				if(!oldName.equals(newName)){
+					fourmi1.getComportement().XMLtoJava();
+					System.out.println("changement");
+				}
+				switch (newName){
 					case "MouvXY":
 						if(fourmi1.AvanceXY()) {
-							fourmi1.setK(fourmi1.getK() + 1);
-							XMLtoJava(fourmi1, fourmi1.getK(), comportementsimple);
+							fourmi1.getComportement().XMLtoJava();
 						};
 						break;
 					case "GoToXY":
 						if(fourmi1.AvanceXY()) {
-							fourmi1.setK(fourmi1.getK() + 1);
-							XMLtoJava(fourmi1, fourmi1.getK(), comportementsimple);
+							fourmi1.getComportement().XMLtoJava();
 						};
 						break;
 					case "Stop":
 						fourmi1.setTime(fourmi1.getTime() - duration);
 						if(fourmi1.getTime() < 0) {
-							fourmi1.setK(fourmi1.getK() + 1);
-							XMLtoJava(fourmi1, fourmi1.getK(), comportementsimple);
+							fourmi1.getComportement().XMLtoJava();
 						}
-						
 						break;
 					default:
 						break;
-					}
-				
+				}
+
 				/*fourmi1.setTime(fourmi1.getTime() - duration);
+
 				if(fourmi1.getTime() < 0) {
 					fourmi1.setK(fourmi1.getK() + 1);
 					fourmi1.setTime(comportementsimple.ReadCompState(fourmi1.getListeComportement().get(fourmi1.getK()), "time"));
@@ -167,7 +155,6 @@ public class Panneau extends JPanel implements KeyListener {
 				  	}
 			  	}
 			}
-
 			this.repaint();
 
 			try {
@@ -183,22 +170,7 @@ public class Panneau extends JPanel implements KeyListener {
 		}
   	}
 
-    public void XMLtoJava(Robot robot, int k, InterXml comportementsimple){
-		switch (robot.getListeComportement().get(robot.getK())){
-			case "MouvXY":
-				robot.setAvanceX(comportementsimple.ReadCompState(robot.getListeComportement().get(k), "x") + robot.getPosX());
-				robot.setAvanceY(comportementsimple.ReadCompState(robot.getListeComportement().get(k), "y") + robot.getPosY());
-				break;
-			case "GoToXY":
-				robot.setAvanceX(comportementsimple.ReadCompState(robot.getListeComportement().get(k), "x"));
-				robot.setAvanceY(comportementsimple.ReadCompState(robot.getListeComportement().get(k), "y"));
-				break;
-			case "Stop":
-				robot.setTime(comportementsimple.ReadCompState(robot.getListeComportement().get(k), "time"));
-			default:
-				break;
-		}
-	}
+
 
   	public void keyTyped(KeyEvent e) {}
 	public void keyPressed(KeyEvent e) {}
@@ -208,5 +180,4 @@ public class Panneau extends JPanel implements KeyListener {
 		}
 
 	}
-
 }

@@ -15,6 +15,7 @@
         <vitesseLigne>0.0</vitesseLigne>
         <ordreVitesseLigne>0.0</ordreVitesseLigne>
         <ordreTheta>0.0</ordreTheta>
+        <tau>20</tau>
     </vitesse>
 
     <fourmie>
@@ -23,8 +24,5 @@
         <poid>0.0</poid>
     </fourmie>
 
-    <variablestatic>
-        <tau>20</tau>
-    </variablestatic>
 
 </robot>

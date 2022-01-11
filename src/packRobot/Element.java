@@ -5,6 +5,7 @@ public abstract class Element{
 	protected double posY; // vertical, downward
 	protected double rayonContact;
 	protected double rayonDetect;
+	protected double rayon;
 	private double pprocheDistance; //distance du plus proche obstacle
 	public Class voisin;
 

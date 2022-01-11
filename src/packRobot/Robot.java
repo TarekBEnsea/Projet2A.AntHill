@@ -19,20 +19,23 @@ public class Robot extends Element{
 	private double theta; //2 pi modulo, sens horaire, origin on x vector
 		
 	/**commandes**/
-	public final double vitesseLigneMax=3;
+	private double vitesseLigneMax=5;
 	private double vitesseLigne;
 	private double ordreVitesseLigne;
 	private double ordreTheta;
 	private double ecartThetaChangement=Math.PI;
 	private double saveOrdreVitesse;
-	
+
 	/**dimensions et hitboxes**/
-	private double longueur=20;
-	private double largeur=15;
-	private boolean broken = false;
-	
-	
+	private int longueur=24;
+	private int largeur=24;
+	private Boolean broken = false;
+
+
+
+
 	// XML
+	private Comportement comportement;
 	private ArrayList<String> listeComportement = new ArrayList<>();
 	public long getTime() {
 		return time;
@@ -40,6 +43,14 @@ public class Robot extends Element{
 	public void setTime(long time) {
 		this.time = time;
 	}
+
+	public void setComportement(Comportement comportement) {
+		this.comportement = comportement;
+	}
+	public Comportement getComportement() {
+		return comportement;
+	}
+
 	private long time;
 	private double avanceX;
 	private double avanceY;
@@ -62,18 +73,21 @@ public class Robot extends Element{
 	public void setAvanceY(double avanceY) {
 		this.avanceY = avanceY;
 	}
-	
-	/**position getters & setters**/
+
+
+	/**position geters & seters**/
+	public double getPosX(){return this.posX;}
+	public double getPosY(){return this.posY;}
 	public double getTheta(){return this.theta;}
 	
-	/**commands getters & setters**/
+	/**commands geters & seters**/
 	public double getOrdreVitesseLigne(){return ordreVitesseLigne;}
 	public double getOrdreTheta(){return ordreTheta;}
 	public void setOrdreVitesseLigne(double ordre){
 		if (ordre<0) this.ordreVitesseLigne=0;
 		else if(ordre>vitesseLigneMax) this.ordreVitesseLigne=vitesseLigne;
 		else ordreVitesseLigne=ordre;
-
+		
 		saveOrdreVitesse=ordreVitesseLigne;
 	}
 	public void setOrdreTheta(double ordre){
@@ -84,49 +98,35 @@ public class Robot extends Element{
 		ecartThetaChangement=Math.abs(theta-ordreTheta);
 	}
 
-	public boolean getBroken(){return broken;}
-
 	/**Constructeurs**/
-	public Robot(double x, double y, double theta){
+	public Robot(double x, double y){
 		this.posX=x;
 		this.posY=y;
-		this.theta=theta;
+		this.theta=0;
 		this.vitesseLigne= 0;
 		this.ordreVitesseLigne=0;
 		this.saveOrdreVitesse=ordreVitesseLigne;
 		this.ordreTheta=Math.PI;
-		this.rayonContact =10;
-		//this.rayonContact=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
-		try {
-			//image = ImageIO.read(new File("src/packRobot/Ant.png"));
-			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
-			this.image = new BufferedImage(largeur, longueur, 2);
-			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
-		} catch (IOException e) {
-			System.out.println("image non créée");
-		}
+		//this.rayon=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
 	}
 	public Robot(){
 		this.posX=Math.random()*Fenetre.width;
 		this.posY=Math.random()*Fenetre.height;
 		this.theta=Math.random()*2*Math.PI;
 		this.vitesseLigne= 0;
-		this.ordreVitesseLigne=vitesseLigneMax;
+		this.ordreVitesseLigne=1;
 		this.saveOrdreVitesse=ordreVitesseLigne;
-		this.ordreTheta=theta;
-		this.rayonContact =10;
-		this.rayonDetect=rayonContact+30;
+		this.ordreTheta=Math.random()*Math.PI;
+		this.rayon = 10;
 		try {
-			//image = ImageIO.read(new File("src/packRobot/Ant.png"));
 			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
 			this.image = new BufferedImage(largeur, longueur, 2);
 			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
 		} catch (IOException e) {
-			System.out.println("image non créée");
+			System.out.println("image non cr�er");
 		}
 	}
-	
-	/**méthodes**/
+
 	public boolean AvanceXY(){
 		if(avanceX-posX > 0) this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX)));
 		else this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX))+Math.PI);
@@ -137,12 +137,12 @@ public class Robot extends Element{
 	public void turn(int angle, long time){
 
 	}
+
+	/**méthodes**/
 	public void updateMouv(double deltaT){
-		/*if(Math.abs(theta-ordreTheta)>ecartThetaChangement*0.15) ordreVitesseLigne=vitesseLigneMax/4; //a faire avec des exception peut-etre
-		else {
-			ordreVitesseLigne=saveOrdreVitesse;
-			//theta=ordreTheta;
-		}*/
+
+		if(Math.abs(theta-ordreTheta)>0.1) ordreVitesseLigne=0; //a faire avec des exception peut-etre
+		else ordreVitesseLigne=saveOrdreVitesse;
 
 		double alphaRota=tauRota/deltaT;
 		double alphaAccel=tauAccel/deltaT;
@@ -155,33 +155,11 @@ public class Robot extends Element{
 
 	public void breakWheel(){
 		//this.vitesseLigneMax=0;
+		this.vitesseLigne=0;
 		//this.ordreVitesseLigne=0;
 		//this.ordreTheta=this.theta;
 		//this.saveOrdreVitesse=0;
-
-		if (! broken) System.out.println(this.toString()+":\t"+getPprocheDistance());
-		this.vitesseLigne=0;
 		this.broken=true;
-	}
-	public void freewheel(){broken=false;}
-
-	public void eviter(double theta){
-		double angle=((this.theta-theta)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
-
-		if (getPprocheDistance()>rayonDetect || getPprocheDistance()== -1) setOrdreVitesseLigne(vitesseLigneMax);
-		else if (getPprocheDistance()<rayonContact) breakWheel();
-		else{
-			double relativeMultiplier=(getPprocheDistance()-rayonContact)/(rayonDetect-rayonContact);
-			setOrdreVitesseLigne(vitesseLigneMax*relativeMultiplier*0.7+0.1);
-			if (voisin==this.getClass()) {
-				if (angle < Math.PI) setOrdreTheta(theta + Math.PI * (1 - relativeMultiplier));
-				else if (angle > Math.PI) setOrdreTheta(theta - Math.PI * (1 - relativeMultiplier));
-			}
-			else {
-				if (angle<Math.PI/2) setOrdreTheta(theta+2*Math.PI/3);
-				else if (angle>3*Math.PI/2) setOrdreTheta(theta-2*Math.PI/3);
-			}
-		}
 	}
 
 	public void mouvInPanel(){
@@ -191,18 +169,15 @@ public class Robot extends Element{
 		int y= (int) this.getPosY();
 		double ordrAngle= this.getOrdreTheta();
 		boolean change=false;
+		double angle;
 		
 		//System.out.println("Fourmi en ("+(double) ((int) (x*100))/100+";"+(double) ((int) (y*100))/100+
 		//")\ttheta= "+(double) ((int) (fourmi1.getTheta()*100))/100+" ordreTheta: "+(double) ((int) (ordrAngle*100))/100);
 		
 		if ((x<10 && Math.cos(ordrAngle)<0) || (x>Fenetre.width-30 && Math.cos(ordrAngle)>0)) {ordrAngle=Math.PI-ordrAngle; change=true;}
 		if ((y<10 && Math.sin(ordrAngle)<0) || (y>Fenetre.height-30 && Math.sin(ordrAngle)>0)) {ordrAngle=-ordrAngle; change=true;}
-		if (change) {
-			this.setOrdreTheta(ordrAngle);
-		}
-		if (x<10 || x>Fenetre.width-30 || y<10 || y>Fenetre.height-30) this.setOrdreVitesseLigne(0.5);
-
-
+		if (change) this.setOrdreTheta(ordrAngle);
+		
 		this.updateMouv(1);
 	}
 
@@ -217,10 +192,10 @@ public class Robot extends Element{
 
 
 	}
-	
+
 	/** fonction test **/
 	public static void main(String[] args){
-		Robot michel = new Robot(0,0,0);
+		Robot michel = new Robot(0,0);
 		for(int i=0;i<Integer.parseInt(args[0]);i++){ 
 			System.out.println("michel est en ("+michel.posX+";"+michel.posY+")");
 			michel.updateMouv(1);

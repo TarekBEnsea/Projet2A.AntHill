@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
     <MouvXY>
-        <time>500000</time>
+        <time>10000</time>
         <x>20</x>
-        <y>100</y>
-        <priority>4</priority>
-        <antsnexto>0</antsnexto>
-        <ressourcesnexto>1</ressourcesnexto>
+        <y>50</y>
+        <priority>1</priority>
+        <antsnextto>0</antsnextto>
+        <ressourcesnextto>0</ressourcesnextto>
     </MouvXY>
 
     <Stop>
-        <time>1000</time>
-        <priority>1</priority>
-        <antsnextto>1</antsnextto>
+        <time>10000</time>
+        <priority>0</priority>
+        <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
-        <outofbound>0</outofbound>
+        <outofbound>1</outofbound>
     </Stop>
 
     <GoToXY>
-        <x>700</x>
-        <y>500</y>
-        <priority>0</priority>
+        <x>1</x>
+        <y>1</y>
+        <priority>2</priority>
+        <outofbound>1</outofbound>
     </GoToXY>
 
     <Turn>
         <angle>180</angle>
-        <priority>5</priority>
+        <priority>3</priority>
         <antsnexto>1</antsnexto>
         <ressourcesnexto>0</ressourcesnexto>
     </Turn>
