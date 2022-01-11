@@ -110,7 +110,7 @@ public class Comportement {
         }
         return b;
     }
-
+/*
     public void XMLtoJava(){
         switch (name){
             case "MouvXY":
@@ -126,5 +126,5 @@ public class Comportement {
             default:
                 break;
         }
-    }
+    }*/
 }

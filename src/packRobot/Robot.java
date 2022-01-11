@@ -1,18 +1,30 @@
 package packRobot;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-//import java.awt.Graphics2D;
 
 public class Robot extends Element{
+	public void setImage(String pathname) {
+		try {
+			BufferedImage tmp = ImageIO.read(new File(pathname));
+			this.image = new BufferedImage(largeur, longueur, 2);
+			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
+		} catch (IOException e) {
+			System.out.println("image non cr�er");
+		}
+	}
+
 	private BufferedImage image;
+	private BufferedImage image2;
+	private BufferedImage image3;
+	private BufferedImage image4;
 	/**position**/
 	private int tauRota=20; //valeur à déterminer ou configurer
 	private double tauAccel = 0.1;
@@ -25,56 +37,13 @@ public class Robot extends Element{
 	private double ordreTheta;
 	private double ecartThetaChangement=Math.PI;
 	private double saveOrdreVitesse;
+	private boolean carry=false;
 
 	/**dimensions et hitboxes**/
 	private int longueur=24;
 	private int largeur=24;
 	private Boolean broken = false;
-
-
-
-
-	// XML
-	private Comportement comportement;
-	private ArrayList<String> listeComportement = new ArrayList<>();
-	public long getTime() {
-		return time;
-	}
-	public void setTime(long time) {
-		this.time = time;
-	}
-
-	public void setComportement(Comportement comportement) {
-		this.comportement = comportement;
-	}
-	public Comportement getComportement() {
-		return comportement;
-	}
-
-	private long time;
-	private double avanceX;
-	private double avanceY;
-	public int getK() {
-		return k;
-	}
-	public void setK(int k) {
-		this.k = k;
-	}
-	private int k = 0;
-	public ArrayList<String> getListeComportement() {
-		return listeComportement;
-	}
-
-	/**xml geters & seters **/
-
-	public void setAvanceX(double avanceX) {
-		this.avanceX = avanceX;
-	}
-	public void setAvanceY(double avanceY) {
-		this.avanceY = avanceY;
-	}
-
-
+	
 	/**position geters & seters**/
 	public double getPosX(){return this.posX;}
 	public double getPosY(){return this.posY;}
@@ -97,6 +66,13 @@ public class Robot extends Element{
 		
 		ecartThetaChangement=Math.abs(theta-ordreTheta);
 	}
+	public boolean isCarry() {
+		return carry;
+	}
+	public void setCarry(boolean carry) {
+		this.carry = carry;
+	}
+
 
 	/**Constructeurs**/
 	public Robot(double x, double y){
@@ -112,12 +88,12 @@ public class Robot extends Element{
 	public Robot(){
 		this.posX=Math.random()*Fenetre.width;
 		this.posY=Math.random()*Fenetre.height;
-		this.theta=Math.random()*2*Math.PI;
+		this.theta=0;
 		this.vitesseLigne= 0;
 		this.ordreVitesseLigne=1;
 		this.saveOrdreVitesse=ordreVitesseLigne;
 		this.ordreTheta=Math.random()*Math.PI;
-		this.rayon = 10;
+		this.rayon=10;
 		try {
 			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
 			this.image = new BufferedImage(largeur, longueur, 2);
@@ -126,22 +102,10 @@ public class Robot extends Element{
 			System.out.println("image non cr�er");
 		}
 	}
-
-	public boolean AvanceXY(){
-		if(avanceX-posX > 0) this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX)));
-		else this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX))+Math.PI);
-		updateMouv(1);
-		return Math.abs(avanceY-posY) < 1 && Math.abs(avanceX-posX) < 1;
-	}
-
-	public void turn(int angle, long time){
-
-	}
-
+	
 	/**méthodes**/
 	public void updateMouv(double deltaT){
-
-		if(Math.abs(theta-ordreTheta)>0.1) ordreVitesseLigne=0; //a faire avec des exception peut-etre
+		if(Math.abs(theta-ordreTheta)>ecartThetaChangement*0.15) ordreVitesseLigne=0; //a faire avec des exception peut-etre
 		else ordreVitesseLigne=saveOrdreVitesse;
 
 		double alphaRota=tauRota/deltaT;
@@ -193,6 +157,7 @@ public class Robot extends Element{
 
 	}
 
+	
 	/** fonction test **/
 	public static void main(String[] args){
 		Robot michel = new Robot(0,0);
