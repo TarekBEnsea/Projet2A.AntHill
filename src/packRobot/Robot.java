@@ -13,6 +13,15 @@ import java.util.ArrayList;
 
 public class Robot extends Element{
 	private BufferedImage image;
+	public void setImage(String pathname) {
+		try {
+			BufferedImage tmp = ImageIO.read(new File(pathname));
+			this.image = new BufferedImage(largeur, longueur, 2);
+			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
+		} catch (IOException e) {
+			System.out.println("image non cr�er");
+		}
+	}
 	/**position**/
 	private int tauRota=20; //valeur à déterminer ou configurer
 	private double tauAccel = 0.1;
@@ -25,6 +34,7 @@ public class Robot extends Element{
 	private double ordreTheta;
 	private double ecartThetaChangement=Math.PI;
 	private double saveOrdreVitesse;
+	private boolean carry=false;
 
 	/**dimensions et hitboxes**/
 	private int longueur=24;
@@ -79,7 +89,14 @@ public class Robot extends Element{
 	public double getPosX(){return this.posX;}
 	public double getPosY(){return this.posY;}
 	public double getTheta(){return this.theta;}
-	
+
+	public boolean isCarry() {
+		return carry;
+	}
+	public void setCarry(boolean carry) {
+		this.carry = carry;
+	}
+
 	/**commands geters & seters**/
 	public double getOrdreVitesseLigne(){return ordreVitesseLigne;}
 	public double getOrdreTheta(){return ordreTheta;}

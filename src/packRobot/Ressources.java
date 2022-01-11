@@ -1,8 +1,7 @@
 package packRobot;
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.AffineTransformOp;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,15 +13,6 @@ public class Ressources extends Element{
     int min =1;
     private Image image;
     private String name;
-
-    public void setTaille(int taille) {
-        this.taille = taille;
-    }
-
-    public int getTaille() {
-        return taille;
-    }
-
     private int taille = 30;
 
     public Ressources(String name){
@@ -52,11 +42,15 @@ public class Ressources extends Element{
     public String toString() {
         return "Point{ X=" + posX +", Y=" + posY +'}';
     }
-    public void draw(Graphics g){
-        //g.setColor(Color.yellow);
-        //g.fillOval(randX,randY,10,10);
+     public void draw(Graphics g){
         Image tmp;
         tmp = image.getScaledInstance(taille,taille,Image.SCALE_SMOOTH);
         g.drawImage(tmp, (int) (posX-rayon/2), (int) (posY-rayon/2), null);
     }
+    public void setTaille(int taille){ this.taille = taille; }
+    public int getTaille(){ return taille; }
+    public String getName() {
+        return name;
+    }
+
 }

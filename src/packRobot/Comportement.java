@@ -35,19 +35,16 @@ public class Comportement {
                             case "MouvXY":
                                 if(capteurMouvXY()) {
                                     nextComportement = true;
-                                    System.out.println("mouv");
                                 }
                                 break;
                             case "Stop":
                                 if(capteurStop()) {
-                                    System.out.println("stop");
                                     nextComportement = true;
                                 }
                                 break;
                             case "GoToXY":
                                 if(capteurGoToXY()) {
                                     nextComportement = true;
-                                    System.out.println("goto");
                                 }
                                 break;
                             default:
