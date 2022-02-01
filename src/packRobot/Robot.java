@@ -41,50 +41,6 @@ public class Robot extends Element{
 	private int largeur=24;
 	private Boolean broken = false;
 
-
-
-
-	// XML
-	private Comportement comportement;
-	private ArrayList<String> listeComportement = new ArrayList<>();
-	public long getTime() {
-		return time;
-	}
-	public void setTime(long time) {
-		this.time = time;
-	}
-
-	public void setComportement(Comportement comportement) {
-		this.comportement = comportement;
-	}
-	public Comportement getComportement() {
-		return comportement;
-	}
-
-	private long time;
-	private double avanceX;
-	private double avanceY;
-	public int getK() {
-		return k;
-	}
-	public void setK(int k) {
-		this.k = k;
-	}
-	private int k = 0;
-	public ArrayList<String> getListeComportement() {
-		return listeComportement;
-	}
-
-	/**xml geters & seters **/
-
-	public void setAvanceX(double avanceX) {
-		this.avanceX = avanceX;
-	}
-	public void setAvanceY(double avanceY) {
-		this.avanceY = avanceY;
-	}
-
-
 	/**position geters & seters**/
 	public double getPosX(){return this.posX;}
 	public double getPosY(){return this.posY;}
@@ -144,16 +100,6 @@ public class Robot extends Element{
 		}
 	}
 
-	public boolean AvanceXY(){
-		if(avanceX-posX > 0) this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX)));
-		else this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX))+Math.PI);
-		updateMouv(1);
-		return Math.abs(avanceY-posY) < 1 && Math.abs(avanceX-posX) < 1;
-	}
-
-	public void turn(int angle, long time){
-
-	}
 
 	/**méthodes**/
 	public void updateMouv(double deltaT){

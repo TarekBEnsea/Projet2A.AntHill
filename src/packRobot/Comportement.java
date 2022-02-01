@@ -12,11 +12,11 @@ public class Comportement {
 
     private String name;
     private InterXml comportementsimple;
-    private Robot robot;
-    private ArrayList<Robot> robots;
+    private Robotxml robot;
+    private ArrayList<Robotxml> robots;
     private ArrayList<Ressources> ressources;
 
-    public Comportement(Robot robot,ArrayList<Robot> robots,ArrayList<Ressources> ressources, InterXml comportementsimple) {
+    public Comportement(Robotxml robot,ArrayList<Robotxml> robots,ArrayList<Ressources> ressources, InterXml comportementsimple) {
         this.robot = robot;
         this.robots = robots;
         this.ressources = ressources;
@@ -35,16 +35,19 @@ public class Comportement {
                             case "MouvXY":
                                 if(capteurMouvXY()) {
                                     nextComportement = true;
+                                    System.out.println("MouvXY");
                                 }
                                 break;
                             case "Stop":
                                 if(capteurStop()) {
                                     nextComportement = true;
+                                    System.out.println("Stop");
                                 }
                                 break;
                             case "GoToXY":
                                 if(capteurGoToXY()) {
                                     nextComportement = true;
+                                    System.out.println("GotoXY");
                                 }
                                 break;
                             default:
@@ -79,8 +82,8 @@ public class Comportement {
         Boolean b = true;
         if(comportementsimple.ReadCompState(name, "outofbound") == 1) {
             b = false;
-            if ((robot.posX<10 && Math.cos(robot.getOrdreTheta())<0) || (robot.posX>1000-30 && Math.cos(robot.getOrdreTheta())>0)) b = true;
-            if ((robot.posY<10 && Math.sin(robot.getOrdreTheta())<0) || (robot.posY>600-30 && Math.sin(robot.getOrdreTheta())>0)) b = true;
+            if ((robot.posX<10 && Math.cos(robot.getOrdreTheta())<0) || (robot.posX>Fenetre.width-30 && Math.cos(robot.getOrdreTheta())>0)) b = true;
+            if ((robot.posY<10 && Math.sin(robot.getOrdreTheta())<0) || (robot.posY>Fenetre.height-30 && Math.sin(robot.getOrdreTheta())>0)) b = true;
         }
         return b;
     }

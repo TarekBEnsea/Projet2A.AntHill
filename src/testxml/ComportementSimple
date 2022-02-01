@@ -9,7 +9,7 @@
     </MouvXY>
 
     <Stop>
-        <time>10000</time>
+        <time>1000</time>
         <priority>0</priority>
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
@@ -20,7 +20,7 @@
         <x>1</x>
         <y>1</y>
         <priority>2</priority>
-        <outofbound>1</outofbound>
+        <outofbound>0</outofbound>
     </GoToXY>
 
     <Turn>

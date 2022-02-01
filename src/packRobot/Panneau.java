@@ -17,7 +17,7 @@ public class Panneau extends JPanel implements KeyListener {
 	private int cpt_fr = 0;
 	private int cpt_fb=0;
 	private int cpt_pdt=0;
-	public ArrayList<Robot> robots;
+	public ArrayList<Robotxml> robots;
 	public ArrayList<Ressources> ressources;
 
 	public Panneau() {
@@ -27,8 +27,8 @@ public class Panneau extends JPanel implements KeyListener {
 	  	ressources= new ArrayList<>();
 		//robots.add(new Robot(30,30,0));
 		//robots.add(new Robot(150,30,0));
-		for(int i = 0; i<200; i++) {
-			robots.add(new Robot());
+		for(int i = 0; i<100; i++) {
+			robots.add(new Robotxml());
 		}
 		for (int j =0; j<5;j++){
 			String name;
@@ -93,7 +93,7 @@ public class Panneau extends JPanel implements KeyListener {
   	*/
 
   	public void testgo(){
-		Robot fourmi1, fourmi2;
+		Robotxml fourmi1, fourmi2;
 		long past = System.currentTimeMillis();
 		long duration = 0;
 
@@ -101,7 +101,7 @@ public class Panneau extends JPanel implements KeyListener {
 		InterXml comportementsimple = new InterXml("src/testxml/ComportementSimple");
 
 
-		for(Robot robot : robots) {
+		for(Robotxml robot : robots) {
 			robot.setComportement(new Comportement(robot, robots, ressources, comportementsimple)); ;
 			robot.getComportement().XMLtoJava();
 		}
