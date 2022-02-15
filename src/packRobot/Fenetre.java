@@ -1,10 +1,7 @@
 package packRobot;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-
 import javax.swing.*;
+import java.awt.*;
 
 public class Fenetre extends JFrame{
   private Panneau pan;

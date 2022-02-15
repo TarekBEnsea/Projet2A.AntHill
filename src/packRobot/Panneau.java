@@ -2,12 +2,11 @@ package packRobot;
 
 import testxml.InterXml;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
-import javax.swing.*;
 
 public class Panneau extends JPanel implements KeyListener {
 
@@ -53,9 +52,9 @@ public class Panneau extends JPanel implements KeyListener {
 	  	}
 	}
 
-	/*
+
   	public void go(){
-		Robot fourmi1, fourmi2;
+		Robotxml fourmi1, fourmi2;
 		Ressources ressource1;
 	  	for(;;){
 		  	for (int i=0; i<robots.size(); i++){
@@ -89,8 +88,8 @@ public class Panneau extends JPanel implements KeyListener {
 			}
 
 		}
-  	}
-  	*/
+	}
+
 
   	public void testgo(){
 		Robotxml fourmi1, fourmi2;

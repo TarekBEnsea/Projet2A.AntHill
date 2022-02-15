@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
-    <MouvXY>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+
+<Comportement>
+    <MouvXY id = "1">
         <time>10000</time>
         <x>20</x>
         <y>50</y>
@@ -8,7 +11,16 @@
         <ressourcesnextto>0</ressourcesnextto>
     </MouvXY>
 
-    <Stop>
+    <MouvXY id = "4">
+        <time>10000</time>
+        <x>20</x>
+        <y>50</y>
+        <priority>1</priority>
+        <antsnextto>0</antsnextto>
+        <ressourcesnextto>0</ressourcesnextto>
+    </MouvXY>
+
+    <Stop id = "0">
         <time>1000</time>
         <priority>0</priority>
         <antsnextto>0</antsnextto>
@@ -16,14 +28,14 @@
         <outofbound>1</outofbound>
     </Stop>
 
-    <GoToXY>
+    <GoToXY id='2'>
         <x>1</x>
         <y>1</y>
         <priority>2</priority>
         <outofbound>0</outofbound>
     </GoToXY>
 
-    <Turn>
+    <Turn id = "3">
         <angle>180</angle>
         <priority>3</priority>
         <antsnexto>1</antsnexto>

@@ -1,9 +1,6 @@
 package testxml;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -49,6 +46,29 @@ public class InterXml {
         }
     }
 
+    public Integer ReadId(String s){
+
+        Node fonction = document.getElementsByTagName(s).item(0);
+        NamedNodeMap attr = fonction.getAttributes();
+        Node node = attr.getNamedItem("id");
+        String value = node.getTextContent();
+        return Integer.valueOf(value);
+    }
+    public int ReadCompStateId(int Id, String s){
+        Node comp = document.getElementsByTagName("Comportement").item(0);
+        NodeList listfonction = comp.getChildNodes();
+        Node node = null;
+        int index = 0;
+        for(int i=0; i < (listfonction.getLength()-1)/2;i++){
+            index = 2*i+1;
+            node = listfonction.item(index);
+            if(ReadId(node.getNodeName()) == Id ){break;}
+        }
+         NodeList list = comp.getChildNodes();
+        Element n1 = (Element) list.item(index);
+        String value = n1.getElementsByTagName(s).item(0).getTextContent();
+        return Integer.valueOf(value);
+    }
     public ArrayList<String> ReturnXmlNode(String s){
         Node comp = document.getElementsByTagName(s).item(0);
         NodeList listcomp = comp.getChildNodes();
