@@ -17,13 +17,15 @@ public class Panneau extends JPanel implements KeyListener {
 	private int cpt_fb=0;
 	private int cpt_pdt=0;
 	public ArrayList<Robotxml> robots;
-	public ArrayList<Ressources> ressources;
+	public ArrayList<Ressources> resources;
+	public ArrayList<Integer> save_resources;
 
 	public Panneau() {
 		this.setFocusable(true);
 		this.addKeyListener(this);
 	  	robots = new ArrayList<>();
-	  	ressources= new ArrayList<>();
+	  	resources= new ArrayList<>();
+		save_resources = new ArrayList<>();
 		//robots.add(new Robot(30,30,0));
 		//robots.add(new Robot(150,30,0));
 		for(int i = 0; i<100; i++) {
@@ -35,7 +37,7 @@ public class Panneau extends JPanel implements KeyListener {
 			if(p < 0.33) name = "fraise";
 			else if (p <0.66) name = "pdt";
 			else name = "fb";
-			ressources.add(new Ressources(name));
+			resources.add(new Ressources(name));
 		}
 	}
   
@@ -47,7 +49,7 @@ public class Panneau extends JPanel implements KeyListener {
 		for(Robot robot : robots) {
 			robot.draw(g);
 		}
-	  	for (Ressources unress : ressources){
+	  	for (Ressources unress : resources){
 		  	unress.draw(g);
 	  	}
 	}
@@ -68,16 +70,41 @@ public class Panneau extends JPanel implements KeyListener {
 					  	fourmi2.breakWheel();
 				  	}
 			  	}
-			  	for (int j=0; j<ressources.size(); j++){
-				  	ressource1=ressources.get(j);
-				  	if(fourmi1.enContact(ressource1)){
-					  	fourmi1.breakWheel();
-						if(ressource1.getTaille() > 5) ressource1.setTaille(ressource1.getTaille()-5);
-						//ressources.remove(ressources.size()-1);
-						//this.ressources.remove(ressources.size()-1);
-				  	}
-			  	}
+				for (Ressources resource : resources) {
+					if (fourmi1.enContact(resource) && !fourmi1.isCarry()) {
+						if (resource.getTaille() < 10) {
+							save_resources.add(resources.indexOf(resource));
+						}
+						resource.setTaille(resource.getTaille() - 10);
+						resource.rayonContact = resource.rayonContact - 5;
+						fourmi1.setCarry(true);
+						switch (resource.getName()) {
+							case "fraise" -> {
+								fourmi1.setImage("src/packRobot/ant+fr.png");
+								cpt_fr++;
+								System.out.println("Le nombre de fraise récuperée est de : " + cpt_fr);
+							}
+							case "fb" -> {
+								fourmi1.setImage("src/packRobot/ant+fb.png");
+								cpt_fb++;
+								System.out.println("Le nombre de framboise récuperée est de : " + cpt_fb);
+							}
+							case "pdt" -> {
+								fourmi1.setImage("src/packRobot/ant+pdt.png");
+								cpt_pdt++;
+								System.out.println("Le nombre de pomme de terre récuperée est de : " + cpt_pdt);
+							}
+							default -> {
+							}
+						}
+					}
+				}
+				for (Integer index : save_resources){
+					resources.remove(index);
+				}
+				save_resources = new ArrayList<>();
 			}
+
 
 			this.repaint();
 
