@@ -101,7 +101,7 @@ public class Panneau extends JPanel implements KeyListener {
 
 
 		for(Robotxml robot : robots) {
-			robot.setComportement(new Comportement(robot, robots, ressources, comportementsimple)); ;
+			robot.setComportement(new Comportement(robot, robots, resources, comportementsimple));
 			robot.getComportement().XMLtoJava();
 		}
 
@@ -109,15 +109,15 @@ public class Panneau extends JPanel implements KeyListener {
 		  	for (int i=0; i<robots.size(); i++){
 				fourmi1=robots.get(i);
 				String oldName = fourmi1.getComportement().getName();
-				fourmi1.setComportement(new Comportement(fourmi1, robots, ressources, comportementsimple));
+				fourmi1.setComportement(new Comportement(fourmi1, robots, resources, comportementsimple));
 				String newName = fourmi1.getComportement().getName();
 
-				for (Ressources ressource : ressources) {
-					if (fourmi1.enContact(ressource) && !fourmi1.isCarry()) {
-						if (ressource.getTaille() > 10) {
-							ressource.setTaille(ressource.getTaille() - 10);
+				for (Ressources resource : resources) {
+					if (fourmi1.enContact(resource) && !fourmi1.isCarry()) {
+						if (resource.getTaille() > 10) {
+							resource.setTaille(resource.getTaille() - 10);
 							fourmi1.setCarry(true);
-							switch (ressource.getName()) {
+							switch (resource.getName()) {
 								case "fraise" -> {
 									fourmi1.setImage("src/packRobot/ant+fr.png");
 									cpt_fr++;
