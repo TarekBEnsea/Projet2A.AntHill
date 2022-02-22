@@ -18,7 +18,7 @@ public class Robot extends Element{
 			this.image = new BufferedImage(largeur, longueur, 2);
 			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
 		} catch (IOException e) {
-			System.out.println("image non cr�er");
+			System.out.println("image non créée");
 		}
 	}
 	/*position et état*/
@@ -118,7 +118,7 @@ public class Robot extends Element{
 			this.image = new BufferedImage(largeur, longueur, 2);
 			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
 		} catch (IOException e) {
-			System.out.println("image non cr�er");
+			System.out.println("image non créée");
 		}
 	}
 
@@ -208,7 +208,7 @@ public class Robot extends Element{
 
 	/** fonction test **/
 	public static void main(String[] args){
-		Robot michel = new Robot(0,0);
+		Robot michel = new Robot(0,0,0);
 		for(int i=0;i<Integer.parseInt(args[0]);i++){ 
 			System.out.println("michel est en ("+michel.posX+";"+michel.posY+")");
 			michel.updateMouv(1);
