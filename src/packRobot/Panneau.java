@@ -12,13 +12,14 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 	/*private int posX = -50;
 	private int posY = -50;
 	private int theta = 0;*/
+	private SimulationType simulationType=SimulationType.DEFAULT;
 	private int cpt_fr = 0;
 	private int cpt_fb=0;
 	private int cpt_pdt=0;
 	public ArrayList<Robotxml> robots;
 	public ArrayList<Ressources> resources;
 	public ArrayList<Integer> save_resources;
-	public Border[] borders;
+	public MapBorder[] mapBorder;
 
 	public Panneau() {
 		this.setFocusable(true);
@@ -38,11 +39,11 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 			resources.add(new Ressources(name));
 		}
 		
-		borders=new Border[4];
-		borders[0]= new Border(BorderSide.TOP,0);
-		borders[1]= new Border(BorderSide.RIGHT,Robot.getArea().getWidth());
-		borders[2]= new Border(BorderSide.BOTTOM,Robot.getArea().getHeight());
-		borders[3]= new Border(BorderSide.LEFT,0);
+		borders=new MapBorder[4];
+		borders[0]= new MapBorder(BorderSide.TOP,0);
+		borders[1]= new MapBorder(BorderSide.RIGHT,Robot.getArea().getWidth());
+		borders[2]= new MapBorder(BorderSide.BOTTOM,Robot.getArea().getHeight());
+		borders[3]= new MapBorder(BorderSide.LEFT,0);
 	}
 
 	@Override
@@ -228,6 +229,10 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(1);
 		}
-
 	}
+}
+
+
+enum SimulationType{
+	DEFAULT,XMLCONTROLED
 }
