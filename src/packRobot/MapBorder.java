@@ -1,9 +1,9 @@
 package packRobot;
 
-public class Border extends Element{
+public class MapBorder extends Element{
     public final BorderSide side;
 
-    public Border(BorderSide side,double position){
+    public MapBorder(BorderSide side, double position){
         this.side=side;
         switch (side){
             case LEFT:
@@ -25,7 +25,7 @@ public class Border extends Element{
     }
 
     /**
-     * Renvoie la direction de la Border par rapport à e.
+     * Renvoie la direction de la MapBorder par rapport à e.
      * @param e Element cible.
      * @return Direction de la bordure.
      */
@@ -42,15 +42,15 @@ public class Border extends Element{
 
     @Override
     public String toString() {
-        return "Border{" + side + "(" + (getPosX()) + ")}";
+        return "MapBorder{" + side + "(" + (getPosX()) + ")}";
     }
 
     public static void main(String[] args) {
         Robot.initArea(400,200);
-        Border coin1= new Border(BorderSide.BOTTOM,Robot.getArea().getHeight());
-        Border coin2= new Border(BorderSide.TOP,0);
-        Border coin3= new Border(BorderSide.LEFT,0);
-        Border coin4= new Border(BorderSide.RIGHT,Robot.getArea().getWidth());
+        MapBorder coin1= new MapBorder(BorderSide.BOTTOM,Robot.getArea().getHeight());
+        MapBorder coin2= new MapBorder(BorderSide.TOP,0);
+        MapBorder coin3= new MapBorder(BorderSide.LEFT,0);
+        MapBorder coin4= new MapBorder(BorderSide.RIGHT,Robot.getArea().getWidth());
         Robot roboto = new Robot(185,50,0);
 
         roboto.resetPprocheDistance();
