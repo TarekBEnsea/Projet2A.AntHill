@@ -19,7 +19,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 	public ArrayList<Robotxml> robots;
 	public ArrayList<Ressources> resources;
 	public ArrayList<Integer> save_resources;
-	public MapBorder[] mapBorder;
+	public MapBorder[] borders;
 
 	public Panneau() {
 		this.setFocusable(true);
@@ -49,11 +49,11 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 	@Override
 	public void run() {
 		switch (simulationType){
-			case DEFAULT -> {
+			case DEFAULT -> {System.out.println("ceci n'en est pas");
 				try {go();
 				} catch (InterruptedException e) {e.printStackTrace();}
 			}
-			case XMLCONTROLED -> testgo();
+			case XMLCONTROLED -> {System.out.println("ceci est du XML"); testgo();}
 		}
 	}
 
