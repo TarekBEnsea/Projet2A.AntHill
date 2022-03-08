@@ -5,11 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class MainWindow extends JFrame{
-    private JPanel progDragDropTAB = new JPanel();
-    private JPanel progXMLtextTAB = new JPanel();//new JPanel();
+    private JPanel progUserTAB = new JPanel();
+        private JPanel instructionsPan = new JPanel();
+        private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
+    private JPanel progXMLtextTAB = new JPanel();
         private JPanel boutonsXMLPAN = new JPanel();
             //private JButton[] boutonsXML;
         private JTextArea xmlProgArea= new JTextArea();
@@ -19,7 +22,6 @@ public class MainWindow extends JFrame{
     private int frameWidth;
     private int frameHeight;
 
-    private JScrollPane scrollXML = new JScrollPane(xmlProgArea);
 
 
     public MainWindow(String saveFilename){ //"monProgXml"
@@ -29,9 +31,32 @@ public class MainWindow extends JFrame{
         frameHeight=(int) screenSize.getHeight();
         Robot.initArea(this.frameWidth/4,this.frameHeight/4);
 
+        initProgPane();
+        initXMLpane(saveFilename);
+    }
+
+    private void initProgPane(){
+        progUserTAB.setLayout(new BorderLayout());
+
+        progUserTAB.add(instructionsPan,BorderLayout.CENTER);
+        instructionsPan.setLayout(new BoxLayout(instructionsPan,BoxLayout.PAGE_AXIS));
+        instructionsPan.add(new InstructionXML());
+        JButton nvxInstruction = new JButton("ajout instruction");
+        nvxInstruction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InstructionXML instruc= new InstructionXML();
+                instructionsPan.add(instruc);
+                listeInstructions.add(instruc);
+                instructionsPan.validate();
+            }
+        });
+        progUserTAB.add(nvxInstruction,BorderLayout.PAGE_END);
+    }
+
+    private void initXMLpane(String saveFilename){
+        JScrollPane scrollXML = new JScrollPane(xmlProgArea);
         xmlProgArea.setText(importText(saveFilename));
-        scrollXML.setSize(30,30);
-        scrollXML.setMaximumSize(new Dimension(30,30));
         //scrollXML.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         //scrollXML.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
@@ -40,7 +65,6 @@ public class MainWindow extends JFrame{
         progXMLtextTAB.add(boutonsXMLPAN,BorderLayout.NORTH);
         progXMLtextTAB.add(scrollXML,BorderLayout.CENTER);
     }
-
     private void initBoutonsXML(String saveFilename){
         JButton[] boutonsXML= new JButton[3];
 
@@ -105,8 +129,8 @@ public class MainWindow extends JFrame{
     public void afficheFenetre(){
         JTabbedPane tabManager=new JTabbedPane();
 
+        tabManager.add("prog", progUserTAB);
         tabManager.add("XML", progXMLtextTAB);
-        //add(progXMLtextTAB);
 
         add(tabManager);
         setSize(frameWidth/2,frameHeight/2);
