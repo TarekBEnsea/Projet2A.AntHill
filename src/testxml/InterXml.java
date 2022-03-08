@@ -115,16 +115,14 @@ public class InterXml {
             }
         }
         try {
-
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
-        DOMSource src = new DOMSource(document);
-        StreamResult res = new StreamResult(new File(file));
-        transformer.transform(src, res);
-    } catch (Exception e) {
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            DOMSource src = new DOMSource(document);
+            StreamResult res = new StreamResult(new File(file));
+            transformer.transform(src, res);
+        }
+        catch (Exception e) {
         e.printStackTrace();
+        }
     }
-
-    }
-
 }
