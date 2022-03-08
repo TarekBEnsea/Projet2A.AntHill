@@ -21,7 +21,8 @@ public class Fenetre extends JFrame{
     this.setLocationRelativeTo(null);
     this.setContentPane(pan);
     this.setVisible(true);
-    pan.go();
+    try{pan.go();}
+    catch (InterruptedException e) {e.printStackTrace();}
     
   }
 }
