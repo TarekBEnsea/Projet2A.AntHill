@@ -8,17 +8,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Panneau extends JPanel implements KeyListener {
-
-	private int posX = -50;
+public class Panneau extends JPanel implements KeyListener, Runnable {
+	/*private int posX = -50;
 	private int posY = -50;
-	private int theta = 0;
+	private int theta = 0;*/
+	private SimulationType simulationType=SimulationType.DEFAULT;
 	private int cpt_fr = 0;
 	private int cpt_fb=0;
 	private int cpt_pdt=0;
 	public ArrayList<Robotxml> robots;
 	public ArrayList<Ressources> resources;
 	public ArrayList<Integer> save_resources;
+	public MapBorder[] borders;
 
 	public Panneau() {
 		this.setFocusable(true);
@@ -26,8 +27,6 @@ public class Panneau extends JPanel implements KeyListener {
 	  	robots = new ArrayList<>();
 	  	resources= new ArrayList<>();
 		save_resources = new ArrayList<>();
-		//robots.add(new Robot(30,30,0));
-		//robots.add(new Robot(150,30,0));
 		for(int i = 0; i<100; i++) {
 			robots.add(new Robotxml());
 		}
@@ -39,9 +38,29 @@ public class Panneau extends JPanel implements KeyListener {
 			else name = "fb";
 			resources.add(new Ressources(name));
 		}
+		
+		borders=new MapBorder[4];
+		borders[0]= new MapBorder(BorderSide.TOP,0);
+		borders[1]= new MapBorder(BorderSide.RIGHT,Robot.getArea().getWidth());
+		borders[2]= new MapBorder(BorderSide.BOTTOM,Robot.getArea().getHeight());
+		borders[3]= new MapBorder(BorderSide.LEFT,0);
 	}
-  
-  
+
+	@Override
+	public void run() {
+		switch (simulationType){
+			case DEFAULT -> {System.out.println("ceci n'en est pas");
+				try {go();
+				} catch (InterruptedException e) {e.printStackTrace();}
+			}
+			case XMLCONTROLED -> {System.out.println("ceci est du XML"); testgo();}
+		}
+	}
+
+	public void setSimulationType(SimulationType simulationType) {
+		this.simulationType = simulationType;
+	}
+	
   	public void paintComponent(Graphics g) {
 		this.setBackground(Color.white);
 		g.setColor(getBackground());
@@ -54,8 +73,7 @@ public class Panneau extends JPanel implements KeyListener {
 	  	}
 	}
 
-
-  	public void go(){
+  	public void go() throws InterruptedException {
 		Robotxml fourmi1, fourmi2;
 		Ressources ressource1;
 	  	for(;;){
@@ -107,13 +125,7 @@ public class Panneau extends JPanel implements KeyListener {
 
 
 			this.repaint();
-
-			try {
-				Thread.sleep(25);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
+			Thread.sleep(25);
 		}
 	}
 
@@ -235,6 +247,10 @@ public class Panneau extends JPanel implements KeyListener {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(1);
 		}
-
 	}
+}
+
+
+enum SimulationType{
+	DEFAULT,XMLCONTROLED
 }

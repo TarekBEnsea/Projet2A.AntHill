@@ -15,16 +15,20 @@ public class Ressources extends Element{
     private int taille = 30;
     private int oldtaille = 30;
 
+
     public Ressources(String name){
         this.name=name;
         rayonContact =15;
         posY= (int) (Math.random()*(max2-min));
         posX= (int) (Math.random()*(max1-min));
         try {
+
+            //image = new BufferedImage(1,1,1);
             BufferedImage tmp = new BufferedImage(1,1,2);
 
             switch (name) {
-                case("fb") : tmp = ImageIO.read(new File("src/packRobot/fb.png"));
+                case("fb") :  tmp = ImageIO.read(new File("src/packRobot/fb.png"));
+
                     break;
                 case("fraise") :  tmp = ImageIO.read(new File("src/packRobot/fraise.png"));
                     break;
@@ -33,6 +37,8 @@ public class Ressources extends Element{
                 default:
                     break;
             }
+            this.image = new BufferedImage(taille, taille, 2);
+            this.image.getGraphics().drawImage(tmp.getScaledInstance(taille, taille, 4), 0, 0, null);
 
             this.image = new BufferedImage(taille, taille, 2);
             this.image.getGraphics().drawImage(tmp.getScaledInstance(taille, taille, 4), 0, 0, null);
@@ -49,6 +55,10 @@ public class Ressources extends Element{
     }
     public void draw(Graphics g){
         if(taille > 0) {
+
+            //Image tmp;
+            //tmp = image.getScaledInstance(taille, taille, Image.SCALE_SMOOTH);
+
             if(oldtaille - taille > 0) image = image.getScaledInstance(taille,taille,Image.SCALE_SMOOTH);
             g.drawImage(image, (int) (posX - rayonContact), (int) (posY - rayonContact), null);
             /*g.setColor(Color.BLUE);
@@ -56,6 +66,8 @@ public class Ressources extends Element{
             g.setColor(Color.green);
             g.drawRect((int) posX, (int) posY, 2, 2);*/
             oldtaille = taille;
+
+
         }
     }
     public void setTaille(int taille){ this.taille = taille; }
