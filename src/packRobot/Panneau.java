@@ -130,7 +130,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 	}
 
 
-  	public void testgo(){
+	public void testgo(){
 		Robotxml fourmi1, fourmi2;
 		long past = System.currentTimeMillis();
 		long duration = 0;
@@ -140,59 +140,78 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 
 
 		for(Robotxml robot : robots) {
-			robot.setComportement(new Comportement(robot, robots, resources, comportementsimple));
+			robot.setComportement(new Comportement(robot, robots, resources, comportementsimple, "", -1)); ;
 			robot.getComportement().XMLtoJava();
 		}
 
-	  	while(true){
-		  	for (int i=0; i<robots.size(); i++){
-				fourmi1=robots.get(i);
+		while(true) {
+			for (int i = 0; i < robots.size(); i++) {
+				fourmi1 = robots.get(i);
 				String oldName = fourmi1.getComportement().getName();
-				fourmi1.setComportement(new Comportement(fourmi1, robots, resources, comportementsimple));
+				Integer oldId = fourmi1.getComportement().getId();
+				fourmi1.setComportement(new Comportement(fourmi1, robots, resources, comportementsimple, oldName, oldId));
 				String newName = fourmi1.getComportement().getName();
+				Integer id = fourmi1.getComportement().getId();
 
 				for (Ressources resource : resources) {
 					if (fourmi1.enContact(resource) && !fourmi1.isCarry()) {
-						if (resource.getTaille() > 10) {
-							resource.setTaille(resource.getTaille() - 10);
-							fourmi1.setCarry(true);
-							switch (resource.getName()) {
-								case "fraise" -> {
-									fourmi1.setImage("src/packRobot/ant+fr.png");
-									cpt_fr++;
-									System.out.println("Le nombre de fraise récuperée est de : " + cpt_fr);
-								}
-								case "fb" -> {
-									fourmi1.setImage("src/packRobot/ant+fb.png");
-									cpt_fb++;
-									System.out.println("Le nombre de framboise récuperée est de : " + cpt_fb);
-								}
-								case "pdt" -> {
-									fourmi1.setImage("src/packRobot/ant+pdt.png");
-									cpt_pdt++;
-									System.out.println("Le nombre de pomme de terre récuperée est de : " + cpt_pdt);
-								}
-								default -> {
-								}
+						if (resource.getTaille() < 10) {
+							save_resources.add(resources.indexOf(resource));
+						}
+						resource.setTaille(resource.getTaille() - 10);
+						resource.rayonContact = resource.rayonContact - 5;
+						fourmi1.setCarry(true);
+						switch (resource.getName()) {
+							case "fraise" -> {
+								fourmi1.setImage("src/packRobot/ant+fr.png");
+								cpt_fr++;
+								System.out.println("Le nombre de fraise récuperée est de : " + cpt_fr);
+							}
+							case "fb" -> {
+								fourmi1.setImage("src/packRobot/ant+fb.png");
+								cpt_fb++;
+								System.out.println("Le nombre de framboise récuperée est de : " + cpt_fb);
+							}
+							case "pdt" -> {
+								fourmi1.setImage("src/packRobot/ant+pdt.png");
+								cpt_pdt++;
+								System.out.println("Le nombre de pomme de terre récuperée est de : " + cpt_pdt);
+							}
+							default -> {
 							}
 						}
 					}
 				}
+				for (Integer index : save_resources) {
+					resources.remove(index);
+				}
+				save_resources = new ArrayList<>();
 
 				if(!oldName.equals(newName)){
 					fourmi1.getComportement().XMLtoJava();
-					System.out.println("changement");
+					//System.out.println("changement");
 				}
 				switch (newName) {
-					case "MouvXY", "GoToXY" -> {
+					case "MouvXY" -> {
 						if (fourmi1.AvanceXY()) {
-							fourmi1.getComportement().XMLtoJava();
+							System.out.println("MouvXY fini: " + id);
+							fourmi1.getComportement().setName("");
+							fourmi1.setLastComportementFinished(id);
+						}
+					}
+					case "GoToXY" -> {
+						if (fourmi1.AvanceXY()) {
+							System.out.println("GoToXY fini");
+							fourmi1.getComportement().setName("");
+							fourmi1.setLastComportementFinished(id);
 						}
 					}
 					case "Stop" -> {
 						fourmi1.setTime(fourmi1.getTime() - duration);
 						if (fourmi1.getTime() < 0) {
-							fourmi1.getComportement().XMLtoJava();
+							System.out.println("Stop fini");
+							fourmi1.getComportement().setName("");
+							fourmi1.setLastComportementFinished(id);
 						}
 					}
 					default -> {
@@ -219,8 +238,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 			duration = now - past;
 			past = now;
 		}
-  	}
-
+	}
 
 
   	public void keyTyped(KeyEvent e) {}

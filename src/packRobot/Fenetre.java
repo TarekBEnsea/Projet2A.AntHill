@@ -23,6 +23,7 @@ public class Fenetre extends JFrame{
     this.setVisible(true);
     try{pan.go();}
     catch (InterruptedException e) {e.printStackTrace();}
+
     
   }
 }

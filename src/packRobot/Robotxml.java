@@ -10,6 +10,7 @@ public class Robotxml extends Robot{
     private long time;
     private Comportement comportement;
     private ArrayList<String> listeComportement = new ArrayList<>();
+    private int lastComportementFinished;
 
     public void setAvanceX(double avanceX) {
         this.avanceX = avanceX;
@@ -23,6 +24,13 @@ public class Robotxml extends Robot{
     }
     public void setTime(long time) {
         this.time = time;
+    }
+
+    public int getLastComportementFinished() {
+        return lastComportementFinished;
+    }
+    public void setLastComportementFinished(int lastComportementFinished) {
+        this.lastComportementFinished = lastComportementFinished;
     }
 
     public void setComportement(Comportement comportement) {

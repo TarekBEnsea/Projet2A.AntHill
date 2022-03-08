@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 public class Robot extends Element{
 	private BufferedImage image;
 	public void setImage(String pathname) {
@@ -110,6 +111,7 @@ public class Robot extends Element{
 		this.vitesseLigneMax=3;
 		this.ordreVitesseLigne=vitesseLigneMax;
 		this.saveOrdreVitesse=ordreVitesseLigne;
+
 		this.ordreTheta=theta;
 		this.rayonContact =0;
 		this.rayonDetect=rayonContact+90;
@@ -203,7 +205,15 @@ public class Robot extends Element{
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(op.filter(image, null), (int) (posX-locationX), (int) (posY-locationY), null);
+
+		g2d.drawImage(op.filter(image, null), (int) (posX-longueur/2), (int) (posY-largeur/2), null);
+
+		/*g.setColor(Color.magenta);
+		g.drawRect((int) posX, (int) posY, 2,2);
+		g.setColor(Color.BLUE);
+		g.drawOval((int) (posX-rayonContact), (int) (posY-rayonContact), (int) rayonContact*2, (int) rayonContact*2);*/
+
+
 	}
 
 	/** fonction test **/
