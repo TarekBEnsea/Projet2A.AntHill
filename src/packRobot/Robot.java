@@ -15,8 +15,8 @@ public class Robot extends Element{
 	public void setImage(String pathname) {
 		try {
 			BufferedImage tmp = ImageIO.read(new File(pathname));
-			this.image = new BufferedImage(largeur, longueur, 2);
-			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
+			this.image = new BufferedImage((int)largeur, (int)longueur, 2);
+			this.image.getGraphics().drawImage(tmp.getScaledInstance((int)largeur, (int)longueur, 4), 0, 0, (ImageObserver)null);
 		} catch (IOException e) {
 			System.out.println("image non créée");
 		}
@@ -111,12 +111,12 @@ public class Robot extends Element{
 		this.ordreVitesseLigne=vitesseLigneMax;
 		this.saveOrdreVitesse=ordreVitesseLigne;
 		this.ordreTheta=theta;
-		this.rayonContact =10;
+		this.rayonContact =0;
 		this.rayonDetect=rayonContact+90;
 		try {
 			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
-			this.image = new BufferedImage(largeur, longueur, 2);
-			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
+			this.image = new BufferedImage((int)largeur, (int)longueur, 2);
+			this.image.getGraphics().drawImage(tmp.getScaledInstance((int)largeur, (int)longueur, 4), 0, 0, (ImageObserver)null);
 		} catch (IOException e) {
 			System.out.println("image non créée");
 		}
