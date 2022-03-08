@@ -3,39 +3,46 @@
 
 <Comportement>
     <MouvXY id = "1">
+        <name>MouvXY</name>
         <time>10000</time>
         <x>20</x>
         <y>50</y>
-        <priority>1</priority>
+        <priority>2</priority>
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
+        <lastcomportementfinished>-1</lastcomportementfinished>
     </MouvXY>
 
-    <MouvXY id = "4">
+    <MouvXY id = "3">
+        <name>MouvXY</name>
         <time>10000</time>
         <x>20</x>
-        <y>50</y>
+        <y>-50</y>
         <priority>1</priority>
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
+        <lastcomportementfinished>1</lastcomportementfinished>
     </MouvXY>
 
     <Stop id = "0">
+        <name>Stop</name>
         <time>1000</time>
-        <priority>0</priority>
+        <priority>4</priority>
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
         <outofbound>1</outofbound>
     </Stop>
 
     <GoToXY id='2'>
+        <name>GoToXY</name>
         <x>1</x>
         <y>1</y>
-        <priority>2</priority>
+        <priority>3</priority>
         <outofbound>0</outofbound>
     </GoToXY>
 
-    <Turn id = "3">
+    <Turn id = "4">
+        <name>Turn</name>
         <angle>180</angle>
         <priority>3</priority>
         <antsnexto>1</antsnexto>

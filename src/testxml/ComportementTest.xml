@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement><GotoXY id="1"><name>GoToXY</name><x>100</x><y>200</y><priority>1</priority><outofbound>0</outofbound></GotoXY><GotoXY id="2"><name>GoToXY</name><x>100</x><y>200</y><priority>1</priority><outofbound>0</outofbound></GotoXY></Comportement>
