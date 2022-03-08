@@ -16,8 +16,8 @@ public abstract class Element{
 	public double getDistance(Element p){
 		return Math.hypot((this.posX-p.posX),(this.posY-p.posY));
 	}
-	public double getDistance(Border b){return b.getDistance(this);}
-	public double getDirection(Border b){return b.getDirection(this);}
+	public double getDistance(MapBorder b){return b.getDistance(this);}
+	public double getDirection(MapBorder b){return b.getDirection(this);}
 
 	/**
 	 * Renvoie la direction d'un obstacle dans l'inveralle [-pi,pi].
@@ -48,7 +48,7 @@ public abstract class Element{
 		}
 		else return (ignoreOthers && distance<pprocheDistance);
 	}
-	public boolean estProche(Border b, boolean ignoreOthers){
+	public boolean estProche(MapBorder b, boolean ignoreOthers){
 		double distance=Math.abs(getDistance(b)-b.rayonContact);
 		if (distance<pprocheDistance || pprocheDistance== -1){
 			pprocheDistance=distance;
