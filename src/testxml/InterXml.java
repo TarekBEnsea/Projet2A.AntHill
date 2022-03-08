@@ -46,15 +46,21 @@ public class InterXml {
         }
     }
 
-    public Integer ReadId(String s){
+    public ArrayList<Integer> ReadIds(String s){
 
-        Node fonction = document.getElementsByTagName(s).item(0);
-        NamedNodeMap attr = fonction.getAttributes();
-        Node node = attr.getNamedItem("id");
-        String value = node.getTextContent();
-        return Integer.valueOf(value);
+        NodeList fonction = document.getElementsByTagName(s);
+        ArrayList<Integer> ids = new ArrayList<>();
+        for(int i = 0; i < fonction.getLength(); i++){
+            Node node = fonction.item(i);
+            NamedNodeMap attr = node.getAttributes();
+            Node id = attr.getNamedItem("id");
+            String value = id.getTextContent();
+            ids.add(Integer.valueOf(value));
+            ids.add(i);
+        }
+        return ids;
     }
-    public int ReadCompStateId(int Id, String s){
+    public String ReadCompStateId(int Id, String s){
         Node comp = document.getElementsByTagName("Comportement").item(0);
         NodeList listfonction = comp.getChildNodes();
         Node node = null;
@@ -62,13 +68,21 @@ public class InterXml {
         for(int i=0; i < (listfonction.getLength()-1)/2;i++){
             index = 2*i+1;
             node = listfonction.item(index);
-            if(ReadId(node.getNodeName()) == Id ){break;}
+            ArrayList<Integer> ids = ReadIds(node.getNodeName());
+            //System.out.println("Nom " + node.getNodeName() + " Ids " + ids);
+            for(int j = 0; j < ids.size(); j+=2){
+                //System.out.println("Index : " + j);
+                if(ids.get(j) == Id){
+                    System.out.println("Nom fonction: "+node.getNodeName());
+                    Element node1 =(Element) document.getElementsByTagName(node.getNodeName()).item(ids.get(j+1));
+                    String value = node1.getElementsByTagName(s).item(0).getTextContent();
+                    return value;
+                }
+            }
         }
-         NodeList list = comp.getChildNodes();
-        Element n1 = (Element) list.item(index);
-        String value = n1.getElementsByTagName(s).item(0).getTextContent();
-        return Integer.valueOf(value);
+        return "-5";
     }
+
     public ArrayList<String> ReturnXmlNode(String s){
         Node comp = document.getElementsByTagName(s).item(0);
         NodeList listcomp = comp.getChildNodes();

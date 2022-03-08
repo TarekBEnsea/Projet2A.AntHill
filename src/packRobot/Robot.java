@@ -89,11 +89,11 @@ public class Robot extends Element{
 		this.ordreVitesseLigne=1;
 		this.saveOrdreVitesse=ordreVitesseLigne;
 		this.ordreTheta=Math.random()*Math.PI;
-		this.rayon = 10;
+		this.rayonContact = 5;
 		try {
 			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
 			this.image = new BufferedImage(largeur, longueur, 2);
-			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, (ImageObserver)null);
+			this.image.getGraphics().drawImage(tmp.getScaledInstance(largeur, longueur, 4), 0, 0, null);
 		} catch (IOException e) {
 			System.out.println("image non cr�er");
 		}
@@ -150,8 +150,12 @@ public class Robot extends Element{
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(op.filter(image, null), (int) posX, (int) posY, null);
+		g2d.drawImage(op.filter(image, null), (int) (posX-longueur/2), (int) (posY-largeur/2), null);
 
+		/*g.setColor(Color.magenta);
+		g.drawRect((int) posX, (int) posY, 2,2);
+		g.setColor(Color.BLUE);
+		g.drawOval((int) (posX-rayonContact), (int) (posY-rayonContact), (int) rayonContact*2, (int) rayonContact*2);*/
 
 	}
 

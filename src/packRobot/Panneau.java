@@ -136,8 +136,10 @@ public class Panneau extends JPanel implements KeyListener {
 		  	for (int i=0; i<robots.size(); i++){
 				fourmi1=robots.get(i);
 				String oldName = fourmi1.getComportement().getName();
-				fourmi1.setComportement(new Comportement(fourmi1, robots, resources, comportementsimple));
+				Integer oldId = fourmi1.getComportement().getId();
+				fourmi1.setComportement(new Comportement(fourmi1, robots, resources, comportementsimple, oldName, oldId));
 				String newName = fourmi1.getComportement().getName();
+				Integer id = fourmi1.getComportement().getId();
 
 				for (Ressources resource : resources) {
 					if (fourmi1.enContact(resource) && !fourmi1.isCarry()) {
@@ -169,18 +171,29 @@ public class Panneau extends JPanel implements KeyListener {
 
 				if(!oldName.equals(newName)){
 					fourmi1.getComportement().XMLtoJava();
-					System.out.println("changement");
+					//System.out.println("changement");
 				}
 				switch (newName) {
-					case "MouvXY", "GoToXY" -> {
+					case "MouvXY" -> {
 						if (fourmi1.AvanceXY()) {
-							fourmi1.getComportement().XMLtoJava();
+							System.out.println("MouvXY fini: " + id);
+							fourmi1.getComportement().setName("");
+							fourmi1.setLastComportementFinished(id);
+						}
+					}
+					case "GoToXY" -> {
+						if (fourmi1.AvanceXY()) {
+							System.out.println("GoToXY fini");
+							fourmi1.getComportement().setName("");
+							fourmi1.setLastComportementFinished(id);
 						}
 					}
 					case "Stop" -> {
 						fourmi1.setTime(fourmi1.getTime() - duration);
 						if (fourmi1.getTime() < 0) {
-							fourmi1.getComportement().XMLtoJava();
+							System.out.println("Stop fini");
+							fourmi1.getComportement().setName("");
+							fourmi1.setLastComportementFinished(id);
 						}
 					}
 					default -> {
