@@ -18,6 +18,8 @@ public class MainWindow extends JFrame{
         private JTextArea xmlProgArea= new JTextArea();
     private JPanel simulation1TAB ;//= new JPanel();
     private JPanel simulation2TAB ;//= new JPanel();
+    private Thread simu1 = new Thread();
+    private Thread simu2 ;//= new Thread();
 
     private int frameWidth;
     private int frameHeight;
@@ -38,20 +40,49 @@ public class MainWindow extends JFrame{
     private void initProgPane(){
         progUserTAB.setLayout(new BorderLayout());
 
-        progUserTAB.add(instructionsPan,BorderLayout.CENTER);
+        JScrollPane scrollProg = new JScrollPane(instructionsPan);
+        scrollProg.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        progUserTAB.add(scrollProg,BorderLayout.CENTER);
         instructionsPan.setLayout(new BoxLayout(instructionsPan,BoxLayout.PAGE_AXIS));
-        instructionsPan.add(new InstructionXML());
+        InstructionXML instruc =new InstructionXML();
+        instructionsPan.add(instruc);
+        listeInstructions.add(instruc);
+
+        JPanel boutonsCommandes = new JPanel();
         JButton nvxInstruction = new JButton("ajout instruction");
         nvxInstruction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for(String s:listeInstructions.getLast().generateSynthTab()) System.out.print(s+", "); System.out.println("}");
                 InstructionXML instruc= new InstructionXML();
                 instructionsPan.add(instruc);
                 listeInstructions.add(instruc);
                 instructionsPan.validate();
             }
         });
+        JButton lanceSimu = new JButton("Simulation");
+        lanceSimu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                simu1.interrupt();
+                Panneau fourmiAnonyme = new Panneau();
+                fourmiAnonyme.setSimulationType(SimulationType.XMLCONTROLED);
+                simu1 = new Thread(fourmiAnonyme);
+                simu1.start();
+                fourmiAnonyme.setVisible(true);
+            }
+        });
         progUserTAB.add(nvxInstruction,BorderLayout.PAGE_END);
+    }
+
+    public String[][] listerInstructions(){
+        int i = 0;
+        String[][] liste = new String[InstructionXML.getNombreInstructions()][];
+        for(InstructionXML instr : listeInstructions){
+            liste[i]=instr.generateSynthTab();
+            i++;
+        }
+        return liste;
     }
 
     private void initXMLpane(String saveFilename){
