@@ -1,6 +1,10 @@
 package packRobot;
 
+import org.w3c.dom.Element;
+import testxml.CreatXml;
+
 import javax.swing.*;
+import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,12 +14,12 @@ import java.util.Scanner;
 
 public class MainWindow extends JFrame{
     private JPanel progUserTAB = new JPanel();
-        private JPanel instructionsPan = new JPanel();
-        private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
+    private JPanel instructionsPan = new JPanel();
+    private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
     private JPanel progXMLtextTAB = new JPanel();
-        private JPanel boutonsXMLPAN = new JPanel();
-            //private JButton[] boutonsXML;
-        private JTextArea xmlProgArea= new JTextArea();
+    private JPanel boutonsXMLPAN = new JPanel();
+    //private JButton[] boutonsXML;
+    private JTextArea xmlProgArea= new JTextArea();
     private JPanel simulation1TAB ;//= new JPanel();
     private JPanel simulation2TAB ;//= new JPanel();
     private Thread simu1 = new Thread();
@@ -102,12 +106,39 @@ public class MainWindow extends JFrame{
         boutonsXML[0] = new JButton("load XML");
         boutonsXML[0].addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {importText(saveFilename);}
+            public void actionPerformed(ActionEvent e) {xmlProgArea.setText(importText(saveFilename));}
         });
         boutonsXML[1] = new JButton("update");
         boutonsXML[1].addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {}
+            public void actionPerformed(ActionEvent e) {
+                String[][] listerInstructions = listerInstructions();
+                //System.out.println(listerInstructions);
+                /*
+                for(String[] instruction : listerInstructions){
+                    for(String parameter : instruction){
+                        System.out.print(parameter + ", ");
+                    }
+                    System.out.print("\n");
+                }
+                */
+                CreatXml ComportementTest = new CreatXml();
+                for(String[] element : listerInstructions){
+                    Element fonction = null;
+                    for(int i=0; i < element.length; i+=2) {
+                        System.out.println(element[i]);
+                        if(element[i].equals("name")){
+                            fonction = ComportementTest.newFonction(element[i+1]);
+                        }
+                        ComportementTest.newElement(element[i], element[i+1], fonction);
+                    }
+                }
+                try {
+                    ComportementTest.finishXML("src/testxml/ComportementTest.xml");
+                } catch (TransformerException ex) {
+                    ex.printStackTrace();
+                }
+            }
         });
         boutonsXML[2] = new JButton("save XML");
         boutonsXML[2].addActionListener(new ActionListener() {
@@ -171,7 +202,7 @@ public class MainWindow extends JFrame{
     }
 
     public static void main(String[] args) {
-        MainWindow AntHill=new MainWindow("monProgXml");
+        MainWindow AntHill=new MainWindow("src/testxml/ComportementTest.xml");
         Robot.areaPrompt();
 
         AntHill.afficheFenetre();

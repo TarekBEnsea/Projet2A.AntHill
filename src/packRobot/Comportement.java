@@ -45,28 +45,9 @@ public class Comportement {
                         System.out.println("Id Trouvé: "+id);
                         name = comportementsimple.ReadCompStateId(id, "name");
                         this.id = id;
-                        switch (name) {
-                            case "MouvXY":
-                                if(capteurMouvXY()) {
-                                    nextComportement = true;
-                                    System.out.println("MouvXY");
-                                }
-                                break;
-                            case "Stop":
-                                if(capteurStop()) {
-                                    nextComportement = true;
-                                    System.out.println("Stop");
-                                }
-                                break;
-                            case "GoToXY":
-                                if(capteurGoToXY()) {
-                                    nextComportement = true;
-                                    System.out.println("GotoXY");
-                                }
-                                break;
-                            default:
-                                nextComportement = true;
-                                break;
+                        if(capteurs()) {
+                            nextComportement = true;
+                            System.out.println(name);
                         }
                     }
                 }
@@ -78,23 +59,12 @@ public class Comportement {
         }
     }
 
-    public boolean capteurMouvXY(){
+    public boolean capteurs(){
         Boolean b1 = capteurAntsnextto();
         Boolean b2 = capteurRessourcenextto();
         Boolean b3 = capteurLastComportementFinished(robot);
-        return b1 && b2 && b3;
-    }
-
-    public boolean capteurStop(){
-        Boolean b1 = capteurAntsnextto();
-        Boolean b2 = capteurRessourcenextto();
-        Boolean b3 = capteuroutofbound();
-        return b1 && b2 && b3;
-    }
-
-    public boolean capteurGoToXY(){
-        boolean b1 = capteuroutofbound();
-        return b1;
+        Boolean b4 = capteuroutofbound();
+        return b1 && b2 && b3 && b4;
     }
 
     private boolean capteuroutofbound() {
