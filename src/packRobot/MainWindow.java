@@ -49,6 +49,7 @@ public class MainWindow extends JFrame{
         progUserTAB.add(scrollProg,BorderLayout.CENTER);
         instructionsPan.setLayout(new BoxLayout(instructionsPan,BoxLayout.PAGE_AXIS));
         InstructionXML instruc =new InstructionXML();
+        //instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
         instructionsPan.add(instruc);
         listeInstructions.add(instruc);
 
@@ -58,6 +59,7 @@ public class MainWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 for(String s:listeInstructions.getLast().generateSynthTab()) System.out.print(s+", "); System.out.println("}");
                 InstructionXML instruc= new InstructionXML();
+                //instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
                 instructionsPan.add(instruc);
                 listeInstructions.add(instruc);
                 instructionsPan.validate();
