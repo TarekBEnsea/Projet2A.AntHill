@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class Ressources extends Element{
 
-    double max1=Fenetre.width;
-    double max2=Fenetre.height;
+    double max1=Robot.getArea().width;
+    double max2=Robot.getArea().height;
     int min =10;
     private Image image;
     private String name;
