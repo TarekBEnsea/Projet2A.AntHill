@@ -3,11 +3,6 @@ package packRobot;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import java.util.Objects;
-
 
 /**
  * Bloc instruction à instancier dans l'onglet de programmation simplifié.
@@ -17,52 +12,31 @@ import java.util.Objects;
  */
 public class InstructionXML extends JPanel {
     private static int nombreInstructions;
-    private final static String[] nomsTriggers = new String[]{"capteurAntsnextto","capteurRessourcenextto","capteurLastComportementFinished", "capteuroutofbound"};
-
+    private final static String[] nomsTriggersAbrev = new String[]{"f près","R près","fin instruc","OOB"};
+    private final static String[] nomsTriggersComplet = new String[]{"capteurAntsnextto","capteurRessourcenextto","capteurLastComportementFinished", "capteuroutofbound"};
 
     private JLabel IDlabel;
-    private int instructionID;
+        private int instructionID;
     private JTextField nomInstruction;
     private JComboBox fonctionJ;
-
-    private int nombreParam;
-    private JLabel[] nomFonctionParams;
-    private JTextField[] fonctionparams;
+        private int nombreParam;
+        private JLabel[] nomFonctionParams;
+        private JTextField[] fonctionparams;
     private JPanel triggerPan = new JPanel();//"cases à cocher pour les triggers"
-    private JCheckBox[] triggers;
-    private ItemListener triggersListener;
-
+        private JCheckBox[] triggers;
     private JTextField priorite;
     private JComboBox typeLimite;
-    private JTextField limite;
+        private JTextField limite;
 
     public InstructionXML() {
         instructionID=nombreInstructions++;
         IDlabel = new JLabel("IID: "+instructionID);
         nomInstruction = new JTextField(8);//setColumns()
-
         fonctionJ = new JComboBox(new String[]{"*Fonction*","MouvXY", "GoToXY", "Stop"});
-
-        triggers = new JCheckBox[nomsTriggers.length];
-        for(int i=0;i<nomsTriggers.length;i++){
-            triggers[i] = new JCheckBox(nomsTriggers[i]);
-            triggers[i].addItemListener(triggersListener);
+        triggers = new JCheckBox[nomsTriggersAbrev.length];
+        for(int i = 0; i< nomsTriggersAbrev.length; i++){
+            triggers[i] = new JCheckBox(nomsTriggersAbrev[i]);
         }
-        triggersListener = new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                Object source = e.getItemSelectable();
-
-                for (int i = 0; i < nomsTriggers.length; i++) {
-                    if (source == triggers[i]) {
-
-                        // nomsTriggers[i];
-
-                        break;
-                    }
-                }
-            }
-        };
         priorite = new JTextField(2);
         typeLimite = new JComboBox<>(new String[]{"*Limite*","None","temps(ms)","distance(p)"});
         limite = new JTextField(3);
@@ -80,7 +54,6 @@ public class InstructionXML extends JPanel {
                 switch (selectedItem) {
                     case "MouvXY":
                     case "GoToXY":
-
                         nombreParam=2;
                         nomFonctionParams= new JLabel[]{new JLabel("X:"), new JLabel("Y:")};
                         nomFonctionParams[0].setName("x");
@@ -89,9 +62,10 @@ public class InstructionXML extends JPanel {
                         break;
                     case "Stop":
                         nombreParam=1;
-                        nomFonctionParams= new JLabel[]{new JLabel("t(ms): ")};
+                        nomFonctionParams= new JLabel[]{new JLabel("t(ms):")};
                         nomFonctionParams[0].setName("time");
                         fonctionparams= new JTextField[]{new JTextField(4)};
+                        break;
                     default: nombreParam=0; break;
                 }
                 affiFonctionParam();
@@ -138,10 +112,7 @@ public class InstructionXML extends JPanel {
     }
 
     public String[] generateSynthTab(){
-        String[] efe = new String[]{"name","MoveXY","x","42","y","12","id","0","priority","20","triggers","0","0","0"};
-
-        String[] synthTab = new String[6+2*nombreParam+2*nomsTriggers.length];
-
+        String[] synthTab = new String[6+2*nombreParam+2*nomsTriggersAbrev.length];
         synthTab[0]="name";
         synthTab[1]=fonctionJ.getSelectedItem().toString();
         for(int i=0;i<nombreParam;i++){
@@ -152,12 +123,11 @@ public class InstructionXML extends JPanel {
         synthTab[3+2*nombreParam]= Integer.valueOf(instructionID).toString();
         synthTab[4+2*nombreParam]="priority";
         synthTab[5+2*nombreParam]= priorite.getText();
-
-        for(int i=0;i<nomsTriggers.length;i++){
-            synthTab[6+2*nombreParam+2*i]=nomsTriggers[i];
+        //synthTab[6+2*nombreParam]="triggers";
+        for(int i = 0; i< nomsTriggersComplet.length; i++){
+            synthTab[6+2*nombreParam+2*i]= nomsTriggersComplet[i];
             if(triggers[i].isSelected()) synthTab[7+2*nombreParam+2*i]="1";
             else synthTab[7+2*nombreParam+2*i]="0";
-
         }
         return synthTab;
     }
