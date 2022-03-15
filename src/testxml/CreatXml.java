@@ -30,22 +30,42 @@ public class CreatXml {
         }
     }
 
+    public Element newFonction(String name){
+        Element fonction = xml.createElement(name);
+        root.appendChild(fonction);
+        return fonction;
+    }
+
+    public void newElement(String name, String value, Element fonction){
+        if(name.equals("id")){
+            fonction.setAttribute("id", value);
+        }
+        else {
+            Element node = xml.createElement(name);
+            fonction.appendChild(node);
+            node.appendChild(xml.createTextNode(value));
+        }
+    }
+
     public void addGoToXY(String id, String sx, String sy, String sprio, String soutof) {
         Element fonction = xml.createElement("GotoXY");
         root.appendChild(fonction);
+        fonction.setAttribute("id", id);
+
         Element name = xml.createElement("name");
+        fonction.appendChild(name);
+        name.appendChild(xml.createTextNode("GoToXY"));
+
         Element x = xml.createElement("x");
+        fonction.appendChild(x);
         Element y = xml.createElement("y");
         Element priority = xml.createElement("priority");
         Element outofbound = xml.createElement("outofbound");
-        fonction.appendChild(name);
-        fonction.appendChild(x);
         fonction.appendChild(y);
         fonction.appendChild(priority);
         fonction.appendChild(outofbound);
 
-        fonction.setAttribute("id", id);
-        name.appendChild(xml.createTextNode("GoToXY"));
+
         x.appendChild(xml.createTextNode(sx));//position en x de l'écran
         y.appendChild(xml.createTextNode(sy));//position en y de l'écran
         priority.appendChild(xml.createTextNode(sprio));//numéro de priorité
