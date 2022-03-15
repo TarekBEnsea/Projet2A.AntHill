@@ -8,10 +8,11 @@ public class Fenetre extends JFrame{
   static double width;
   static double height;
   
-  public Fenetre(){
+  public Fenetre() throws InterruptedException {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     this.width = screenSize.getWidth();
     this.height = screenSize.getHeight();
+    Robot.initArea((int)width,(int)height);
 
 	pan = new Panneau();
     this.setTitle("Animation");
@@ -21,9 +22,9 @@ public class Fenetre extends JFrame{
     this.setLocationRelativeTo(null);
     this.setContentPane(pan);
     this.setVisible(true);
-    try{pan.go();}
-    catch (InterruptedException e) {e.printStackTrace();}
-    
+    pan.go();
+
+
   }
 }
   

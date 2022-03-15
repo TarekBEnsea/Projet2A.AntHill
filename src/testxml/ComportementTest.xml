@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
+
+    <MouvXY id="0">
+        <name>MouvXY</name>
+        <x>20</x>
+        <y>50</y>
+        <priority>5</priority>
+    </MouvXY>
+
+    <MouvXY id="2">
+        <name>MouvXY</name>
+        <x>20</x>
+        <y>100</y>
+        <priority>3</priority>
+    </MouvXY>
+
+</Comportement>

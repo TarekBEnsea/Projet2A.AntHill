@@ -9,14 +9,21 @@ public class Comportement {
     public String getName() {
         return name;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public Integer getId() {
+        return id;
+    }
 
     private String name;
     private InterXml comportementsimple;
     private Robotxml robot;
     private ArrayList<Robotxml> robots;
     private ArrayList<Ressources> ressources;
+    private Integer id;
 
-    public Comportement(Robotxml robot,ArrayList<Robotxml> robots,ArrayList<Ressources> ressources, InterXml comportementsimple) {
+    public Comportement(Robotxml robot,ArrayList<Robotxml> robots,ArrayList<Ressources> ressources, InterXml comportementsimple, String previousName, Integer oldId) {
         this.robot = robot;
         this.robots = robots;
         this.ressources = ressources;
@@ -24,13 +31,20 @@ public class Comportement {
 
         ArrayList<String> liste_comportement;
         liste_comportement = comportementsimple.ReturnXmlNode("Comportement");
-        Boolean nextComportement = false;
-        for(int priority = 0; priority < liste_comportement.size(); priority++) {
-            for(int j = 0; j< comportementsimple.ReturnXmlNode("Comportement").size(); j++) {
+        boolean nextComportement = false;
+        int currentPriority;
+        if(previousName.equals("")) currentPriority = liste_comportement.size();
+        else currentPriority = comportementsimple.ReadCompState(previousName, "priority");
+        for(int priority = 0; priority < currentPriority; priority++) {
+            for(int id = 0; id < liste_comportement.size(); id++) {
                 if(nextComportement);
                 else{
-                    if( priority == comportementsimple.ReadCompState(liste_comportement.get(j), "priority")) {
-                        name = liste_comportement.get(j);
+                    int priorityid = Integer.parseInt(comportementsimple.ReadCompStateId(id, "priority"));
+                    System.out.println("Id: "+id+" Priority: "+priorityid);
+                    if( priority == priorityid) {
+                        System.out.println("Id Trouvé: "+id);
+                        name = comportementsimple.ReadCompStateId(id, "name");
+                        this.id = id;
                         switch (name) {
                             case "MouvXY":
                                 if(capteurMouvXY()) {
@@ -58,29 +72,34 @@ public class Comportement {
                 }
             }
         }
+        if(!nextComportement){
+            name = previousName;
+            id = oldId;
+        }
     }
 
     public boolean capteurMouvXY(){
-        Boolean b1 = capteurAntsnextto("MouvXY");
-        Boolean b2 = capteurRessourcenextto("MouvXY");
-        return b1 && b2;
+        Boolean b1 = capteurAntsnextto();
+        Boolean b2 = capteurRessourcenextto();
+        Boolean b3 = capteurLastComportementFinished(robot);
+        return b1 && b2 && b3;
     }
 
     public boolean capteurStop(){
-        Boolean b1 = capteurAntsnextto("Stop");
-        Boolean b2 = capteurRessourcenextto("Stop");
-        Boolean b3 = capteuroutofbound("Stop");
+        Boolean b1 = capteurAntsnextto();
+        Boolean b2 = capteurRessourcenextto();
+        Boolean b3 = capteuroutofbound();
         return b1 && b2 && b3;
     }
 
     public boolean capteurGoToXY(){
-        Boolean b1 = capteuroutofbound("GoToXY");
+        boolean b1 = capteuroutofbound();
         return b1;
     }
 
-    private Boolean capteuroutofbound(String name) {
-        Boolean b = true;
-        if(comportementsimple.ReadCompState(name, "outofbound") == 1) {
+    private boolean capteuroutofbound() {
+        boolean b = true;
+        if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "outofbound")) == 1) {
             b = false;
             if ((robot.posX<10 && Math.cos(robot.getOrdreTheta())<0) || (robot.posX>Fenetre.width-30 && Math.cos(robot.getOrdreTheta())>0)) b = true;
             if ((robot.posY<10 && Math.sin(robot.getOrdreTheta())<0) || (robot.posY>Fenetre.height-30 && Math.sin(robot.getOrdreTheta())>0)) b = true;
@@ -89,9 +108,9 @@ public class Comportement {
     }
 
 
-    private Boolean capteurRessourcenextto(String name) {
-        Boolean b = true;
-        if(comportementsimple.ReadCompState(name, "ressourcesnextto") == 1) {
+    private boolean capteurRessourcenextto() {
+        boolean b = true;
+        if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "ressourcesnextto")) == 1) {
             b = false;
             for (Ressources ressource : ressources) {
                 b = b || robot.enContact(ressource);
@@ -100,9 +119,9 @@ public class Comportement {
         return b;
     }
 
-    private Boolean capteurAntsnextto(String name) {
-        Boolean b = true;
-        if(comportementsimple.ReadCompState(name, "antsnextto") == 1){
+    private boolean capteurAntsnextto() {
+        boolean b = true;
+        if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "antsnextto")) == 1){
             b = false;
             for(Robot robot2 : robots) {
                 b = b || robot.enContact(robot2);
@@ -111,18 +130,27 @@ public class Comportement {
         return b;
     }
 
+    private boolean capteurLastComportementFinished(Robotxml robot) {
+        boolean b = true;
+        int lastComportementFinished = Integer.parseInt(comportementsimple.ReadCompStateId(id, "lastcomportementfinished"));
+        if(lastComportementFinished > 0) {
+            b = robot.getLastComportementFinished() == lastComportementFinished;
+        }
+        return b;
+    }
+
     public void XMLtoJava(){
         switch (name){
             case "MouvXY":
-                robot.setAvanceX(comportementsimple.ReadCompState(name, "x") + robot.getPosX());
-                robot.setAvanceY(comportementsimple.ReadCompState(name, "y") + robot.getPosY());
+                robot.setAvanceX(Integer.parseInt(comportementsimple.ReadCompStateId(id, "x")) + robot.getPosX());
+                robot.setAvanceY(Integer.parseInt(comportementsimple.ReadCompStateId(id, "y")) + robot.getPosY());
                 break;
             case "GoToXY":
-                robot.setAvanceX(comportementsimple.ReadCompState(name, "x"));
-                robot.setAvanceY(comportementsimple.ReadCompState(name, "y"));
+                robot.setAvanceX(Integer.parseInt(comportementsimple.ReadCompStateId(id, "x")));
+                robot.setAvanceY(Integer.parseInt(comportementsimple.ReadCompStateId(id, "y")));
                 break;
             case "Stop":
-                robot.setTime(comportementsimple.ReadCompState(name, "time"));
+                robot.setTime(Integer.parseInt(comportementsimple.ReadCompStateId(id, "time")));
             default:
                 break;
         }
