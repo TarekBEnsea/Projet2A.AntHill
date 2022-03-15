@@ -1,6 +1,10 @@
 package packRobot;
 
+import org.w3c.dom.Element;
+import testxml.CreatXml;
+
 import javax.swing.*;
+import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,14 +14,16 @@ import java.util.Scanner;
 
 public class MainWindow extends JFrame{
     private JPanel progUserTAB = new JPanel();
-        private JPanel instructionsPan = new JPanel();
-        private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
+    private JPanel instructionsPan = new JPanel();
+    private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
     private JPanel progXMLtextTAB = new JPanel();
-        private JPanel boutonsXMLPAN = new JPanel();
-            //private JButton[] boutonsXML;
-        private JTextArea xmlProgArea= new JTextArea();
+    private JPanel boutonsXMLPAN = new JPanel();
+    //private JButton[] boutonsXML;
+    private JTextArea xmlProgArea= new JTextArea();
     private JPanel simulation1TAB ;//= new JPanel();
     private JPanel simulation2TAB ;//= new JPanel();
+    private Thread simu1 = new Thread();
+    private Thread simu2 ;//= new Thread();
 
     private int frameWidth;
     private int frameHeight;
@@ -38,20 +44,49 @@ public class MainWindow extends JFrame{
     private void initProgPane(){
         progUserTAB.setLayout(new BorderLayout());
 
-        progUserTAB.add(instructionsPan,BorderLayout.CENTER);
+        JScrollPane scrollProg = new JScrollPane(instructionsPan);
+        scrollProg.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        progUserTAB.add(scrollProg,BorderLayout.CENTER);
         instructionsPan.setLayout(new BoxLayout(instructionsPan,BoxLayout.PAGE_AXIS));
-        instructionsPan.add(new InstructionXML());
+        InstructionXML instruc =new InstructionXML();
+        instructionsPan.add(instruc);
+        listeInstructions.add(instruc);
+
+        JPanel boutonsCommandes = new JPanel();
         JButton nvxInstruction = new JButton("ajout instruction");
         nvxInstruction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for(String s:listeInstructions.getLast().generateSynthTab()) System.out.print(s+", "); System.out.println("}");
                 InstructionXML instruc= new InstructionXML();
                 instructionsPan.add(instruc);
                 listeInstructions.add(instruc);
                 instructionsPan.validate();
             }
         });
+        JButton lanceSimu = new JButton("Simulation");
+        lanceSimu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                simu1.interrupt();
+                Panneau fourmiAnonyme = new Panneau();
+                fourmiAnonyme.setSimulationType(SimulationType.XMLCONTROLED);
+                simu1 = new Thread(fourmiAnonyme);
+                simu1.start();
+                fourmiAnonyme.setVisible(true);
+            }
+        });
         progUserTAB.add(nvxInstruction,BorderLayout.PAGE_END);
+    }
+
+    public String[][] listerInstructions(){
+        int i = 0;
+        String[][] liste = new String[InstructionXML.getNombreInstructions()][];
+        for(InstructionXML instr : listeInstructions){
+            liste[i]=instr.generateSynthTab();
+            i++;
+        }
+        return liste;
     }
 
     private void initXMLpane(String saveFilename){
@@ -71,12 +106,39 @@ public class MainWindow extends JFrame{
         boutonsXML[0] = new JButton("load XML");
         boutonsXML[0].addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {importText(saveFilename);}
+            public void actionPerformed(ActionEvent e) {xmlProgArea.setText(importText(saveFilename));}
         });
         boutonsXML[1] = new JButton("update");
         boutonsXML[1].addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {}
+            public void actionPerformed(ActionEvent e) {
+                String[][] listerInstructions = listerInstructions();
+                //System.out.println(listerInstructions);
+                /*
+                for(String[] instruction : listerInstructions){
+                    for(String parameter : instruction){
+                        System.out.print(parameter + ", ");
+                    }
+                    System.out.print("\n");
+                }
+                */
+                CreatXml ComportementTest = new CreatXml();
+                for(String[] element : listerInstructions){
+                    Element fonction = null;
+                    for(int i=0; i < element.length; i+=2) {
+                        System.out.println(element[i]);
+                        if(element[i].equals("name")){
+                            fonction = ComportementTest.newFonction(element[i+1]);
+                        }
+                        ComportementTest.newElement(element[i], element[i+1], fonction);
+                    }
+                }
+                try {
+                    ComportementTest.finishXML("src/testxml/ComportementTest.xml");
+                } catch (TransformerException ex) {
+                    ex.printStackTrace();
+                }
+            }
         });
         boutonsXML[2] = new JButton("save XML");
         boutonsXML[2].addActionListener(new ActionListener() {
@@ -140,7 +202,7 @@ public class MainWindow extends JFrame{
     }
 
     public static void main(String[] args) {
-        MainWindow AntHill=new MainWindow("monProgXml");
+        MainWindow AntHill=new MainWindow("src/testxml/ComportementTest.xml");
         Robot.areaPrompt();
 
         AntHill.afficheFenetre();
