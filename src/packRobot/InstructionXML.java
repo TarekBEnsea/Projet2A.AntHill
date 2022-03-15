@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Objects;
 
 /**
@@ -14,6 +16,7 @@ import java.util.Objects;
  */
 public class InstructionXML extends JPanel {
     private static int nombreInstructions;
+    private final static String[] nomsTriggers = new String[]{"trig1","trig2","trig3"};
 
     private JLabel IDlabel;
         private int instructionID;
@@ -22,8 +25,9 @@ public class InstructionXML extends JPanel {
         private int nombreParam;
         private JLabel[] nomFonctionParams;
         private JTextField[] fonctionparams;
-        //private JTextComponent
-    //private "cases à cocher pour les triggers"
+    private JPanel triggerPan = new JPanel();//"cases à cocher pour les triggers"
+        private JCheckBox[] triggers;
+        private ItemListener triggersListener;
     private JTextField priorite;
     private JComboBox typeLimite;
         private JTextField limite;
@@ -33,6 +37,24 @@ public class InstructionXML extends JPanel {
         IDlabel = new JLabel("IID: "+instructionID);
         nomInstruction = new JTextField(8);//setColumns()
         fonctionJ = new JComboBox(new String[]{"*Fonction*","aaa", "bbb"});
+        triggers = new JCheckBox[nomsTriggers.length];
+        for(int i=0;i<nomsTriggers.length;i++){
+            triggers[i] = new JCheckBox(nomsTriggers[i]);
+            triggers[i].addItemListener(triggersListener);
+        }
+        triggersListener = new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                Object source = e.getItemSelectable();
+
+                for (int i = 0; i < nomsTriggers.length; i++) {
+                    if (source == triggers[i]) {
+                       // nomsTriggers[i];
+                        break;
+                    }
+                }
+            }
+        };
         priorite = new JTextField(2);
         typeLimite = new JComboBox<>(new String[]{"*Limite*","None","temps(ms)","distance(p)"});
         limite = new JTextField(3);
@@ -51,11 +73,14 @@ public class InstructionXML extends JPanel {
                     case "aaa":
                         nombreParam=1;
                         nomFonctionParams= new JLabel[]{new JLabel("t(ms):")};
+                        nomFonctionParams[0].setName("t");
                         fonctionparams= new JTextField[]{new JTextField(4)};
                         break;
                     case "bbb":
                         nombreParam=2;
                         nomFonctionParams= new JLabel[]{new JLabel("X:"), new JLabel("Y:")};
+                        nomFonctionParams[0].setName("x");
+                        nomFonctionParams[1].setName("y");
                         fonctionparams= new JTextField[]{new JTextField(3),new JTextField(3)};
                         break;
                     default: nombreParam=0; break;
@@ -68,7 +93,7 @@ public class InstructionXML extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedItem=typeLimite.getSelectedItem().toString();
-                try{remove(5+2*nombreParam);} catch (ArrayIndexOutOfBoundsException exception) {}
+                try{remove(8+2*nombreParam);} catch (ArrayIndexOutOfBoundsException exception) {}
                 switch (selectedItem){
                     case "None","*Limite*": break;
                     default: add(limite); break;
@@ -91,11 +116,39 @@ public class InstructionXML extends JPanel {
         add(IDlabel);
         add(nomInstruction);
         add(fonctionJ);
-        //add "triggers"
+        add(new JLabel("Triggers"));
+        for(JCheckBox cbox : triggers){
+            triggerPan.add(new JLabel("&"));
+            triggerPan.add(cbox);
+        }
+        triggerPan.remove(0);
+        add(triggerPan);
+        add(new JLabel("Priorité:"));
         add(priorite);
         add(typeLimite);
     }
 
+    public String[] generateSynthTab(){
+        String[] efe = new String[]{"name","MoveXY","x","42","y","12","id","0","priority","20","triggers","0","0","0"};
+        String[] synthTab = new String[7+2*nombreParam+2*nomsTriggers.length];
+        synthTab[0]="name";
+        synthTab[1]=fonctionJ.getSelectedItem().toString();
+        for(int i=0;i<nombreParam;i++){
+            synthTab[2+2*i]=nomFonctionParams[i].getName();
+            synthTab[3+2*i]=fonctionparams[i].getText();
+        }
+        synthTab[2+2*nombreParam]="id";
+        synthTab[3+2*nombreParam]= Integer.valueOf(instructionID).toString();
+        synthTab[4+2*nombreParam]="priority";
+        synthTab[5+2*nombreParam]= priorite.getText();
+        synthTab[6+2*nombreParam]="triggers";
+        for(int i=0;i<nomsTriggers.length;i++){
+            synthTab[7+2*nombreParam+2*i]=nomsTriggers[i];
+            if(triggers[i].isSelected()) synthTab[8+2*nombreParam+2*i]="1";
+            else synthTab[8+2*nombreParam+2*i]="0";
+        }
+        return synthTab;
+    }
     public static int getNombreInstructions() {return nombreInstructions;}
     public void supprInstruction(){
         //to do
