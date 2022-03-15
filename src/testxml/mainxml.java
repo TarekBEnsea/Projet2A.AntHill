@@ -1,6 +1,8 @@
 package testxml;
 
 
+import org.w3c.dom.Element;
+
 import javax.xml.transform.TransformerException;
 
 public class mainxml {

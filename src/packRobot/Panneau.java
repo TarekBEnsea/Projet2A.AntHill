@@ -30,7 +30,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 		for(int i = 0; i<100; i++) {
 			robots.add(new Robotxml());
 		}
-		for (int j =0; j<5;j++){
+		for (int j =0; j<25;j++){
 			String name;
 			double p = Math.random();
 			if(p < 0.33) name = "fraise";

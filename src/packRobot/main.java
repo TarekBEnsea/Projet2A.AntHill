@@ -2,7 +2,11 @@ package packRobot;
 
 public class main{
         public static void main(String[] args) {
-            Fenetre Test = new Fenetre();
+            try {
+                Fenetre Test = new Fenetre();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
         }
 }
