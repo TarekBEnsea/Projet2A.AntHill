@@ -165,17 +165,17 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 							case "fraise" -> {
 								fourmi1.setImage("src/packRobot/ant+fr.png");
 								cpt_fr++;
-								System.out.println("Le nombre de fraise récuperée est de : " + cpt_fr);
+								//System.out.println("Le nombre de fraise récuperée est de : " + cpt_fr);
 							}
 							case "fb" -> {
 								fourmi1.setImage("src/packRobot/ant+fb.png");
 								cpt_fb++;
-								System.out.println("Le nombre de framboise récuperée est de : " + cpt_fb);
+								//System.out.println("Le nombre de framboise récuperée est de : " + cpt_fb);
 							}
 							case "pdt" -> {
 								fourmi1.setImage("src/packRobot/ant+pdt.png");
 								cpt_pdt++;
-								System.out.println("Le nombre de pomme de terre récuperée est de : " + cpt_pdt);
+								//System.out.println("Le nombre de pomme de terre récuperée est de : " + cpt_pdt);
 							}
 							default -> {
 							}

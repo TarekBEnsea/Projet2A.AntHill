@@ -1,17 +1,42 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Comportement>
     <MouvXY id="0">
         <name>MouvXY</name>
-        <x>20</x>
-        <y>50</y>
-        <priority>5</priority>
+        <x>100</x>
+        <y>200</y>
+        <priority>1</priority>
+        <antsnextto>0</antsnextto>
+        <ressourcesnextto>0</ressourcesnextto>
+        <lastcomportementfinished>0</lastcomportementfinished>
+        <outofbound>0</outofbound>
     </MouvXY>
-
-    <MouvXY id="2">
+    <MouvXY id="1">
         <name>MouvXY</name>
-        <x>20</x>
-        <y>100</y>
-        <priority>3</priority>
+        <x>100</x>
+        <y>-200</y>
+        <priority>2</priority>
+        <antsnextto>0</antsnextto>
+        <ressourcesnextto>0</ressourcesnextto>
+        <lastcomportementfinished>0</lastcomportementfinished>
+        <outofbound>0</outofbound>
     </MouvXY>
-
+    <GoToXY id="2">
+        <name>GoToXY</name>
+        <x>1</x>
+        <y>1</y>
+        <priority>3</priority>
+        <antsnextto>0</antsnextto>
+        <ressourcesnextto>0</ressourcesnextto>
+        <lastcomportementfinished>0</lastcomportementfinished>
+        <outofbound>0</outofbound>
+    </GoToXY>
+    <Stop id="3">
+        <name>Stop</name>
+        <time>10000</time>
+        <priority>0</priority>
+        <antsnextto>0</antsnextto>
+        <ressourcesnextto>0</ressourcesnextto>
+        <lastcomportementfinished>0</lastcomportementfinished>
+        <outofbound>1</outofbound>
+    </Stop>
 </Comportement>

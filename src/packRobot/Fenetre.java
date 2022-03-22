@@ -22,7 +22,7 @@ public class Fenetre extends JFrame{
     this.setLocationRelativeTo(null);
     this.setContentPane(pan);
     this.setVisible(true);
-    pan.go();
+    pan.testgo();
 
 
   }

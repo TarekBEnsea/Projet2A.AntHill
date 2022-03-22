@@ -11,6 +11,7 @@
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
         <lastcomportementfinished>-1</lastcomportementfinished>
+        <outofbound>0</outofbound>
     </MouvXY>
 
     <MouvXY id = "3">
@@ -22,6 +23,7 @@
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
         <lastcomportementfinished>1</lastcomportementfinished>
+        <outofbound>0</outofbound>
     </MouvXY>
 
     <Stop id = "0">
@@ -35,10 +37,13 @@
 
     <GoToXY id='2'>
         <name>GoToXY</name>
-        <x>1</x>
-        <y>1</y>
-        <priority>3</priority>
-        <outofbound>0</outofbound>
+        <x>5</x>
+        <y>5</y>
+        <priority>0</priority>
+        <antsnextto>0</antsnextto>
+        <ressourcesnextto>0</ressourcesnextto>
+        <lastcomportementfinished>-1</lastcomportementfinished>
+        <outofbound>1</outofbound>
     </GoToXY>
 
     <Turn id = "4">
