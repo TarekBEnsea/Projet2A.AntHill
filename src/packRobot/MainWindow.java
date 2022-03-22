@@ -45,11 +45,12 @@ public class MainWindow extends JFrame{
         progUserTAB.setLayout(new BorderLayout());
 
         JScrollPane scrollProg = new JScrollPane(instructionsPan);
-        scrollProg.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        //scrollProg.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         progUserTAB.add(scrollProg,BorderLayout.CENTER);
         instructionsPan.setLayout(new BoxLayout(instructionsPan,BoxLayout.PAGE_AXIS));
-        InstructionXML instruc =new InstructionXML();
-        //instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        InstructionXML instruc =new InstructionXML(){};
+        suppButtonSetActioner(instruc);
+        instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
         instructionsPan.add(instruc);
         listeInstructions.add(instruc);
 
@@ -57,12 +58,13 @@ public class MainWindow extends JFrame{
         nvxInstruction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(String s:listeInstructions.getLast().generateSynthTab()) System.out.print(s+", "); System.out.println("}");
+                //for(String s:listeInstructions.getLast().generateSynthTab()) System.out.print(s+", "); System.out.println("}");
                 InstructionXML instruc= new InstructionXML();
-                //instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
+                suppButtonSetActioner(instruc);
+                instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
                 instructionsPan.add(instruc);
                 listeInstructions.add(instruc);
-                instructionsPan.validate();
+                scrollProg.validate();
             }
         });
         JButton lanceSimu = new JButton("Simulation");
@@ -131,6 +133,21 @@ public class MainWindow extends JFrame{
         for (JButton button : boutonsXML) boutonsXMLPAN.add(button);
     }
 
+    private void suppButtonSetActioner(InstructionXML instruc){
+        instruc.getSuppInstructionButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id=instruc.delAndUpdate();
+                for(InstructionXML instrXML:listeInstructions){
+                    try {instrXML.decrID();
+                    } catch (Exception ex) {ex.printStackTrace();}
+                }
+                instructionsPan.remove(id);
+                listeInstructions.remove(id);
+                validate();
+            }
+        });
+    }
     /**
      * Crée un fichier XML de comportement à partir des instructions données.
      * @param listerInstructions Informations pour remplir les champs. Chaque valeur est précédée par son nom.
