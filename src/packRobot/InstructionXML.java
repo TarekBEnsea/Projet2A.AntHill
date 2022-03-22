@@ -22,6 +22,8 @@ public class InstructionXML extends JPanel {
     private JTextField nomInstruction;
     private JComboBox fonctionJ;
         private int nombreParam;
+    private JTextField trigParam;
+    private int indexTrig;
         private JLabel[] nomFonctionParams;
         private JTextField[] fonctionparams;
     private JPanel triggerPan = new JPanel();//"cases à cocher pour les triggers"

@@ -73,7 +73,7 @@ public class InterXml {
             for(int j = 0; j < ids.size(); j+=2){
                 //System.out.println("Index : " + j);
                 if(ids.get(j) == Id){
-                    System.out.println("Nom fonction: "+node.getNodeName());
+                    //System.out.println("Nom fonction: "+node.getNodeName());
                     Element node1 =(Element) document.getElementsByTagName(node.getNodeName()).item(ids.get(j+1));
                     String value = node1.getElementsByTagName(s).item(0).getTextContent();
                     return value;

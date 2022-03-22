@@ -40,9 +40,9 @@ public class Comportement {
                 if(nextComportement);
                 else{
                     int priorityid = Integer.parseInt(comportementsimple.ReadCompStateId(id, "priority"));
-                    System.out.println("Id: "+id+" Priority: "+priorityid);
+                    //System.out.println("Id: "+id+" Priority: "+priorityid);
                     if( priority == priorityid) {
-                        System.out.println("Id Trouvé: "+id);
+                        //System.out.println("Id Trouvé: "+id);
                         name = comportementsimple.ReadCompStateId(id, "name");
                         this.id = id;
                         if(capteurs()) {
@@ -103,7 +103,7 @@ public class Comportement {
     private boolean capteurLastComportementFinished(Robotxml robot) {
         boolean b = true;
         int lastComportementFinished = Integer.parseInt(comportementsimple.ReadCompStateId(id, "lastcomportementfinished"));
-        if(lastComportementFinished > 0) {
+        if(lastComportementFinished >= 0) {
             b = robot.getLastComportementFinished() == lastComportementFinished;
         }
         return b;

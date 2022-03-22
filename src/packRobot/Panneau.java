@@ -192,16 +192,9 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 					//System.out.println("changement");
 				}
 				switch (newName) {
-					case "MouvXY" -> {
+					case "MouvXY", "GoToXY" -> {
 						if (fourmi1.AvanceXY()) {
-							System.out.println("MouvXY fini: " + id);
-							fourmi1.getComportement().setName("");
-							fourmi1.setLastComportementFinished(id);
-						}
-					}
-					case "GoToXY" -> {
-						if (fourmi1.AvanceXY()) {
-							System.out.println("GoToXY fini");
+							//System.out.println(newName +" fini: " + id);
 							fourmi1.getComportement().setName("");
 							fourmi1.setLastComportementFinished(id);
 						}
@@ -209,7 +202,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 					case "Stop" -> {
 						fourmi1.setTime(fourmi1.getTime() - duration);
 						if (fourmi1.getTime() < 0) {
-							System.out.println("Stop fini");
+							//System.out.println("Stop fini");
 							fourmi1.getComportement().setName("");
 							fourmi1.setLastComportementFinished(id);
 						}
