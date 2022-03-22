@@ -2,6 +2,7 @@ package packRobot;
 
 import testxml.InterXml;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 public class Comportement {
@@ -22,12 +23,16 @@ public class Comportement {
     private ArrayList<Robotxml> robots;
     private ArrayList<Ressources> ressources;
     private Integer id;
+    private int simWidth, simHeight;
 
     public Comportement(Robotxml robot,ArrayList<Robotxml> robots,ArrayList<Ressources> ressources, InterXml comportementsimple, String previousName, Integer oldId) {
         this.robot = robot;
         this.robots = robots;
         this.ressources = ressources;
         this.comportementsimple = comportementsimple;
+        Dimension simDim = Robot.getArea();
+        this.simWidth = simDim.width;
+        this.simHeight = simDim.height;
 
         ArrayList<String> liste_comportement;
         liste_comportement = comportementsimple.ReturnXmlNode("Comportement");
@@ -71,8 +76,10 @@ public class Comportement {
         boolean b = true;
         if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "outofbound")) == 1) {
             b = false;
-            if ((robot.posX<10 && Math.cos(robot.getOrdreTheta())<0) || (robot.posX>Fenetre.width-30 && Math.cos(robot.getOrdreTheta())>0)) b = true;
-            if ((robot.posY<10 && Math.sin(robot.getOrdreTheta())<0) || (robot.posY>Fenetre.height-30 && Math.sin(robot.getOrdreTheta())>0)) b = true;
+            //if ((robot.posX<10 && Math.cos(robot.getOrdreTheta())<0) || (robot.posX>Fenetre.width-30 && Math.cos(robot.getOrdreTheta())>0)) b = true;
+            //if ((robot.posY<10 && Math.sin(robot.getOrdreTheta())<0) || (robot.posY>Fenetre.height-30 && Math.sin(robot.getOrdreTheta())>0)) b = true;
+            b= (    robot.posX<robot.rayonContact || robot.posX>simWidth- robot.rayonContact 
+                ||  robot.posY<robot.rayonContact || robot.posY>simHeight- robot.rayonContact );
         }
         return b;
     }
