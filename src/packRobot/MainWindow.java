@@ -2,9 +2,8 @@ package packRobot;
 
 import org.w3c.dom.Element;
 import testxml.CreatXml;
-
-import javax.swing.*;
 import javax.xml.transform.TransformerException;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,19 +13,20 @@ import java.util.Scanner;
 
 public class MainWindow extends JFrame{
     private JPanel progUserTAB = new JPanel();
-    private JPanel instructionsPan = new JPanel();
-    private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
+        private JPanel instructionsPan = new JPanel();
+        private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
     private JPanel progXMLtextTAB = new JPanel();
-    private JPanel boutonsXMLPAN = new JPanel();
-    //private JButton[] boutonsXML;
-    private JTextArea xmlProgArea= new JTextArea();
-    private JPanel simulation1TAB ;//= new JPanel();
+        private JPanel boutonsXMLPAN = new JPanel();
+            //private JButton[] boutonsXML;
+        private JTextArea xmlProgArea= new JTextArea();
+    private Panneau simulation1TAB ;//= new JPanel();
     private JPanel simulation2TAB ;//= new JPanel();
     private Thread simu1 = new Thread();
     private Thread simu2 ;//= new Thread();
 
     private int frameWidth;
     private int frameHeight;
+    private JTabbedPane tabManager =new JTabbedPane();
 
 
 
@@ -35,7 +35,7 @@ public class MainWindow extends JFrame{
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frameWidth=(int) screenSize.getWidth();
         frameHeight=(int) screenSize.getHeight();
-        Robot.initArea(this.frameWidth/4,this.frameHeight/4);
+        Robot.initArea(this.frameWidth/2,this.frameHeight/2);
 
         initProgPane();
         initXMLpane(saveFilename);
@@ -49,16 +49,17 @@ public class MainWindow extends JFrame{
         progUserTAB.add(scrollProg,BorderLayout.CENTER);
         instructionsPan.setLayout(new BoxLayout(instructionsPan,BoxLayout.PAGE_AXIS));
         InstructionXML instruc =new InstructionXML();
+        //instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
         instructionsPan.add(instruc);
         listeInstructions.add(instruc);
 
-        JPanel boutonsCommandes = new JPanel();
         JButton nvxInstruction = new JButton("ajout instruction");
         nvxInstruction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(String s:listeInstructions.getLast().generateSynthTab()) System.out.print(s+", "); System.out.println("}");
                 InstructionXML instruc= new InstructionXML();
+                //instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
                 instructionsPan.add(instruc);
                 listeInstructions.add(instruc);
                 instructionsPan.validate();
@@ -69,14 +70,19 @@ public class MainWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 simu1.interrupt();
-                Panneau fourmiAnonyme = new Panneau();
-                fourmiAnonyme.setSimulationType(SimulationType.XMLCONTROLED);
-                simu1 = new Thread(fourmiAnonyme);
+                simulation1TAB = new Panneau();
+                simulation1TAB.setSimulationType(SimulationType.DEFAULT);
+                simu1 = new Thread(simulation1TAB);
                 simu1.start();
-                fourmiAnonyme.setVisible(true);
+                try{tabManager.remove(2);} catch(IndexOutOfBoundsException e1) {}
+                tabManager.add("Sim1",simulation1TAB);
             }
         });
-        progUserTAB.add(nvxInstruction,BorderLayout.PAGE_END);
+        JPanel boutonsCommandes = new JPanel();
+        progUserTAB.add(boutonsCommandes,BorderLayout.PAGE_END);
+        boutonsCommandes.setLayout(new GridLayout(1,3));
+        boutonsCommandes.add(nvxInstruction);
+        boutonsCommandes.add(lanceSimu);
     }
 
     public String[][] listerInstructions(){
@@ -112,32 +118,8 @@ public class MainWindow extends JFrame{
         boutonsXML[1].addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[][] listerInstructions = listerInstructions();
-                //System.out.println(listerInstructions);
-                /*
-                for(String[] instruction : listerInstructions){
-                    for(String parameter : instruction){
-                        System.out.print(parameter + ", ");
-                    }
-                    System.out.print("\n");
-                }
-                */
-                CreatXml ComportementTest = new CreatXml();
-                for(String[] element : listerInstructions){
-                    Element fonction = null;
-                    for(int i=0; i < element.length; i+=2) {
-                        System.out.println(element[i]);
-                        if(element[i].equals("name")){
-                            fonction = ComportementTest.newFonction(element[i+1]);
-                        }
-                        ComportementTest.newElement(element[i], element[i+1], fonction);
-                    }
-                }
-                try {
-                    ComportementTest.finishXML("src/testxml/ComportementTest.xml");
-                } catch (TransformerException ex) {
-                    ex.printStackTrace();
-                }
+                updateText(listerInstructions(),saveFilename);
+                xmlProgArea.setText(importText(saveFilename));
             }
         });
         boutonsXML[2] = new JButton("save XML");
@@ -147,6 +129,30 @@ public class MainWindow extends JFrame{
         });
 
         for (JButton button : boutonsXML) boutonsXMLPAN.add(button);
+    }
+
+    /**
+     * Crée un fichier XML de comportement à partir des instructions données.
+     * @param listerInstructions Informations pour remplir les champs. Chaque valeur est précédée par son nom.
+     * @param saveFilename Nom du fichier XML de destination.
+     */
+    private void updateText(String[][] listerInstructions,String saveFilename){
+        CreatXml ComportementTest = new CreatXml();
+        for(String[] element : listerInstructions){
+            Element fonction = null;
+            for(int i=0; i < element.length; i+=2) {
+                System.out.println(element[i]);
+                if(element[i].equals("name")){
+                    fonction = ComportementTest.newFonction(element[i+1]);
+                }
+                ComportementTest.newElement(element[i], element[i+1], fonction);
+            }
+        }
+        try {
+            ComportementTest.finishXML(saveFilename);
+        } catch (TransformerException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -189,10 +195,10 @@ public class MainWindow extends JFrame{
     }
 
     public void afficheFenetre(){
-        JTabbedPane tabManager=new JTabbedPane();
 
         tabManager.add("prog", progUserTAB);
         tabManager.add("XML", progXMLtextTAB);
+        //tabManager.add("Sim1",simulation1TAB);
 
         add(tabManager);
         setSize(frameWidth/2,frameHeight/2);
