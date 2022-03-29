@@ -12,6 +12,10 @@ public class Robotxml extends Robot{
     private ArrayList<String> listeComportement = new ArrayList<>();
     private int lastComportementFinished;
 
+    public Robotxml(long timeBetweenFrame) {
+        super(timeBetweenFrame);
+    }
+
     public void setAvanceX(double avanceX) {
         this.avanceX = avanceX;
     }

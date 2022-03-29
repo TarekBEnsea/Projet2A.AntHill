@@ -12,8 +12,10 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class MainWindow extends JFrame{
+    private JPanel PhysicUserTAB = new JPanel();
     private JPanel progUserTAB = new JPanel();
         private JPanel instructionsPan = new JPanel();
+    private JPanel PhysicPan = new JPanel();
         private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
     private JPanel progXMLtextTAB = new JPanel();
         private JPanel boutonsXMLPAN = new JPanel();
@@ -39,6 +41,7 @@ public class MainWindow extends JFrame{
 
         initProgPane();
         initXMLpane(saveFilename);
+        initPhysPane();
     }
 
     private void initProgPane(){
@@ -71,7 +74,7 @@ public class MainWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 simu1.interrupt();
                 simulation1TAB = new Panneau();
-                simulation1TAB.setSimulationType(SimulationType.DEFAULT);
+                simulation1TAB.setSimulationType(SimulationType.XMLCONTROLED);
                 simu1 = new Thread(simulation1TAB);
                 simu1.start();
                 try{tabManager.remove(2);} catch(IndexOutOfBoundsException e1) {}
@@ -130,7 +133,16 @@ public class MainWindow extends JFrame{
 
         for (JButton button : boutonsXML) boutonsXMLPAN.add(button);
     }
+    private void initPhysPane(){
+        PhysicUserTAB.setLayout(new BorderLayout());
 
+        JScrollPane scrollProg = new JScrollPane(PhysicPan);
+        scrollProg.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        PhysicUserTAB.add(scrollProg,BorderLayout.CENTER);
+        PhysiqueXML phys = new PhysiqueXML();
+        PhysicPan.add(phys);
+
+    }
     /**
      * Crée un fichier XML de comportement à partir des instructions données.
      * @param listerInstructions Informations pour remplir les champs. Chaque valeur est précédée par son nom.
@@ -196,8 +208,11 @@ public class MainWindow extends JFrame{
 
     public void afficheFenetre(){
 
-        tabManager.add("prog", progUserTAB);
+        tabManager.add("Program", progUserTAB);
+        tabManager.add("Physic", PhysicUserTAB);
         tabManager.add("XML", progXMLtextTAB);
+
+
         //tabManager.add("Sim1",simulation1TAB);
 
         add(tabManager);

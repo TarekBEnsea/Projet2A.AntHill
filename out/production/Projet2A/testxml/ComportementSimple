@@ -5,8 +5,8 @@
     <MouvXY id = "1">
         <name>MouvXY</name>
         <time>10000</time>
-        <x>20</x>
-        <y>50</y>
+        <x>50</x>
+        <y>100</y>
         <priority>2</priority>
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
@@ -17,8 +17,8 @@
     <MouvXY id = "3">
         <name>MouvXY</name>
         <time>10000</time>
-        <x>20</x>
-        <y>-50</y>
+        <x>50</x>
+        <y>-100</y>
         <priority>1</priority>
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
@@ -37,8 +37,8 @@
 
     <GoToXY id='2'>
         <name>GoToXY</name>
-        <x>5</x>
-        <y>5</y>
+        <x>10</x>
+        <y>10</y>
         <priority>0</priority>
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>

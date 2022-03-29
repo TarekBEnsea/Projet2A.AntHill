@@ -1,5 +1,7 @@
 package packRobot;
 
+import testxml.InterXml;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -99,7 +101,6 @@ public class Robot extends Element{
 		this.rayonContact =10;
 		this.rayonDetect=rayonContact+10;
 		//this.rayonContact=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
-		
 		setImage("src/packRobot/Ant2.png");
 	}
 	public Robot(){
@@ -112,8 +113,11 @@ public class Robot extends Element{
 		this.saveOrdreVitesse=ordreVitesseLigne;
 
 		this.ordreTheta=theta;
-		this.rayonContact =0;
+		this.rayonContact = 5;
 		this.rayonDetect=rayonContact+90;
+		InterXml Physiquerobot = new InterXml("src/RobotPhysique");
+		this.largeur = Physiquerobot.ReadCompState("taille","largeur");
+		this.longueur = Physiquerobot.ReadCompState("taille","longueur");
 		try {
 			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
 			this.image = new BufferedImage((int)largeur, (int)longueur, 2);

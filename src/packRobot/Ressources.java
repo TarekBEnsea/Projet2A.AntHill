@@ -60,8 +60,8 @@ public class Ressources extends Element{
             //tmp = image.getScaledInstance(taille, taille, Image.SCALE_SMOOTH);
 
             if(oldtaille - taille > 0) image = image.getScaledInstance(taille,taille,Image.SCALE_SMOOTH);
-            g.drawImage(image, (int) (posX - rayonContact), (int) (posY - rayonContact), null);
-            /*g.setColor(Color.BLUE);
+           /* g.drawImage(image, (int) (posX - rayonContact), (int) (posY - rayonContact), null);
+            g.setColor(Color.BLUE);
             g.drawOval((int) (posX-rayonContact), (int) (posY-rayonContact), (int) (2*rayonContact), (int) (2*rayonContact));
             g.setColor(Color.green);
             g.drawRect((int) posX, (int) posY, 2, 2);*/

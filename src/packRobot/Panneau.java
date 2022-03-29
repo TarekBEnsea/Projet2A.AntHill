@@ -16,6 +16,11 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 	private int cpt_fr = 0;
 	private int cpt_fb=0;
 	private int cpt_pdt=0;
+	private long timeBetweenFrame=10;
+	InterXml PhysiqueRobot = new InterXml("src/RobotPhysique");
+	int headcount = PhysiqueRobot.ReadCompState("fourmi","effectif");
+	int ressourcesnum = PhysiqueRobot.ReadCompState("fourmi","ressources");
+	private boolean theEnd = false;
 	public ArrayList<Robotxml> robots;
 	public ArrayList<Ressources> resources;
 	public ArrayList<Integer> save_resources;
@@ -27,10 +32,10 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 	  	robots = new ArrayList<>();
 	  	resources= new ArrayList<>();
 		save_resources = new ArrayList<>();
-		for(int i = 0; i<100; i++) {
-			robots.add(new Robotxml());
+		for(int i = 0; i<headcount; i++) {
+			robots.add(new Robotxml(timeBetweenFrame));
 		}
-		for (int j =0; j<25;j++){
+		for (int j =0; j<ressourcesnum;j++){
 			String name;
 			double p = Math.random();
 			if(p < 0.33) name = "fraise";
@@ -100,17 +105,17 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 							case "fraise" -> {
 								fourmi1.setImage("src/packRobot/ant+fr.png");
 								cpt_fr++;
-								System.out.println("Le nombre de fraise récuperée est de : " + cpt_fr);
+								//System.out.println("Le nombre de fraise récuperée est de : " + cpt_fr);
 							}
 							case "fb" -> {
 								fourmi1.setImage("src/packRobot/ant+fb.png");
 								cpt_fb++;
-								System.out.println("Le nombre de framboise récuperée est de : " + cpt_fb);
+								//System.out.println("Le nombre de framboise récuperée est de : " + cpt_fb);
 							}
 							case "pdt" -> {
 								fourmi1.setImage("src/packRobot/ant+pdt.png");
 								cpt_pdt++;
-								System.out.println("Le nombre de pomme de terre récuperée est de : " + cpt_pdt);
+								//System.out.println("Le nombre de pomme de terre récuperée est de : " + cpt_pdt);
 							}
 							default -> {
 							}
@@ -136,7 +141,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 		long duration = 0;
 
 
-		InterXml comportementsimple = new InterXml("src/testxml/ComportementSimple");
+		InterXml comportementsimple = new InterXml("src/testxml/ComportementTest.xml");
 
 
 		for(Robotxml robot : robots) {

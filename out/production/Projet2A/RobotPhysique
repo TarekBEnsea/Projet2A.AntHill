@@ -6,8 +6,8 @@
     </position>
 
     <taille>
-        <longueur>20.0</longueur>
-        <largeur>10.0</largeur>
+        <longueur>30</longueur>
+        <largeur>20</largeur>
     </taille>
 
     <vitesse>
@@ -18,11 +18,12 @@
         <tau>20</tau>
     </vitesse>
 
-    <fourmie>
+    <fourmi>
         <forme>cercle</forme>
         <couleur>red</couleur>
-        <poid>0.0</poid>
-    </fourmie>
+        <effectif>150</effectif>
+        <ressources>2</ressources>
+    </fourmi>
 
 
 </robot>
