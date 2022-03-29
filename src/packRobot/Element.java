@@ -46,7 +46,7 @@ public abstract class Element{
 			voisin=r2.getClass();
 			return  (distance < this.rayonDetect);
 		}
-		else return (ignoreOthers && distance<pprocheDistance);
+		else return (ignoreOthers && distance<this.rayonDetect);
 	}
 	public boolean estProche(MapBorder b, boolean ignoreOthers){
 		double distance=Math.abs(getDistance(b)-b.rayonContact);
@@ -55,6 +55,6 @@ public abstract class Element{
 			voisin=b.getClass();
 			return  (distance < this.rayonDetect);
 		}
-		else return false;
+		else return (ignoreOthers && distance<this.rayonDetect);
 	}
 }
