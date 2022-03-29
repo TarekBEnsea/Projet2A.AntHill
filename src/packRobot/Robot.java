@@ -39,6 +39,7 @@ public class Robot extends Element{
 	private double saveOrdreVitesse;
 	private int tauRota=20; //valeur à déterminer ou configurer
 	private double tauAccel = 0.1;
+	private double deltaT;
 	private static int areaWidth;
 	private static int areaHeight;
 	public final double FULLRANGE=rayonDetect;
@@ -103,10 +104,11 @@ public class Robot extends Element{
 		//this.rayonContact=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
 		setImage("src/packRobot/Ant2.png");
 	}
-	public Robot(){
+	public Robot(long timeBetweenFrame){
 		this.posX=Math.random()*areaWidth;
 		this.posY=Math.random()*areaHeight;
 		this.theta=Math.random()*2*Math.PI;
+		this.deltaT=timeBetweenFrame/25.0;
 		this.vitesseLigne= 0;
 		this.vitesseLigneMax=3;
 		this.ordreVitesseLigne=vitesseLigneMax;
@@ -132,9 +134,8 @@ public class Robot extends Element{
 	
 	/**
 	 * Asservissement de la position en fonction de la commande.
-	 * @param deltaT temps écoulé (en ms) depuis la dernière actualisation.
 	 */
-	public void updateMouv(double deltaT){
+	public void updateMouv(){
 
 		if(Math.abs(theta-ordreTheta)>0.1) ordreVitesseLigne=0; //a faire avec des exception peut-etre
 		else ordreVitesseLigne=saveOrdreVitesse;
@@ -164,7 +165,7 @@ public class Robot extends Element{
 		if ((y<10 && Math.sin(ordrAngle)<0) || (y>Fenetre.height-30 && Math.sin(ordrAngle)>0)) {ordrAngle=-ordrAngle; change=true;}
 		if (change) this.setOrdreTheta(ordrAngle);
 		
-		this.updateMouv(1);
+		this.updateMouv();
 	}
 
 	public void breakWheel(){
@@ -224,7 +225,7 @@ public class Robot extends Element{
 		Robot michel = new Robot(0,0,0);
 		for(int i=0;i<Integer.parseInt(args[0]);i++){ 
 			System.out.println("michel est en ("+michel.posX+";"+michel.posY+")");
-			michel.updateMouv(1);
+			michel.updateMouv();
 		}
 	}
 }

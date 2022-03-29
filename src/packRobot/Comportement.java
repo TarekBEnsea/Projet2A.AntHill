@@ -67,7 +67,7 @@ public class Comportement {
     public boolean capteurs(){
         Boolean b1 = capteurAntsnextto();
         Boolean b2 = capteurRessourcenextto();
-        Boolean b3 = capteurLastComportementFinished(robot);
+        Boolean b3 = capteurLastComportementFinished();
         Boolean b4 = capteuroutofbound();
         return b1 && b2 && b3 && b4;
     }
@@ -107,11 +107,21 @@ public class Comportement {
         return b;
     }
 
-    private boolean capteurLastComportementFinished(Robotxml robot) {
+    private boolean capteurLastComportementFinished() {
         boolean b = true;
         int lastComportementFinished = Integer.parseInt(comportementsimple.ReadCompStateId(id, "lastcomportementfinished"));
         if(lastComportementFinished >= 0) {
             b = robot.getLastComportementFinished() == lastComportementFinished;
+        }
+        return b;
+    }
+
+    private boolean capteurFourmiProche(){
+        boolean b = true;
+        for(Robotxml robot2 : robots){
+            if(!robot.equals(robot2) && robot.estProche(robot2,true)){
+
+            }
         }
         return b;
     }
@@ -122,12 +132,14 @@ public class Comportement {
                 robot.setAvanceX(Integer.parseInt(comportementsimple.ReadCompStateId(id, "x")) + robot.getPosX());
                 robot.setAvanceY(Integer.parseInt(comportementsimple.ReadCompStateId(id, "y")) + robot.getPosY());
                 break;
-            case "GoToXY":
+            case "GoToXY", "GoToElement":
                 robot.setAvanceX(Integer.parseInt(comportementsimple.ReadCompStateId(id, "x")));
                 robot.setAvanceY(Integer.parseInt(comportementsimple.ReadCompStateId(id, "y")));
                 break;
             case "Stop":
                 robot.setTime(Integer.parseInt(comportementsimple.ReadCompStateId(id, "time")));
+            case "Communique":
+                
             default:
                 break;
         }

@@ -56,7 +56,7 @@ public class Robotxml extends Robot{
     public boolean AvanceXY(){
         if(avanceX-posX > 0) this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX)));
         else this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX))+Math.PI);
-        updateMouv(1);
+        updateMouv();
         return Math.abs(avanceY-posY) < 1 && Math.abs(avanceX-posX) < 1;
     }
 }
