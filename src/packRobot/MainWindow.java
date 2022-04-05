@@ -11,18 +11,31 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+/**
+ * Classe principale pour l'interface graphique du projet.
+ */
 public class MainWindow extends JFrame{
     private JPanel PhysicUserTAB = new JPanel();
+        private JPanel PhysicPan = new JPanel()
+    /** Onglet pour le renseignement des différentes instructions/.
+     * Permet d'ajouter, supprimer des instructions et de lancer une simulation.
+     * @see InstructionXML*/
     private JPanel progUserTAB = new JPanel();
+    /** Panneau contenant les instructions*/
         private JPanel instructionsPan = new JPanel();
-    private JPanel PhysicPan = new JPanel();
         private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
+    /** Onglet contenant le fichier XML généré.
+     * Peut être mis-à-jour en renseignant les instruction dans l'onglet progUserTAB
+     * Peut être complété à la main avant de lancer la simulation.*/
     private JPanel progXMLtextTAB = new JPanel();
         private JPanel boutonsXMLPAN = new JPanel();
             //private JButton[] boutonsXML;
         private JTextArea xmlProgArea= new JTextArea();
+    /** Onglet contenant la simulation d'essaims de robots*/
     private Panneau simulation1TAB ;//= new JPanel();
     private JPanel simulation2TAB ;//= new JPanel();
+    /** Thread sur lequel tourne la simulation.
+     * Comprend le rafraichissement des positions et de l'affichage*/
     private Thread simu1 = new Thread();
     private Thread simu2 ;//= new Thread();
 
@@ -31,7 +44,10 @@ public class MainWindow extends JFrame{
     private JTabbedPane tabManager =new JTabbedPane();
 
 
-
+    /**
+     * Crée une nouvelle fenêtre avec 4 onglets pour régler et visualiser une simulation d'essaims de robots.
+     * @param saveFilename Chemin et nom du fichier XML sous lequel seront enregistrés les paramètres de simulation.
+     */
     public MainWindow(String saveFilename){ //"monProgXml"
         super("AntHill Custom Simulation Project Valpha 0.1");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -44,15 +60,19 @@ public class MainWindow extends JFrame{
         initPhysPane();
     }
 
+    /**
+     * Initialise les éléments de l'onglet progUserTAB.
+     */
     private void initProgPane(){
         progUserTAB.setLayout(new BorderLayout());
 
         JScrollPane scrollProg = new JScrollPane(instructionsPan);
-        scrollProg.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        //scrollProg.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         progUserTAB.add(scrollProg,BorderLayout.CENTER);
         instructionsPan.setLayout(new BoxLayout(instructionsPan,BoxLayout.PAGE_AXIS));
         InstructionXML instruc =new InstructionXML();
-        //instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        suppButtonSetActioner(instruc);
+        instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
         instructionsPan.add(instruc);
         listeInstructions.add(instruc);
 
@@ -60,12 +80,13 @@ public class MainWindow extends JFrame{
         nvxInstruction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(String s:listeInstructions.getLast().generateSynthTab()) System.out.print(s+", "); System.out.println("}");
+                //for(String s:listeInstructions.getLast().generateSynthTab()) System.out.print(s+", "); System.out.println("}");
                 InstructionXML instruc= new InstructionXML();
-                //instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
+                suppButtonSetActioner(instruc);
+                instruc.setAlignmentX(Component.RIGHT_ALIGNMENT);
                 instructionsPan.add(instruc);
                 listeInstructions.add(instruc);
-                instructionsPan.validate();
+                scrollProg.validate();
             }
         });
         JButton lanceSimu = new JButton("Simulation");
@@ -88,6 +109,10 @@ public class MainWindow extends JFrame{
         boutonsCommandes.add(lanceSimu);
     }
 
+    /**
+     * Génère la liste des instruction sous un format adapté pour générer le fichier XML correpondant.
+     * @return tableau des instructions. Chaque élément contient un tableau de String correspondant aux nom et valeurs des champs du fichier XML.
+     */
     public String[][] listerInstructions(){
         int i = 0;
         String[][] liste = new String[InstructionXML.getNombreInstructions()][];
@@ -98,6 +123,10 @@ public class MainWindow extends JFrame{
         return liste;
     }
 
+    /**
+     * Initialise les éléments de l'onglet progUserTAB.
+     * @param saveFilename Chemin et nom du fichier XML sous lequel seront enregistrés les paramètres de simulation.
+     */
     private void initXMLpane(String saveFilename){
         JScrollPane scrollXML = new JScrollPane(xmlProgArea);
         xmlProgArea.setText(importText(saveFilename));
@@ -109,6 +138,12 @@ public class MainWindow extends JFrame{
         progXMLtextTAB.add(boutonsXMLPAN,BorderLayout.NORTH);
         progXMLtextTAB.add(scrollXML,BorderLayout.CENTER);
     }
+
+    /**
+     * Initialise les boutons de l'onglet progXMLtextTAB pour la gestion de fichier.
+     * Permet de charger le fichier depuis le disque de l'ordinateur ou l'onglet progUserTAB, et sauver sur le disque.
+     * @param saveFilename Chemin et nom du fichier XML sous lequel seront enregistrés les paramètres de simulation.
+     */
     private void initBoutonsXML(String saveFilename){
         JButton[] boutonsXML= new JButton[3];
 
@@ -133,6 +168,10 @@ public class MainWindow extends JFrame{
 
         for (JButton button : boutonsXML) boutonsXMLPAN.add(button);
     }
+    
+    /**
+     * Initialise les éléments de l'onglet progUserTAB.
+     */
     private void initPhysPane(){
         PhysicUserTAB.setLayout(new BorderLayout());
 
@@ -141,7 +180,26 @@ public class MainWindow extends JFrame{
         PhysicUserTAB.add(scrollProg,BorderLayout.CENTER);
         PhysiqueXML phys = new PhysiqueXML();
         PhysicPan.add(phys);
+    }
 
+    /**
+     * Initialise le bouton de suppression d'instruction pour l'objet InstructionXML ciblée.
+     * @param instruc Instruction à supprimer.
+     */
+    private void suppButtonSetActioner(InstructionXML instruc){
+        instruc.getSuppInstructionButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id=instruc.delAndUpdate();
+                for(InstructionXML instrXML:listeInstructions){
+                    try {instrXML.decrID();
+                    } catch (Exception ex) {ex.printStackTrace();}
+                }
+                instructionsPan.remove(id);
+                listeInstructions.remove(id);
+                validate();
+            }
+        });
     }
     /**
      * Crée un fichier XML de comportement à partir des instructions données.
@@ -206,13 +264,15 @@ public class MainWindow extends JFrame{
         }
     }
 
+    /**
+     * Réunnit les différents onglets et affiche la fenêtre d'interface graphique.
+     * @see JTabbedPane
+     */
     public void afficheFenetre(){
 
         tabManager.add("Program", progUserTAB);
         tabManager.add("Physic", PhysicUserTAB);
         tabManager.add("XML", progXMLtextTAB);
-
-
         //tabManager.add("Sim1",simulation1TAB);
 
         add(tabManager);
