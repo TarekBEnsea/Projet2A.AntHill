@@ -36,6 +36,7 @@ public class InstructionXML extends JPanel {
 
     public InstructionXML() {
         instructionID=nombreInstructions++;
+        suppInstructionButton = new JButton("-");
         IDlabel = new JLabel("IID: "+instructionID);
         nomInstruction = new JTextField(8);//setColumns()
         fonctionJ = new JComboBox(new String[]{"*Fonction*","MouvXY", "GoToXY", "GoToElement", "Stop", "Communique", "GetInformation"});
@@ -82,7 +83,7 @@ public class InstructionXML extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedItem=typeLimite.getSelectedItem().toString();
-                try{remove(8+2*nombreParam);} catch (ArrayIndexOutOfBoundsException exception) {}
+                try{remove(9+2*nombreParam);} catch (ArrayIndexOutOfBoundsException exception) {}
                 switch (selectedItem){
                     case "None","*Limite*": break;
                     default: add(limite); break;
@@ -92,16 +93,17 @@ public class InstructionXML extends JPanel {
         });
     }
 
-    private  void removeFonctionParam(){for(int i=0; i<2*nombreParam;i++) remove(3);}
+    private  void removeFonctionParam(){for(int i=0; i<2*nombreParam;i++) remove(4);}
     private void affiFonctionParam(){
         for(int i=0; i<nombreParam;i++){
-            add(nomFonctionParams[i],3+2*i);
-            add(fonctionparams[i],3+2*i+1);
+            add(nomFonctionParams[i],4+2*i);
+            add(fonctionparams[i],4+2*i+1);
         }
         validate(); repaint();
     }
 
     private void insertInPane(){
+        add(suppInstructionButton);
         add(IDlabel);
         add(nomInstruction);
         add(fonctionJ);
@@ -140,8 +142,8 @@ public class InstructionXML extends JPanel {
         synthTab[0]="name";
         synthTab[1]=fonctionJ.getSelectedItem().toString();
         for(int i=0;i<nombreParam;i++){
-            synthTab[2 + 2 * i] = nomFonctionParams[i].getName();
-            synthTab[3 + 2 * i] = fonctionparams[i].getText();
+            synthTab[2+2*i]=nomFonctionParams[i].getName();
+            synthTab[3+2*i]=fonctionparams[i].getText();
         }
         synthTab[2+2*nombreParam]="id";
         synthTab[3+2*nombreParam]= Integer.valueOf(instructionID).toString();
