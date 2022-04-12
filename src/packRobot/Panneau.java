@@ -4,13 +4,12 @@ import testxml.InterXml;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Panneau extends JPanel implements KeyListener, Runnable {
+public class Panneau extends JPanel implements KeyListener, Runnable, MouseListener, MouseMotionListener {
 	/*private int posX = -50;
 	private int posY = -50;
 	private int theta = 0;*/

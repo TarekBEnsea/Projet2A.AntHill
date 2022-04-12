@@ -14,6 +14,7 @@ public class Robotxml extends Robot{
     private double inf_posx = -15000;
     private double inf_posy = -15000;
 
+
     public Robotxml(long timeBetweenFrame) {
         super(timeBetweenFrame);
     }

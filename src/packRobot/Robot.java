@@ -25,8 +25,11 @@ public class Robot extends Element{
 	}
 	/*position et état*/
 	private double theta; //2 pi modulo, sens horaire, origin on x vector
-	private double longueur=20;
-	private double largeur=15;
+	/*private double longueur=20;
+	private double largeur=15;*/
+	InterXml Physiquerobot = new InterXml("src/RobotPhysique");
+	private double largeur = Physiquerobot.ReadCompState("taille","largeur");
+	private double longueur = Physiquerobot.ReadCompState("taille","longueur");
 	private boolean broken = false;
 	private boolean carry=false;
 
@@ -117,9 +120,7 @@ public class Robot extends Element{
 		this.ordreTheta=theta;
 		this.rayonContact = 5;
 		this.rayonDetect= rayonContact+10;
-		InterXml Physiquerobot = new InterXml("src/RobotPhysique");
-		this.largeur = Physiquerobot.ReadCompState("taille","largeur");
-		this.longueur = Physiquerobot.ReadCompState("taille","longueur");
+
 		try {
 			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
 			this.image = new BufferedImage((int)largeur, (int)longueur, 2);
@@ -209,11 +210,9 @@ public class Robot extends Element{
 		//System.out.println(locationX + ", " + locationY);
 		//System.out.println(image);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-
 		Graphics2D g2d = (Graphics2D) g;
 		BufferedImage test = op.filter(image, null);
 		g2d.drawImage(test, (int) (posX-longueur/2), (int) (posY-largeur/2), null);
-
 		/*g.setColor(Color.magenta);
 		g.drawRect((int) posX, (int) posY, 2,2);
 		g.setColor(Color.BLUE);

@@ -328,7 +328,7 @@ public class MainWindow extends JFrame{
 
         AntHill.afficheFenetre();
         EssaimRobot aze=new EssaimRobot();
-        aze.add(new Robotxml()); aze.add(new Robotxml());
+        aze.add(new Robotxml(10)); aze.add(new Robotxml(10));
         aze.remplitMatrix();
         aze.menacesProches(aze.get(0));
     }
