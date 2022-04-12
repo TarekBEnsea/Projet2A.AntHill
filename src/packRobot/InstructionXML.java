@@ -14,8 +14,8 @@ import java.awt.event.ItemListener;
  */
 public class InstructionXML extends JPanel {
     private static int nombreInstructions;
-    private final static String[] nomsTriggersAbrev = new String[]{"f près","R près","fin instruc","OOB"};
-    private final static String[] nomsTriggersComplet = new String[]{"antsnextto","ressourcesnextto","lastcomportementfinished", "outofbound"};
+    private final static String[] nomsTriggersAbrev = new String[]{"F proche","R proche","fin instruc","OOB", "has info", "F without info"};
+    private final static String[] nomsTriggersComplet = new String[]{"antsnextto","ressourcesnextto","lastcomportementfinished", "outofbound", "information", "fourmisansinfo"};
 
     private JLabel IDlabel;
         private int instructionID;
@@ -36,7 +36,7 @@ public class InstructionXML extends JPanel {
         instructionID=nombreInstructions++;
         IDlabel = new JLabel("IID: "+instructionID);
         nomInstruction = new JTextField(8);//setColumns()
-        fonctionJ = new JComboBox(new String[]{"*Fonction*","MouvXY", "GoToXY", "Stop"});
+        fonctionJ = new JComboBox(new String[]{"*Fonction*","MouvXY", "GoToXY", "GoToElement", "Stop", "Communique", "GetInformation"});
         triggers = new JCheckBox[nomsTriggersAbrev.length];
         for(int i = 0; i< nomsTriggersAbrev.length; i++){
             triggers[i] = new JCheckBox(nomsTriggersAbrev[i]);
@@ -138,8 +138,8 @@ public class InstructionXML extends JPanel {
         synthTab[0]="name";
         synthTab[1]=fonctionJ.getSelectedItem().toString();
         for(int i=0;i<nombreParam;i++){
-            synthTab[2+2*i]=nomFonctionParams[i].getName();
-            synthTab[3+2*i]=fonctionparams[i].getText();
+            synthTab[2 + 2 * i] = nomFonctionParams[i].getName();
+            synthTab[3 + 2 * i] = fonctionparams[i].getText();
         }
         synthTab[2+2*nombreParam]="id";
         synthTab[3+2*nombreParam]= Integer.valueOf(instructionID).toString();
