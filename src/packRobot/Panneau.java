@@ -27,6 +27,10 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	private ArrayList<Integer> save_resources;
 	private MapBorder[] borders;
 	private Fourmiliere fourmiliere;
+	double theta=0;
+	private Point click = new Point();
+	private Point drag = new Point();
+	private boolean placement=false;
 
 	public Panneau() {
 		this.setFocusable(true);
@@ -35,18 +39,10 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	  	resources= new ArrayList<>();
 		save_resources = new ArrayList<>();
 		fourmiliere = new Fourmiliere();
-		for(int i = 0; i<headcount; i++) {
-			robots.add(new Robotxml(timeBetweenFrame));
-		}
-		for (int j =0; j<ressourcesnum;j++){
-			String name;
-			double p = Math.random();
-			if(p < 0.33) name = "fraise";
-			else if (p <0.66) name = "pdt";
-			else name = "fb";
-			resources.add(new Ressources(name));
-		}
-		
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		rand_ants(15);
+		rand_ress(10);
 		borders=new MapBorder[4];
 		borders[0]= new MapBorder(BorderSide.TOP,0);
 		borders[1]= new MapBorder(BorderSide.RIGHT,Robot.getArea().getWidth());
@@ -269,12 +265,88 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 		}
 	}*/
 
+	public void rand_ress(int nb) {
+		for (int j = 0; j < nb; j++) {
+			String name;
+			double p = Math.random();
+			if (p < 0.33) name = "fraise";
+			else if (p < 0.66) name = "pdt";
+			else name = "fb";
+			resources.add(new Ressources(name));
+		}
+	}
+	public void rand_ants(int nb){
+		for(int i = 0; i<nb; i++) {
+			robots.add(new Robotxml(timeBetweenFrame));
+		}
+	}
+	public void activate_placement(){
+		placement=true;
+	}
   	public void keyTyped(KeyEvent e) {}
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(1);
 		}
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e){
+		if(placement==true) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				click.setX(e.getX());
+				click.setY(e.getY());
+				Robotxml robot = new Robotxml(e.getX(), e.getY(), 0);
+				robots.add(robot);
+				this.repaint();
+			} else if (e.getButton() == MouseEvent.BUTTON3) {
+				String name;
+				double p = Math.random();
+				if (p < 0.33) name = "fraise";
+				else if (p < 0.66) name = "pdt";
+				else name = "fb";
+				Ressources ress = new Ressources(e.getX(), e.getY(), name);
+				resources.add(ress);
+				this.repaint();
+			}
+		}
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		try {
+			drag.setX(e.getX());
+			drag.setY(e.getY());
+			double theta = Math.atan((drag.getY() - click.getY()) / (drag.getX() - click.getX()));
+			Robotxml r1 = robots.get(robots.size() - 1);
+			if ((drag.getX() - click.getX()) > 0)
+				r1.setTheta(theta);
+			else r1.setTheta(theta + Math.PI);
+			this.repaint();
+		}  catch (ArithmeticException a) {}
+		catch (IndexOutOfBoundsException a){}
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+
 	}
 }
 

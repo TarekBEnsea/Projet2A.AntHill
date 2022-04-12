@@ -23,6 +23,7 @@ public class Robot extends Element{
 			System.out.println("image non créée");
 		}
 	}
+
 	/*position et état*/
 	private double theta; //2 pi modulo, sens horaire, origin on x vector
 	/*private double longueur=20;
@@ -75,6 +76,9 @@ public class Robot extends Element{
 		else if (Math.abs(ordreTheta-this.theta)>Math.abs(ordreTheta-(this.theta+2*Math.PI))) this.theta+=2*Math.PI;
 		
 		ecartThetaChangement=Math.abs(theta-ordreTheta);
+	}
+	public void setTheta(double theta) {
+		this.theta = theta;
 	}
 	/**
 	 * Définit la zone dans laquelle se déplacent les Robots.

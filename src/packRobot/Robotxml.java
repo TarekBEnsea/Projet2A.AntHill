@@ -18,6 +18,7 @@ public class Robotxml extends Robot{
     public Robotxml(long timeBetweenFrame) {
         super(timeBetweenFrame);
     }
+    public Robotxml(int x, int y, double theta) {super(x,y,theta);}
 
     public void setAvanceX(double avanceX) {
         this.avanceX = avanceX;
