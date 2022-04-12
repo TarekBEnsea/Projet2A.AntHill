@@ -102,6 +102,7 @@ public class MainWindow extends JFrame{
                 try{tabManager.remove(2);} catch(IndexOutOfBoundsException e1) {}
                 tabManager.add("Sim1",simulation1TAB);
                 runningSimulation=false;
+                simulation1TAB.activate_placement();
             }
         });
         JButton lanceSimu = new JButton("Simulation");
@@ -114,6 +115,7 @@ public class MainWindow extends JFrame{
                 }
                 else System.out.println("nope");
                 runningSimulation=true;
+                simulation1TAB.desactivate_placement();
             }
         });
         JPanel boutonsCommandes = new JPanel();
