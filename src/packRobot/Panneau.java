@@ -283,6 +283,9 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	public void activate_placement(){
 		placement=true;
 	}
+	public void desactivate_placement(){
+		placement=false;
+	}
   	public void keyTyped(KeyEvent e) {}
 	public void keyPressed(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {
@@ -296,11 +299,11 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 
 	@Override
 	public void mousePressed(MouseEvent e){
-		if(placement==true) {
+		//if(placement==true) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				click.setX(e.getX());
 				click.setY(e.getY());
-				Robotxml robot = new Robotxml(e.getX(), e.getY(), 0);
+				Robotxml robot = new Robotxml(e.getX(), e.getY(), 0,timeBetweenFrame);
 				robots.add(robot);
 				this.repaint();
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
@@ -313,7 +316,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 				resources.add(ress);
 				this.repaint();
 			}
-		}
+		//}
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {

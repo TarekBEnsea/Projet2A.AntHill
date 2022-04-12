@@ -97,7 +97,7 @@ public class Robot extends Element{
 	public static void areaPrompt(){System.out.println("Width: "+areaWidth+"\tHeight: "+areaHeight);}
 
 	/*Constructeurs*/
-	public Robot(double x, double y, double theta){
+	public Robot(double x, double y, double theta, long timeBetweenFrame){
 		this.posX=x;
 		this.posY=y;
 		this.theta=theta;
@@ -108,6 +108,7 @@ public class Robot extends Element{
 		this.ordreTheta=theta;
 		this.rayonContact =10;
 		this.rayonDetect=rayonContact+10;
+		this.deltaT=timeBetweenFrame/25.0;
 		//this.rayonContact=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
 		setImage("src/packRobot/Ant2.png");
 	}
@@ -227,7 +228,7 @@ public class Robot extends Element{
 
 	/** fonction test **/
 	public static void main(String[] args){
-		Robot michel = new Robot(0,0,0);
+		Robot michel = new Robot(0,0,0,0);
 		for(int i=0;i<Integer.parseInt(args[0]);i++){ 
 			System.out.println("michel est en ("+michel.posX+";"+michel.posY+")");
 			michel.updateMouv();
