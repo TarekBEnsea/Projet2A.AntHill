@@ -170,6 +170,7 @@ public class InstructionXML extends JPanel {
         if(IDaUpdate>0 && instructionID>IDremoved){
             instructionID--;
             IDaUpdate--;
+            IDlabel.setText("IID: "+instructionID);
         }
         //else throw new IdOverridenException();
     }
