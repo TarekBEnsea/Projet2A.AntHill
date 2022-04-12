@@ -14,6 +14,8 @@ import java.awt.event.ItemListener;
  */
 public class InstructionXML extends JPanel {
     private static int nombreInstructions;
+    private static int IDaUpdate=0;
+    private static int IDremoved;
     private final static String[] nomsTriggersAbrev = new String[]{"F proche","R proche","fin instruc","OOB", "has info", "F without info"};
     private final static String[] nomsTriggersComplet = new String[]{"antsnextto","ressourcesnextto","lastcomportementfinished", "outofbound", "information", "fourmisansinfo"};
 
