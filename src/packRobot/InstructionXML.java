@@ -18,7 +18,8 @@ public class InstructionXML extends JPanel {
     private static int IDremoved;
     private final static String[] nomsTriggersAbrev = new String[]{"F proche","R proche","fin instruc","OOB", "has info", "F without info"};
     private final static String[] nomsTriggersComplet = new String[]{"antsnextto","ressourcesnextto","lastcomportementfinished", "outofbound", "information", "fourmisansinfo"};
-
+    
+    private JButton suppInstructionButton;
     private JLabel IDlabel;
         private int instructionID;
     private JTextField nomInstruction;
