@@ -14,19 +14,44 @@ public class Robotxml extends Robot{
     private double inf_posx = -15000;
     private double inf_posy = -15000;
 
-
+    /**
+     * Appel le constructeur de {@link Robot} : {@link #Robotxml(long)}
+     * @param timeBetweenFrame le temps entre chaque raffraichissemnt de l'affichage de l'écran
+     */
     public Robotxml(long timeBetweenFrame) {
         super(timeBetweenFrame);
     }
-    public Robotxml(int x, int y, double theta) {super(x,y,theta);}
 
+    /**
+     * Appel le constructeur de {@link Robot} : {@link #Robotxml(int, int, double, long)}
+     * @param x coordonnée en x du robot à créer
+     * @param y coordonnée en y du robot à créer
+     * @param theta angle de rotation du robot à créer
+     * @param timeBetweenFrame le temps entre chaque raffraichissemnt de l'affichage de l'écran
+     */
+    public Robotxml(int x, int y, double theta, long timeBetweenFrame) {super(x,y,theta,timeBetweenFrame);}
+
+    /**
+     * Permet de changer la coordonnée en x de l'objectif du robot
+     * @param avanceX coordonnée en x de l'objectif du robot
+     * @see Comportement#XMLtoJava()
+     */
     public void setAvanceX(double avanceX) {
         this.avanceX = avanceX;
     }
+
+    /**
+     * Permet de changer la coordonnée en y de l'objectif du robot
+     * @param avanceY coordonnée en y de l'objectif du robot
+     */
     public void setAvanceY(double avanceY) {
         this.avanceY = avanceY;
     }
 
+    /**
+     * Permet de changer la coordonnée en x de l'information du robot
+     * @param inf_posx
+     */
     public void setInf_posx(double inf_posx) {
         this.inf_posx = inf_posx;
     }

@@ -51,8 +51,7 @@ public class MapBorder extends Element{
         MapBorder coin2= new MapBorder(BorderSide.TOP,0);
         MapBorder coin3= new MapBorder(BorderSide.LEFT,0);
         MapBorder coin4= new MapBorder(BorderSide.RIGHT,Robot.getArea().getWidth());
-        Robot roboto = new Robot(185,50,0);
-
+        Robot roboto = new Robot(185,50,0,10);
         roboto.resetPprocheDistance();
         System.out.println(roboto.estProche(coin4, false));
         System.out.println(roboto.getDistance(coin1));
