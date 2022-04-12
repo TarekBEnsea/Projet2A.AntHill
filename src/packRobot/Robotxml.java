@@ -70,10 +70,19 @@ public class Robotxml extends Robot{
     public double getInf_posx() {
         return inf_posx;
     }
+
+    /**
+     * Retourne la coordonnée en y de l'information du robot
+     * @return la coordonnée en y de l'information du robot
+     */
     public double getInf_posy() {
         return inf_posy;
     }
 
+    /**
+     * Retourne le temps
+     * @return
+     */
     public long getTime() {
         return time;
     }

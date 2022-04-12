@@ -101,12 +101,12 @@ public class Robot extends Element{
 		this.posX=x;
 		this.posY=y;
 		this.theta=theta;
-		this.vitesseLigneMax=5;
+		this.vitesseLigneMax=3;
 		this.vitesseLigne= 0;
-		this.ordreVitesseLigne=0;
+		this.ordreVitesseLigne=vitesseLigneMax;
 		this.saveOrdreVitesse=ordreVitesseLigne;
 		this.ordreTheta=theta;
-		this.rayonContact =10;
+		this.rayonContact = 5;
 		this.rayonDetect=rayonContact+10;
 		this.deltaT=timeBetweenFrame/25.0;
 		//this.rayonContact=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));

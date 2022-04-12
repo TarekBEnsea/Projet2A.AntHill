@@ -219,11 +219,22 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 				//System.out.println("changement");
 			}
 			switch (newName) {
-				case "MouvXY", "GoToXY", "GoToElement" -> {
+				case "MouvXY", "GoToXY" -> {
 					if (fourmi.AvanceXY()) {
 						//System.out.println(newName +" fini: " + id);
 						fourmi.getComportement().setName("");
 						fourmi.setLastComportementFinished(id);
+					}
+				}
+				case "GoToElement" -> {
+					if (fourmi.AvanceXY()) {
+						//System.out.println(newName +" fini: " + id);
+						fourmi.getComportement().setName("");
+						fourmi.setLastComportementFinished(id);
+						if(! fourmi.isCarry()){
+							fourmi.setInf_posx(-15000);
+							fourmi.setInf_posy(-15000);
+						}
 					}
 				}
 				case "Stop" -> {
