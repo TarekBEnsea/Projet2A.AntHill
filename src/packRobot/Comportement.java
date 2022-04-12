@@ -6,13 +6,28 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 
 public class Comportement {
-
+    /**
+     * Retourne le nom de la fonction. Si le nom de la fonction est "" alors le comportement n'agis plus.
+     * @return le nom de la fonction
+     * @see #setName(String)
+     */
     public String getName() {
         return name;
     }
+
+    /**
+     * Permet de renommer le comportement. Si le nom de la fonction est "" alors le comportement n'agis plus.
+     * @param name nom de la fonction
+     * @see #getName()
+     */
     public void setName(String name) {
         this.name = name;
     }
+
+    /**
+     * Retourne l'id du comportement
+     * @return l'id du comportement
+     */
     public Integer getId() {
         return id;
     }
@@ -28,6 +43,16 @@ public class Comportement {
     private int infoX;
     private int infoY;
 
+    /**
+     * Choisi un nouveau comportement pour un robot spécifique en fonction de l'ancien comportement et de la liste des comportements.
+     * La fonction ne peut choisir qu'un comportement qui est plus prioritaire que le dernier.
+     * @param robot le robot pour lequel on choisi le comportement
+     * @param robots la liste de tous les robots
+     * @param ressources la liste de toutes les ressources
+     * @param comportementsimple la liste des comportements
+     * @param previousName le nom du dernier comportement du robot
+     * @param oldId l'id du dernier comportement du robot
+     */
     public Comportement(Robotxml robot,ArrayList<Robotxml> robots,ArrayList<Ressources> ressources, InterXml comportementsimple, String previousName, Integer oldId) {
         this.robot = robot;
         this.robots = robots;
@@ -67,6 +92,17 @@ public class Comportement {
         }
     }
 
+    /**
+     * Retourne True si toutes les conditions sont vérifier pour le choix du comportement sinon False.
+     * @return True si toutes les conditions sont vérifier pour le choix du comportement sinon False
+     * @see #capteurFourmiProche()
+     * @see #capteurFourmiProcheSansInfo()
+     * @see #capteurInformation()
+     * @see #capteurIsCarrying()
+     * @see #capteurLastComportementFinished()
+     * @see #capteuroutofbound()
+     * @see #capteurRessourceProche()
+     */
     public boolean capteurs(){
         return  capteurFourmiProche() &&
                 capteurRessourceProche() &&
@@ -77,6 +113,12 @@ public class Comportement {
                 capteurIsCarrying();
     }
 
+    /**
+     * Vérifie si un robot est en dehors de la carte.
+     * Par défaut retourne True s'il n'est pas activé dans le fichier XML.
+     * @return True si le robot est en dehors de la carte.
+     * @see #capteurs()
+     */
     private boolean capteuroutofbound() {
         boolean b = true;
         if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "outofbound")) == 1) {
@@ -88,7 +130,12 @@ public class Comportement {
         return b;
     }
 
-
+    /**
+     * Vérifie si un robot est proche d'une ressource.
+     * Par défaut retourne True s'il n'est pas activé dans le fichier XML.
+     * @return True si le robot est proche d'une ressource.
+     * @see #capteurs()
+     */
     private boolean capteurRessourceProche(){
         boolean b = true;
         if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "ressourcesnextto")) == 1){
@@ -104,6 +151,13 @@ public class Comportement {
         return b;
     }
 
+    /**
+     * Vérifie si le dernier comportement du robot correspond à celui spécifié dans le XML.
+     * Cela permet d'effectuer plusieurs comportements à la suite.
+     * Par défaut retourne True s'il n'est pas activé dans le fichier XML.
+     * @return True si le dernier comportement du robot correspond à celui spécifié dans le XML.
+     * @see #capteurs()
+     */
     private boolean capteurLastComportementFinished() {
         boolean b = true;
         int lastComportementFinished = Integer.parseInt(comportementsimple.ReadCompStateId(id, "lastcomportementfinished"));
@@ -113,6 +167,12 @@ public class Comportement {
         return b;
     }
 
+    /**
+     * Vérifie si un robot est proche d'un autre robot.
+     * Par défaut retourne True s'il n'est pas activé dans le fichier XML.
+     * @return True si le robot est proche d'un autre robot.
+     * @see #capteurs()
+     */
     private boolean capteurFourmiProche(){
         boolean b = true;
         if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "antsnextto")) == 1){
@@ -126,6 +186,12 @@ public class Comportement {
         return b;
     }
 
+    /**
+     * Vérifie si un robot est porteur des coordonnées d'une ressource.
+     * Par défaut retourne True s'il n'est pas activé dans le fichier XML.
+     * @return True si le robot est porteur des coordonnées d'une ressource.
+     * @see #capteurs()
+     */
     private boolean capteurInformation(){
         boolean b = true;
         if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "information")) == 1){
@@ -134,6 +200,12 @@ public class Comportement {
         return b;
     }
 
+    /**
+     * Vérifie si un robot est proche d'un autre robot et que ce dernier n'est pas porteur d'une information.
+     * Par défaut retourne True s'il n'est pas activé dans le fichier XML.
+     * @return True si le robot est proche d'un autre robot et que ce dernier n'est pas porteur d'une information.
+     * @see #capteurs()
+     */
     private boolean capteurFourmiProcheSansInfo(){
         boolean b = true;
         if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "fourmisansinfo")) == 1){
@@ -148,6 +220,12 @@ public class Comportement {
         return b;
     }
 
+    /**
+     * Vérifie si un robot porte une ressource.
+     * Par défaut retourne True s'il n'est pas activé dans le fichier XML.
+     * @return True si le robot porte une ressource.
+     * @see #capteurs()
+     */
     private boolean capteurIsCarrying(){
         boolean b = true;
         if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "iscarrying")) == 1){
@@ -156,6 +234,9 @@ public class Comportement {
         return b;
     }
 
+    /**
+     * Change certaines variables des robots en fonction du nom comportement
+     */
     public void XMLtoJava(){
         switch (name){
             case "MouvXY":
