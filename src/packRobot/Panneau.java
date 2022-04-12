@@ -33,6 +33,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	private boolean placement=false;
 
 	public Panneau() {
+		this.setBackground(Color.white);
 		this.setFocusable(true);
 		this.addKeyListener(this);
 	  	robots = new ArrayList<>();
@@ -73,15 +74,18 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 			g.drawString("Bravo !", 200, 200);
 		}
 		else{
+			int maxX=Robot.getArea().width;
+			int maxY=Robot.getArea().height;
 			g.setColor(getBackground());
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
-			for(Robot robot : robots) {
-				robot.draw(g);
-			}
-			for (Ressources unress : resources){
-				unress.draw(g);
-			}
-			fourmiliere.draw(g);
+			g.setColor(Color.BLACK);
+			g.drawLine(-cameraX,-cameraY,maxX-cameraX,-cameraY);
+			g.drawLine(maxX-cameraX,-cameraY,maxX-cameraX,maxY-cameraY);
+			g.drawLine(maxX-cameraX,maxY-cameraY,-cameraX,maxY-cameraY);
+			g.drawLine(-cameraX,maxY-cameraY,-cameraX,-cameraY);
+			for(Robot robot : robots) {robot.draw(g,cameraX,cameraY);}
+			for (Ressources unress : resources){unress.draw(g,cameraX,cameraY);}
+			fourmiliere.draw(g,cameraX,cameraY);
 		}
 	}
 
