@@ -211,7 +211,6 @@ public class Robot extends Element{
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
 		Graphics2D g2d = (Graphics2D) g;
-		BufferedImage test = op.filter(image, null);
 		g2d.drawImage(op.filter(image, null), (int) (posX-locationX)-cameraX, (int) (posY-locationY)-cameraY, null);
 
 		/*g.setColor(Color.magenta);
