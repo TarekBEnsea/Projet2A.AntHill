@@ -26,6 +26,10 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	private ArrayList<Ressources> resources;
 	private ArrayList<Integer> save_resources;
 	private MapBorder[] borders;
+	
+	private boolean[] touchesDeplacement; //up,left,down,right
+	private int cameraX,cameraY;
+	
 	private Fourmiliere fourmiliere;
 	double theta=0;
 	private Point click = new Point();
@@ -48,6 +52,9 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 		borders[1]= new MapBorder(BorderSide.RIGHT,Robot.getArea().getWidth());
 		borders[2]= new MapBorder(BorderSide.BOTTOM,Robot.getArea().getHeight());
 		borders[3]= new MapBorder(BorderSide.LEFT,0);
+		
+		touchesDeplacement = new boolean[4];
+		for(boolean t:touchesDeplacement) t=false;
 	}
 
 	@Override
@@ -132,7 +139,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 				save_resources = new ArrayList<>();
 			}
 
-
+			deplaceCamera();
 			this.repaint();
 			Thread.sleep(25);
 		}
@@ -249,6 +256,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 				fourmi1.setTime(comportementsimple.ReadCompState(fourmi1.getListeComportement().get(fourmi1.getK()), "time"));
 			}*/
 		}
+		deplaceCamera();
 		this.repaint();
 	}
 	/*
@@ -286,13 +294,36 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	public void desactivate_placement(){
 		placement=false;
 	}
+	
   	public void keyTyped(KeyEvent e) {}
-	public void keyPressed(KeyEvent e) {}
-	public void keyReleased(KeyEvent e) {
+	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(1);
 		}
+		switch (e.getKeyCode()){
+			case(38): touchesDeplacement[0]=true; break; //go up
+			case(37): touchesDeplacement[1]=true; break; //go left
+			case(40): touchesDeplacement[2]=true; break; //go down
+			case(39): touchesDeplacement[3]=true; break; //go right
+		}
 	}
+	public void keyReleased(KeyEvent e) {
+		switch (e.getKeyCode()){
+			case(38): touchesDeplacement[0]=false; break; //go up
+			case(37): touchesDeplacement[1]=false; break; //go left
+			case(40): touchesDeplacement[2]=false; break; //go down
+			case(39): touchesDeplacement[3]=false; break; //go right
+		}
+	}
+	private void deplaceCamera(){
+		int xRel=0;
+		int yRel=0;
+		if(touchesDeplacement[0]) cameraY-=2;
+		if(touchesDeplacement[1]) cameraX-=2;
+		if(touchesDeplacement[2]) cameraY+=2;
+		if(touchesDeplacement[3]) cameraX+=2;
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
