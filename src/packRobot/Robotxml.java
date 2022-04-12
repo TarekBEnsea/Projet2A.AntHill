@@ -80,7 +80,7 @@ public class Robotxml extends Robot{
     }
 
     /**
-     * Retourne le temps restant pour
+     * Retourne  .
      * @return
      */
     public long getTime() {
