@@ -345,17 +345,20 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		try {
-			drag.setX(e.getX());
-			drag.setY(e.getY());
-			double theta = Math.atan((drag.getY() - click.getY()) / (drag.getX() - click.getX()));
-			Robotxml r1 = robots.get(robots.size() - 1);
-			if ((drag.getX() - click.getX()) > 0)
-				r1.setTheta(theta);
-			else r1.setTheta(theta + Math.PI);
-			this.repaint();
-		}  catch (ArithmeticException a) {}
-		catch (IndexOutOfBoundsException a){}
+		if (e.getButton() == MouseEvent.BUTTON1 && placement) {
+			try {
+				drag.setX(e.getX());
+				drag.setY(e.getY());
+				double theta = Math.atan((drag.getY() - click.getY()) / (drag.getX() - click.getX()));
+				Robotxml r1 = robots.get(robots.size() - 1);
+				if ((drag.getX() - click.getX()) > 0)
+					r1.setTheta(theta);
+				else r1.setTheta(theta + Math.PI);
+				this.repaint();
+			} catch (ArithmeticException a) {
+			} catch (IndexOutOfBoundsException a) {
+			}
+		}
 	}
 
 	@Override
