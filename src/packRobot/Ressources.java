@@ -40,9 +40,6 @@ public class Ressources extends Element{
             this.image = new BufferedImage(taille, taille, 2);
             this.image.getGraphics().drawImage(tmp.getScaledInstance(taille, taille, 4), 0, 0, null);
 
-            this.image = new BufferedImage(taille, taille, 2);
-            this.image.getGraphics().drawImage(tmp.getScaledInstance(taille, taille, 4), 0, 0, null);
-
         } catch (IOException e) {
             System.out.println("image non cr�er");
         }

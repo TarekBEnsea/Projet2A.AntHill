@@ -19,14 +19,15 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 	private int cpt_fb=0;
 	private int cpt_pdt=0;
 	private long timeBetweenFrame=10;
-	InterXml PhysiqueRobot = new InterXml("src/RobotPhysique");
-	int headcount = PhysiqueRobot.ReadCompState("fourmi","effectif");
-	int ressourcesnum = PhysiqueRobot.ReadCompState("fourmi","ressources");
+	private InterXml PhysiqueRobot = new InterXml("src/RobotPhysique");
+	private int headcount = PhysiqueRobot.ReadCompState("fourmi","effectif");
+	private int ressourcesnum = PhysiqueRobot.ReadCompState("fourmi","ressources");
 	private boolean theEnd = false;
-	public ArrayList<Robotxml> robots;
-	public ArrayList<Ressources> resources;
-	public ArrayList<Integer> save_resources;
-	public MapBorder[] borders;
+	private ArrayList<Robotxml> robots;
+	private ArrayList<Ressources> resources;
+	private ArrayList<Integer> save_resources;
+	private MapBorder[] borders;
+	private Fourmiliere fourmiliere;
 
 	public Panneau() {
 		this.setFocusable(true);
@@ -34,6 +35,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 	  	robots = new ArrayList<>();
 	  	resources= new ArrayList<>();
 		save_resources = new ArrayList<>();
+		fourmiliere = new Fourmiliere();
 		for(int i = 0; i<headcount; i++) {
 			robots.add(new Robotxml(timeBetweenFrame));
 		}
@@ -84,6 +86,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 			for (Ressources unress : resources){
 				unress.draw(g);
 			}
+			fourmiliere.draw(g);
 		}
 	}
 
@@ -208,6 +211,12 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 					}
 				}
 			}
+
+			if(fourmi.enContact(fourmiliere)){
+				fourmi.setImage("src/packRobot/Ant2.png");
+				fourmi.setCarry(false);
+			}
+
 			for (Integer index : save_resources) {
 				resources.remove((int) index);
 				ressourcesnum -= 1;

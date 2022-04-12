@@ -68,13 +68,13 @@ public class Comportement {
     }
 
     public boolean capteurs(){
-        Boolean b1 = capteurFourmiProche();
-        Boolean b2 = capteurRessourceProche();
-        Boolean b3 = capteurLastComportementFinished();
-        Boolean b4 = capteuroutofbound();
-        Boolean b5 = capteurInformation();
-        Boolean b6 = capteurFourmiProcheSansInfo();
-        return b1 && b2 && b3 && b4 && b5 && b6;
+        return  capteurFourmiProche() &&
+                capteurRessourceProche() &&
+                capteurLastComportementFinished() &&
+                capteuroutofbound() &&
+                capteurInformation() &&
+                capteurFourmiProcheSansInfo() &&
+                capteurIsCarrying();
     }
 
     private boolean capteuroutofbound() {
@@ -144,6 +144,14 @@ public class Comportement {
                 }
             }
             b = robotsSansInfo.size() > 0;
+        }
+        return b;
+    }
+
+    private boolean capteurIsCarrying(){
+        boolean b = true;
+        if(Integer.parseInt(comportementsimple.ReadCompStateId(id, "iscarrying")) == 1){
+            b = robot.isCarry();
         }
         return b;
     }
