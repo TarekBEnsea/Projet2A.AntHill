@@ -34,7 +34,6 @@ public class Robotxml extends Robot{
     /**
      * Permet de changer la coordonnée en x de l'objectif du robot
      * @param avanceX coordonnée en x de l'objectif du robot
-     * @see Comportement#XMLtoJava()
      */
     public void setAvanceX(double avanceX) {
         this.avanceX = avanceX;
@@ -50,14 +49,24 @@ public class Robotxml extends Robot{
 
     /**
      * Permet de changer la coordonnée en x de l'information du robot
-     * @param inf_posx
+     * @param inf_posx la coordonnée en x de l'information du robot
      */
     public void setInf_posx(double inf_posx) {
         this.inf_posx = inf_posx;
     }
+
+    /**
+     * Permet de changer la coordonnée en y de l'information du robot
+     * @param inf_posy la coordonnée en y de l'information du robot
+     */
     public void setInf_posy(double inf_posy) {
         this.inf_posy = inf_posy;
     }
+
+    /**
+     * Retourne la coordonnée en x de l'information du robot
+     * @return la coordonnée en x de l'information du robot
+     */
     public double getInf_posx() {
         return inf_posx;
     }
