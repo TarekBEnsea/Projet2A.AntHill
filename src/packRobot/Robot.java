@@ -202,7 +202,7 @@ public class Robot extends Element{
 		}
 	}
 
-	public void draw(Graphics g){
+	public void draw(Graphics g, int cameraX,int cameraY){
 		double locationX = image.getWidth() / 2;
 		double locationY = image.getHeight() / 2;
 		AffineTransform tx = AffineTransform.getRotateInstance(theta + 3*Math.PI/10, locationX, locationY);
@@ -212,7 +212,7 @@ public class Robot extends Element{
 
 		Graphics2D g2d = (Graphics2D) g;
 		BufferedImage test = op.filter(image, null);
-		g2d.drawImage(test, (int) (posX-longueur/2), (int) (posY-largeur/2), null);
+		g2d.drawImage(op.filter(image, null), (int) (posX-locationX)-cameraX, (int) (posY-locationY)-cameraY, null);
 
 		/*g.setColor(Color.magenta);
 		g.drawRect((int) posX, (int) posY, 2,2);
