@@ -29,7 +29,7 @@ public class Fourmiliere extends Element{
         }
     }
 
-    public void draw(Graphics g){
-        g.drawImage(image, (int) (posX - width/2), (int) (posY - height/2), null);
+    public void draw(Graphics g,int cameraX, int cameraY){
+        g.drawImage(image, (int) (posX - width/2)-cameraX, (int) (posY - height/2)-cameraY, null);
     }
 }
