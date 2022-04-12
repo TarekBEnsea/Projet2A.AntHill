@@ -15,15 +15,17 @@ import java.util.Scanner;
  * Classe principale pour l'interface graphique du projet.
  */
 public class MainWindow extends JFrame{
-    private JPanel PhysicUserTAB = new JPanel();
-        private JPanel PhysicPan = new JPanel();
-    /** Onglet pour le renseignement des différentes instructions/.
+    /** Onglet pour le renseignement des différentes instructions.
      * Permet d'ajouter, supprimer des instructions et de lancer une simulation.
      * @see InstructionXML*/
     private JPanel progUserTAB = new JPanel();
     /** Panneau contenant les instructions*/
         private JPanel instructionsPan = new JPanel();
         private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
+    /** Onglet pour renseigner les propriétés physiques des Robots et les conditions de simulation*/
+    private JPanel PhysicUserTAB = new JPanel();
+    /** Panneau contenant les différents paramètres physiques*/
+        private JPanel PhysicPan = new JPanel();
     /** Onglet contenant le fichier XML généré.
      * Peut être mis-à-jour en renseignant les instruction dans l'onglet progUserTAB
      * Peut être complété à la main avant de lancer la simulation.*/
@@ -38,6 +40,8 @@ public class MainWindow extends JFrame{
      * Comprend le rafraichissement des positions et de l'affichage*/
     private Thread simu1 = new Thread();
     private Thread simu2 ;//= new Thread();
+    /** à true si une simulation est active, à false sinon.*/
+    private boolean runningSimulation=false;
 
     private int frameWidth;
     private int frameHeight;
@@ -51,9 +55,9 @@ public class MainWindow extends JFrame{
     public MainWindow(String saveFilename){ //"monProgXml"
         super("AntHill Custom Simulation Project Valpha 0.1");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frameWidth=(int) screenSize.getWidth();
-        frameHeight=(int) screenSize.getHeight();
-        Robot.initArea(this.frameWidth/2,this.frameHeight/2);
+        frameWidth=(int) screenSize.getWidth()*3/4;
+        frameHeight=(int) screenSize.getHeight()*3/4;
+        Robot.initArea(this.frameWidth-22,this.frameHeight-68);
 
         initProgPane();
         initXMLpane(saveFilename);
@@ -88,23 +92,35 @@ public class MainWindow extends JFrame{
                 scrollProg.validate();
             }
         });
-        JButton lanceSimu = new JButton("Simulation");
-        lanceSimu.addActionListener(new ActionListener() {
+        JButton resetSimu = new JButton("Reset Simulation");
+        resetSimu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 simu1.interrupt();
                 simulation1TAB = new Panneau();
                 simulation1TAB.setSimulationType(SimulationType.XMLCONTROLED);
-                simu1 = new Thread(simulation1TAB);
-                simu1.start();
                 try{tabManager.remove(2);} catch(IndexOutOfBoundsException e1) {}
                 tabManager.add("Sim1",simulation1TAB);
+                runningSimulation=false;
+            }
+        });
+        JButton lanceSimu = new JButton("Simulation");
+        lanceSimu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!runningSimulation){
+                    simu1 = new Thread(simulation1TAB);
+                    simu1.start();
+                }
+                else System.out.println("nope");
+                runningSimulation=true;
             }
         });
         JPanel boutonsCommandes = new JPanel();
         progUserTAB.add(boutonsCommandes,BorderLayout.PAGE_END);
         boutonsCommandes.setLayout(new GridLayout(1,3));
         boutonsCommandes.add(nvxInstruction);
+        boutonsCommandes.add(resetSimu);
         boutonsCommandes.add(lanceSimu);
     }
 
@@ -169,7 +185,7 @@ public class MainWindow extends JFrame{
     }
     
     /**
-     * Initialise les éléments de l'onglet progUserTAB.
+     * Initialise les éléments de l'onglet PhysicUserTAB.
      */
     private void initPhysPane(){
         PhysicUserTAB.setLayout(new BorderLayout());
@@ -223,9 +239,12 @@ public class MainWindow extends JFrame{
             ex.printStackTrace();
         }
     }
-/**
- * Créer un fichier XML de physique à partir des instructions données
- */
+
+    /**
+     * Crée un fichier XML de physique à partir des instructions données.
+     * @param listerInstructions
+     * @deprecated son utilisation est instable
+     */
     private void updateXMLphys(String[][] listerInstructions){
      CreatXml RobotPhysique = new CreatXml();
         for(String[] element : listerInstructions){
@@ -244,6 +263,7 @@ public class MainWindow extends JFrame{
             ex.printStackTrace();
         }
     }
+    
     /**
      * Sauve un text dans un fichier.
      * @param nomFichier Nom sous lequel le fichier est enregistré.
@@ -256,7 +276,7 @@ public class MainWindow extends JFrame{
             FileOutputStream fout= new FileOutputStream(fichier); //génere un flux sortant
             PrintStream pout = new PrintStream(fout);
 
-            System.out.println("*debut*\n"+contenu+"\n*fin*");
+            //System.out.println("*debut*\n"+contenu+"\n*fin*");
             pout.print(contenu);
             pout.close(); //sauve et ferme le fichier
         }
@@ -293,9 +313,10 @@ public class MainWindow extends JFrame{
         //tabManager.add("Physic", PhysicUserTAB);
         tabManager.add("XML", progXMLtextTAB);
         //tabManager.add("Sim1",simulation1TAB);
+        ((JButton)((JPanel) progUserTAB.getComponent(1)).getComponent(1)).doClick(); //JButton resetSimu -> ajoute le panneau de simulation
 
         add(tabManager);
-        setSize(frameWidth/2,frameHeight/2);
+        setSize(frameWidth,frameHeight);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
@@ -306,5 +327,9 @@ public class MainWindow extends JFrame{
         Robot.areaPrompt();
 
         AntHill.afficheFenetre();
+        EssaimRobot aze=new EssaimRobot();
+        aze.add(new Robotxml()); aze.add(new Robotxml());
+        aze.remplitMatrix();
+        aze.menacesProches(aze.get(0));
     }
 }
