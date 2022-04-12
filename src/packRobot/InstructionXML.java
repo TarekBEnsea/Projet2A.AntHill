@@ -158,9 +158,20 @@ public class InstructionXML extends JPanel {
         return synthTab;
     }
     public static int getNombreInstructions() {return nombreInstructions;}
-    public void supprInstruction(){
-        //to do
+    //public int getInstructionID() {return instructionID;}
+    public JButton getSuppInstructionButton() {return suppInstructionButton;}
+    //private class IdOverridenException extends Exception{}
+    public void decrID(){
+        if(IDaUpdate>0 && instructionID>IDremoved){
+            instructionID--;
+            IDaUpdate--;
+        }
+        //else throw new IdOverridenException();
     }
-
-    //public
+    public int delAndUpdate(){
+        IDaUpdate=nombreInstructions-instructionID-1;
+        nombreInstructions--;
+        IDremoved=instructionID;
+        return instructionID;
+    }
 }
