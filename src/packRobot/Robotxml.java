@@ -11,6 +11,8 @@ public class Robotxml extends Robot{
     private Comportement comportement;
     private ArrayList<String> listeComportement = new ArrayList<>();
     private int lastComportementFinished;
+    private double inf_posx = -15000;
+    private double inf_posy = -15000;
 
     public Robotxml(long timeBetweenFrame) {
         super(timeBetweenFrame);
@@ -21,6 +23,19 @@ public class Robotxml extends Robot{
     }
     public void setAvanceY(double avanceY) {
         this.avanceY = avanceY;
+    }
+
+    public void setInf_posx(double inf_posx) {
+        this.inf_posx = inf_posx;
+    }
+    public void setInf_posy(double inf_posy) {
+        this.inf_posy = inf_posy;
+    }
+    public double getInf_posx() {
+        return inf_posx;
+    }
+    public double getInf_posy() {
+        return inf_posy;
     }
 
     public long getTime() {
@@ -43,12 +58,6 @@ public class Robotxml extends Robot{
     public Comportement getComportement() {
         return comportement;
     }
-    public int getK() {
-        return k;
-    }
-    public void setK(int k) {
-        this.k = k;
-    }
     public ArrayList<String> getListeComportement() {
         return listeComportement;
     }
@@ -58,5 +67,9 @@ public class Robotxml extends Robot{
         else this.setOrdreTheta(Math.atan((avanceY-posY)/(avanceX-posX))+Math.PI);
         updateMouv();
         return Math.abs(avanceY-posY) < 1 && Math.abs(avanceX-posX) < 1;
+    }
+
+    public boolean hasInformation(){
+        return (inf_posx!=-15000 || inf_posy!=-15000);
     }
 }

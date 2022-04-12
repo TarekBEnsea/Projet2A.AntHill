@@ -103,17 +103,34 @@ public class InterXml {
         return Integer.valueOf(value);
     }
     // Modifier une variable d'état comprise dans un noeud
-    public void WriteCompVal(String s, String Com, String value){
-        Node Comp = document.getElementsByTagName(s).item(0);
-        NodeList list = Comp.getChildNodes();
-
-        for (int i = 0; i < list.getLength(); i++) {
-            Node node = list.item(i);
-            // Récupérer l'élément du comportement et modifier la valeur
-            if (Com.equals(node.getNodeName())) {
-                node.setTextContent(value);
+    public void WriteCompVal(int Id, String Com, String value){
+        Node comp = document.getElementsByTagName("Comportement").item(0);
+        NodeList listfonction = comp.getChildNodes();
+        Node node = null;
+        int index = 0;
+        for(int i=0; i < (listfonction.getLength()-1)/2;i++) {
+            index = 2 * i + 1;
+            node = listfonction.item(index);
+            ArrayList<Integer> ids = ReadIds(node.getNodeName());
+            //System.out.println("Nom " + node.getNodeName() + " Ids " + ids);
+            for (int j = 0; j < ids.size(); j += 2) {
+                //System.out.println("Index : " + j);
+                if (ids.get(j) == Id) {
+                    //System.out.println("Nom fonction: "+node.getNodeName());
+                    Node node1 = document.getElementsByTagName(node.getNodeName()).item(ids.get(j + 1));
+                    NodeList list = node1.getChildNodes();
+                    for (int k = 0; k < list.getLength(); k++) {
+                        Node node2 = list.item(k);
+                        // Récupérer l'élément du comportement et modifier la valeur
+                        if (Com.equals(node2.getNodeName())) {
+                            node2.setTextContent(value);
+                        }
+                    }
+                }
             }
         }
+
+
         try {
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer transformer = tf.newTransformer();

@@ -163,7 +163,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				runnable(comportementsimple);
+				run_simulation(comportementsimple);
 				if(theEnd){
 					this.cancel();
 				}
@@ -171,37 +171,37 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 		}, 0, timeBetweenFrame);
 	}
 
-	private void runnable(InterXml comportementsimple) {
-		Robotxml fourmi1, fourmi2;
+	private void run_simulation(InterXml comportementsimple) {
+		Robotxml fourmi;
 		for (int i = 0; i < robots.size(); i++) {
-			fourmi1 = robots.get(i);
-			String oldName = fourmi1.getComportement().getName();
-			Integer oldId = fourmi1.getComportement().getId();
-			fourmi1.setComportement(new Comportement(fourmi1, robots, resources, comportementsimple, oldName, oldId));
-			String newName = fourmi1.getComportement().getName();
-			Integer id = fourmi1.getComportement().getId();
+			fourmi = robots.get(i);
+			String oldName = fourmi.getComportement().getName();
+			Integer oldId = fourmi.getComportement().getId();
+			fourmi.setComportement(new Comportement(fourmi, robots, resources, comportementsimple, oldName, oldId));
+			String newName = fourmi.getComportement().getName();
+			Integer id = fourmi.getComportement().getId();
 
 			for (Ressources resource : resources) {
 				if (resource.getTaille() < 10) {
 					save_resources.add(resources.indexOf(resource));
 				}
-				if (fourmi1.enContact(resource) && !fourmi1.isCarry()) {
+				if (fourmi.enContact(resource) && !fourmi.isCarry()) {
 					resource.setTaille(resource.getTaille() - 10);
 					resource.rayonContact = resource.rayonContact - 5;
-					fourmi1.setCarry(true);
+					fourmi.setCarry(true);
 					switch (resource.getName()) {
 						case "fraise" -> {
-							fourmi1.setImage("src/packRobot/ant+fr.png");
+							fourmi.setImage("src/packRobot/ant+fr.png");
 							cpt_fr++;
 							//System.out.println("Le nombre de fraise récuperée est de : " + cpt_fr);
 						}
 						case "fb" -> {
-							fourmi1.setImage("src/packRobot/ant+fb.png");
+							fourmi.setImage("src/packRobot/ant+fb.png");
 							cpt_fb++;
 							//System.out.println("Le nombre de framboise récuperée est de : " + cpt_fb);
 						}
 						case "pdt" -> {
-							fourmi1.setImage("src/packRobot/ant+pdt.png");
+							fourmi.setImage("src/packRobot/ant+pdt.png");
 							cpt_pdt++;
 							//System.out.println("Le nombre de pomme de terre récuperée est de : " + cpt_pdt);
 						}
@@ -218,24 +218,28 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 			save_resources.clear();
 
 			if (!oldName.equals(newName)) {
-				fourmi1.getComportement().XMLtoJava();
+				fourmi.getComportement().XMLtoJava();
 				//System.out.println("changement");
 			}
 			switch (newName) {
-				case "MouvXY", "GoToXY" -> {
-					if (fourmi1.AvanceXY()) {
+				case "MouvXY", "GoToXY", "GoToElement" -> {
+					if (fourmi.AvanceXY()) {
 						//System.out.println(newName +" fini: " + id);
-						fourmi1.getComportement().setName("");
-						fourmi1.setLastComportementFinished(id);
+						fourmi.getComportement().setName("");
+						fourmi.setLastComportementFinished(id);
 					}
 				}
 				case "Stop" -> {
-					fourmi1.setTime(fourmi1.getTime() - timeBetweenFrame);
-					if (fourmi1.getTime() < 0) {
+					fourmi.setTime(fourmi.getTime() - timeBetweenFrame);
+					if (fourmi.getTime() < 0) {
 						//System.out.println("Stop fini");
-						fourmi1.getComportement().setName("");
-						fourmi1.setLastComportementFinished(id);
+						fourmi.getComportement().setName("");
+						fourmi.setLastComportementFinished(id);
 					}
+				}
+				case "GetInformation", "Communique" -> {
+					fourmi.getComportement().setName("");
+					fourmi.setLastComportementFinished(id);
 				}
 				default -> {
 				}
