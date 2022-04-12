@@ -41,7 +41,6 @@ public class MainWindow extends JFrame{
 
         initProgPane();
         initXMLpane(saveFilename);
-        initPhysPane();
     }
 
     private void initProgPane(){
@@ -166,7 +165,27 @@ public class MainWindow extends JFrame{
             ex.printStackTrace();
         }
     }
-
+/**
+ * Créer un fichier XML de physique à partir des instructions données
+ */
+    private void updateXMLphys(String[][] listerInstructions){
+     CreatXml RobotPhysique = new CreatXml();
+        for(String[] element : listerInstructions){
+            Element fonction = null;
+            for(int i=0; i < element.length; i+=2) {
+                System.out.println(element[i]);
+                if(element[i].equals("name")){
+                    fonction = RobotPhysique.newFonction(element[i+1]);
+                }
+                RobotPhysique.newElement(element[i], element[i+1], fonction);
+            }
+        }
+        try {
+            RobotPhysique.finishXML("src/RobotPhysqiue.xml");
+        } catch (TransformerException ex) {
+            ex.printStackTrace();
+        }
+    }
     /**
      * Sauve un text dans un fichier.
      * @param nomFichier Nom sous lequel le fichier est enregistré.
@@ -209,7 +228,7 @@ public class MainWindow extends JFrame{
     public void afficheFenetre(){
 
         tabManager.add("Program", progUserTAB);
-        tabManager.add("Physic", PhysicUserTAB);
+        //tabManager.add("Physic", PhysicUserTAB);
         tabManager.add("XML", progXMLtextTAB);
 
 

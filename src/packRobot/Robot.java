@@ -116,7 +116,7 @@ public class Robot extends Element{
 
 		this.ordreTheta=theta;
 		this.rayonContact = 5;
-		this.rayonDetect=rayonContact+90;
+		this.rayonDetect= rayonContact+10;
 		InterXml Physiquerobot = new InterXml("src/RobotPhysique");
 		this.largeur = Physiquerobot.ReadCompState("taille","largeur");
 		this.longueur = Physiquerobot.ReadCompState("taille","longueur");
