@@ -35,6 +35,7 @@ public class InstructionXML extends JPanel {
     private JComboBox typeLimite;
         private JTextField limite;
 
+
     public InstructionXML() {
         instructionID=nombreInstructions++;
         suppInstructionButton = new JButton("-");

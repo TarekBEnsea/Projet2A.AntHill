@@ -25,5 +25,9 @@
         <ressources>10</ressources>
     </fourmi>
 
+    <fourmilière>
+        <x>20</x>
+        <y>20</y>
+    </fourmilière>
 
 </robot>

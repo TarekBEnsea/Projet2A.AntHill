@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class MainWindow extends JFrame{
     private JPanel PhysicUserTAB = new JPanel();
-        private JPanel PhysicPan = new JPanel()
+        private JPanel PhysicPan = new JPanel();
     /** Onglet pour le renseignement des différentes instructions/.
      * Permet d'ajouter, supprimer des instructions et de lancer une simulation.
      * @see InstructionXML*/

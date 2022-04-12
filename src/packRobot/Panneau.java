@@ -113,8 +113,6 @@ public class Panneau extends JPanel implements KeyListener, Runnable {
 						switch (resource.getName()) {
 							case "fraise" -> {
 								fourmi1.setImage("src/packRobot/ant+fr.png");
-								cpt_fr++;
-								//System.out.println("Le nombre de fraise récuperée est de : " + cpt_fr);
 							}
 							case "fb" -> {
 								fourmi1.setImage("src/packRobot/ant+fb.png");
