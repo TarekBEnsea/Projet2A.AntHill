@@ -69,7 +69,6 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	}
 	
   	public void paintComponent(Graphics g) {
-		this.setBackground(Color.white);
 		if(theEnd){
 			g.setColor(Color.red);
 			g.setFont(new Font("Arial", Font.BOLD, 50));
@@ -304,11 +303,30 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 		placement=false;
 	}
   	public void keyTyped(KeyEvent e) {}
-	public void keyPressed(KeyEvent e) {}
-	public void keyReleased(KeyEvent e) {
+	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(1);
 		}
+		else switch (e.getKeyCode()){
+			case(38): touchesDeplacement[0]=true; break; //go up
+			case(37): touchesDeplacement[1]=true; break; //go left
+			case(40): touchesDeplacement[2]=true; break; //go down
+			case(39): touchesDeplacement[3]=true; break; //go right
+		}
+	}
+	public void keyReleased(KeyEvent e) {
+		switch (e.getKeyCode()){
+			case(38): touchesDeplacement[0]=false; break; //go up
+			case(37): touchesDeplacement[1]=false; break; //go left
+			case(40): touchesDeplacement[2]=false; break; //go down
+			case(39): touchesDeplacement[3]=false; break; //go right
+		}
+	}
+	private void deplaceCamera(){
+		if(touchesDeplacement[0]) cameraY-=2;
+		if(touchesDeplacement[1]) cameraX-=2;
+		if(touchesDeplacement[2]) cameraY+=2;
+		if(touchesDeplacement[3]) cameraX+=2;
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
