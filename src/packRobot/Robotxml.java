@@ -80,16 +80,25 @@ public class Robotxml extends Robot{
     }
 
     /**
-     * Retourne  .
-     * @return
+     * Retourne  le temps restant pour le fonctionnement d'un comportement.
+     * @return le temps restant pour le fonctionnement d'un comportement.
      */
     public long getTime() {
         return time;
     }
+
+    /**
+     * Permet de changer le temps pendant lequel un comportement doit fonctionner
+     * @param time le temps pendant lequel un comportement doit fonctionner
+     */
     public void setTime(long time) {
         this.time = time;
     }
 
+    /**
+     * Permet d'obtenir le dernier comportement fini par le robot
+     * @return
+     */
     public int getLastComportementFinished() {
         return lastComportementFinished;
     }
@@ -102,9 +111,6 @@ public class Robotxml extends Robot{
     }
     public Comportement getComportement() {
         return comportement;
-    }
-    public ArrayList<String> getListeComportement() {
-        return listeComportement;
     }
 
     public boolean AvanceXY(){
