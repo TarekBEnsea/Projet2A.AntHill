@@ -53,7 +53,7 @@ public class MainWindow extends JFrame{
      * @param saveFilename Chemin et nom du fichier XML sous lequel seront enregistrés les paramètres de simulation.
      */
     public MainWindow(String saveFilename){ //"monProgXml"
-        super("AntHill Custom Simulation Project Valpha 0.1");
+        super("AntHill Vbeta1.0");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frameWidth=(int) screenSize.getWidth()*3/4;
         frameHeight=(int) screenSize.getHeight()*3/4;
