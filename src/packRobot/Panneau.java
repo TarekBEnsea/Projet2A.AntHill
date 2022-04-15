@@ -31,6 +31,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	private Point click = new Point();
 	private Point drag = new Point();
 	private boolean placement=false;
+	private boolean dragged=false;
 
 	public Panneau() {
 		this.setBackground(Color.white);

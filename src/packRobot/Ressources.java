@@ -15,7 +15,11 @@ public class Ressources extends Element{
     private int taille = 30;
     private int oldtaille = 30;
 
-
+    /**
+     *
+     * @param name
+     * @see
+     */
     public Ressources(String name){
         this.name=name;
         rayonContact =15;
