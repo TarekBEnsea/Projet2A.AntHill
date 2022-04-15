@@ -13,6 +13,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	/*private int posX = -50;
 	private int posY = -50;
 	private int theta = 0;*/
+	private int cameraY, cameraX;
 	private SimulationType simulationType=SimulationType.DEFAULT;
 	private int cpt_fr = 0;
 	private int cpt_fb=0;

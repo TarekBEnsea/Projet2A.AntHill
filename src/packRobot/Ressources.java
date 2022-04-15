@@ -86,10 +86,10 @@ public class Ressources extends Element{
     public String toString() {
         return "Point{ X=" + posX +", Y=" + posY +'}';
     }
-    public void draw(Graphics g){
+    public void draw(Graphics g,int cameraX, int cameraY){
         if(taille > 0) {
             if(oldtaille - taille > 0) image = image.getScaledInstance(taille,taille,Image.SCALE_SMOOTH);
-            g.drawImage(image, (int) (posX - rayonContact), (int) (posY - rayonContact), null);
+            g.drawImage(image, (int) (posX - rayonContact)-cameraX, (int) (posY - rayonContact)-cameraY, null);
            /* g.setColor(Color.BLUE);
             g.drawOval((int) (posX-rayonContact), (int) (posY-rayonContact), (int) (2*rayonContact), (int) (2*rayonContact));
             g.setColor(Color.green);
