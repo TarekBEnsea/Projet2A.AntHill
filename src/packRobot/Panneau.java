@@ -59,11 +59,11 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	@Override
 	public void run() {
 		switch (simulationType){
-			case DEFAULT -> {System.out.println("ceci n'en est pas");
+			case DEFAULT -> {System.out.println("Lancement simulation auto");
 				try {go();
 				} catch (InterruptedException e) {e.printStackTrace();}
 			}
-			case XMLCONTROLED -> {System.out.println("ceci est du XML"); testgo();}
+			case XMLCONTROLED -> {System.out.println("Lancement simulation XML"); testgo();}
 		}
 	}
 
