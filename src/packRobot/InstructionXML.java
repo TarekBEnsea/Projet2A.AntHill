@@ -115,7 +115,6 @@ public class InstructionXML extends JPanel {
             triggerPan.add(new JLabel("&"));
             triggerPan.add(cbox);
             nombreTrigger+=1;
-            System.out.println(cbox.getText());
             if(cbox.getText().equals("fin instruc")){
                 indexTrig = 2*nombreTrigger-1;
                 cbox.addItemListener(new ItemListener() {

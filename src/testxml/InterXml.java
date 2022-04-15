@@ -22,8 +22,8 @@ public class InterXml {
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
     /**
-     * Appel du contructeur InterXml
-     * @param s
+     * Appel du contructeur InterXml en créant un document Parse
+     * @param s le chemin dans lequel le fichier est créé
      */
     public InterXml(String s) {
         this.file = s;
@@ -34,12 +34,20 @@ public class InterXml {
             e.printStackTrace();
         }
     }
-    // Lire la racine du document XML
+
+    /**
+     * Retourne la racine du fichier XML
+     */
+// Lire la racine du document XML
     public void ReadRootdoc(){
         String rootTag = document.getDocumentElement().getTagName();
         System.out.println("root tag: " + rootTag);
     }
-    // Lire les variables contenu dans un noeud
+
+    /**
+     * Relis les sous noeuds d'une balise contenu dans un fichier XML
+     * @param s le nom du noeud dont on veut lire les variables
+     */
     public void ReadXmlNode(String s){
         Node comp = document.getElementsByTagName(s).item(0);
         NodeList listcomp = comp.getChildNodes();
@@ -50,6 +58,11 @@ public class InterXml {
         }
     }
 
+    /**
+     *
+     * @param s
+     * @return
+     */
     public ArrayList<Integer> ReadIds(String s){
 
         NodeList fonction = document.getElementsByTagName(s);
@@ -94,6 +107,11 @@ public class InterXml {
         return "-5";
     }
 
+    /**
+     * Cette fonction retourne une list de tout les noeuds contenu dans un fichier XML
+     * @param s prend l'élément racine du fichier XML
+     * @return la liste des noeuds
+     */
     public ArrayList<String> ReturnXmlNode(String s){
         Node comp = document.getElementsByTagName(s).item(0);
         NodeList listcomp = comp.getChildNodes();
@@ -105,7 +123,11 @@ public class InterXml {
         return list;
     }
 
-    //Lire la valeur d'une variable dans un noeud
+    /**
+     * Retourne la valeur contenu dans la variable d'un noeud
+     * @param s le nom du noeud
+     * @param Com le nom de la variable
+     */
     public Integer ReadCompState(String s, String Com){
         Element node = (Element) document.getElementsByTagName(s).item(0);
         //System.out.println(s);

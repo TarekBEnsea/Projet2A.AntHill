@@ -13,6 +13,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	/*private int posX = -50;
 	private int posY = -50;
 	private int theta = 0;*/
+	private boolean[] touchesDeplacement;
 	private int cameraY, cameraX;
 	private SimulationType simulationType=SimulationType.DEFAULT;
 	private int cpt_fr = 0;
@@ -44,8 +45,8 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 		fourmiliere = new Fourmiliere();
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		rand_ants(15);
-		rand_ress(10);
+		touchesDeplacement = new boolean[4];
+		for(boolean b : touchesDeplacement) {b = false;}
 		borders=new MapBorder[4];
 		borders[0]= new MapBorder(BorderSide.TOP,0);
 		borders[1]= new MapBorder(BorderSide.RIGHT,Robot.getArea().getWidth());
@@ -265,6 +266,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 				fourmi1.setTime(comportementsimple.ReadCompState(fourmi1.getListeComportement().get(fourmi1.getK()), "time"));
 			}*/
 		}
+		deplaceCamera();
 		this.repaint();
 	}
 	/*
