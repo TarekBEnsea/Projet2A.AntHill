@@ -310,12 +310,13 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 
 	@Override
 	public void mousePressed(MouseEvent e){
-		//if(placement==true) {
+		if(placement==true) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				click.setX(e.getX());
 				click.setY(e.getY());
 				Robotxml robot = new Robotxml(e.getX(), e.getY(), 0,timeBetweenFrame);
 				robots.add(robot);
+				dragged = true;
 				this.repaint();
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
 				String name;
@@ -325,9 +326,10 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 				else name = "fb";
 				Ressources ress = new Ressources(e.getX(), e.getY(), name);
 				resources.add(ress);
+				dragged = false;
 				this.repaint();
 			}
-		//}
+		}
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -345,7 +347,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1 && placement) {
+		if (dragged && placement) {
 			try {
 				drag.setX(e.getX());
 				drag.setY(e.getY());

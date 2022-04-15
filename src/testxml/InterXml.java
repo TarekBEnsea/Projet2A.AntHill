@@ -21,6 +21,10 @@ public class InterXml {
 
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
+    /**
+     * Appel du contructeur InterXml
+     * @param s
+     */
     public InterXml(String s) {
         this.file = s;
         try {
@@ -60,6 +64,13 @@ public class InterXml {
         }
         return ids;
     }
+
+    /**
+     * Permet de lire l'Id d'un comportement dont on connait le nom dans un fichier XML qui possède la racine Comportement
+     * @param Id
+     * @param s
+     * @return
+     */
     public String ReadCompStateId(int Id, String s){
         Node comp = document.getElementsByTagName("Comportement").item(0);
         NodeList listfonction = comp.getChildNodes();
