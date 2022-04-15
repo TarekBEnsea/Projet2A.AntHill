@@ -43,6 +43,8 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	  	resources= new ArrayList<>();
 		save_resources = new ArrayList<>();
 		fourmiliere = new Fourmiliere();
+		rand_ants(headcount);
+		rand_ress(ressourcesnum);
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		touchesDeplacement = new boolean[4];
@@ -184,6 +186,12 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 			for (Ressources resource : resources) {
 				if (resource.getTaille() < 10) {
 					save_resources.add(resources.indexOf(resource));
+					for(Robotxml fourmis : robots){
+						if(resource.getPosX() == fourmis.getInf_posx() && resource.getPosY() == fourmis.getInf_posy()){
+							fourmis.setInf_posx(-15000);
+							fourmis.setInf_posy(-15000);
+						}
+					}
 				}
 				if (fourmi.enContact(resource) && !fourmi.isCarry()) {
 					resource.setTaille(resource.getTaille() - 10);
@@ -237,7 +245,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 						//System.out.println(newName +" fini: " + id);
 						fourmi.getComportement().setName("");
 						fourmi.setLastComportementFinished(id);
-						if(! fourmi.isCarry()){
+						if(!fourmi.isCarry()){
 							fourmi.setInf_posx(-15000);
 							fourmi.setInf_posy(-15000);
 						}
@@ -336,10 +344,13 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 
 	@Override
 	public void mousePressed(MouseEvent e){
-		if(placement==true) {
-			if (e.getButton() == MouseEvent.BUTTON1) {
+		if(placement) {
+			if(click.getX() == e.getX() && click.getY() == e.getY()) return;
+			else {
 				click.setX(e.getX());
 				click.setY(e.getY());
+			}
+			if (e.getButton() == MouseEvent.BUTTON1) {
 				Robotxml robot = new Robotxml(e.getX(), e.getY(), 0,timeBetweenFrame);
 				robots.add(robot);
 				dragged = true;
@@ -352,6 +363,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 				else name = "fb";
 				Ressources ress = new Ressources(e.getX(), e.getY(), name);
 				resources.add(ress);
+				ressourcesnum++;
 				dragged = false;
 				this.repaint();
 			}

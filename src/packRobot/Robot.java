@@ -46,7 +46,7 @@ public class Robot extends Element{
 	private double deltaT;
 	private static int areaWidth;
 	private static int areaHeight;
-	public final double FULLRANGE=rayonDetect;
+	public final double FULLRANGE;
 	public final double MIDRANGE=(rayonContact+rayonDetect)/2;
 	public final double MINRANGE=Math.min(2*rayonContact,rayonDetect);
 
@@ -109,6 +109,7 @@ public class Robot extends Element{
 		this.rayonContact = 5;
 		this.rayonDetect=rayonContact+10;
 		this.deltaT=timeBetweenFrame/25.0;
+		this.FULLRANGE=rayonDetect;
 		//this.rayonContact=Math.sqrt(Math.pow(this.largeur,2)+Math.pow(this.longueur,2));
 		setImage("src/packRobot/Ant2.png");
 	}
@@ -125,6 +126,7 @@ public class Robot extends Element{
 		this.ordreTheta=theta;
 		this.rayonContact = 5;
 		this.rayonDetect= rayonContact+10;
+		this.FULLRANGE=rayonDetect;
 
 		try {
 			BufferedImage tmp = ImageIO.read(new File("src/packRobot/Ant2.png"));
