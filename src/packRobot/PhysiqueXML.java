@@ -18,6 +18,10 @@ public class PhysiqueXML extends JPanel {
     JRadioButton[] typePlacement;
     /** Permet de sélectionner le scénario qui détermine les conditions de simulation et de victoire*/
     private JComboBox<String> scenarioVictoire;
+    /** Largeur (coordonnée X) de la zone de simulation*/
+    private JTextField largeurSimu;
+    /** Hauteur (coordonnée Y) de la zone de simulation*/
+    private JTextField hauteurSimu;
 
     /**
      * Construit un nouveau panneau {@link JPanel} pour renseigner la physique des Robots
@@ -32,6 +36,8 @@ public class PhysiqueXML extends JPanel {
         ButtonGroup groupPlacementBoutons = new ButtonGroup();
         for(JRadioButton jb:typePlacement) groupPlacementBoutons.add(jb);
         scenarioVictoire = new JComboBox<>(nomsScenarion);
+        largeurSimu = new JTextField(4);
+        hauteurSimu = new JTextField(4);
 
         insertInPane();
     }
@@ -40,9 +46,64 @@ public class PhysiqueXML extends JPanel {
      * Place tous les sous-composants de la bibliothèque swing dans le panneau {@link JPanel} principal
      */
     private void insertInPane(){
-        add(new JLabel("Effectifs"));
-        add(effectifRobot);
-        add(new JLabel("Ressources"));
+        setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
+        JPanel fourmisPan = new JPanel();
+        fourmisPan.add(new JLabel("Effectifs"));
+        fourmisPan.add(effectifRobot);
+        fourmisPan.add(new JLabel("Ressources"));
+        fourmisPan.add(nbRessources);
+        fourmisPan.add(new JLabel("Longueur Robot:"));
+        fourmisPan.add(longueurRobot);
+        fourmisPan.add(new JLabel("Largeur Robot:"));
+        fourmisPan.add(largeurRobot);
+        add(fourmisPan);
+
+        JPanel placementPan = new JPanel();
+        placementPan.add(new JLabel("Placement:"));
+        for(JRadioButton jb:typePlacement) placementPan.add(jb);
+        typePlacement[0].doClick();
+        placementPan.add(new JLabel("Dimensions de la zone"));
+        placementPan.add(new JLabel("X:"));
+        placementPan.add(largeurSimu);
+        placementPan.add(new JLabel("Y:"));
+        placementPan.add(hauteurSimu);
+        add(placementPan);
+
+        JPanel scenarioPan = new JPanel();
+        scenarioPan.add(scenarioVictoire);
+        add(scenarioPan);
+    }
+
+    /**
+     * Génère un tableau de chaînes de caractères contenant alternativement
+     * le nom des paramètres de simulation et leur valeur (! au format String)
+     * @return Tableau des paramètres de simulation
+     */
+    public String[] generateSynthTab(){
+        String[] synthTab = new String[2*4];
+        synthTab[0]="nbRobot";
+        synthTab[1]=effectifRobot.getText();
+        synthTab[2]="nbRessources";
+        synthTab[3]=nbRessources.getText();
+        synthTab[4]="longeurRobot";
+        synthTab[5]=longueurRobot.getText();
+        synthTab[6]="largeurRobot";
+        synthTab[7]=largeurRobot.getText();
+
+        return synthTab;
+    }
+
+    /**
+     * Renseigne sur la modalité de placement des {@link Element} de simulation
+     * @return true si le placement se fait à la souris, false s'il est réalisé automatiquement
+     * @throws NullPointerException si aucune des cases n'a été cochée
+     */
+    public boolean isPlacementFree() throws NullPointerException{
+        if(typePlacement[0].isSelected()) return false;
+        else if(typePlacement[1].isSelected()) return true;
+        else throw new NullPointerException("No Button Selected");
+    }
+}
         add(nbRessources);
         add(new JLabel("Longueur Robot:"));
         add(longueurRobot);
