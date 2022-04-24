@@ -21,30 +21,34 @@ public class MainWindow extends JFrame{
     private JPanel progUserTAB = new JPanel();
     /** Panneau contenant les instructions*/
         private JPanel instructionsPan = new JPanel();
+        /** Liste des instructions (éléments de comportement)*/
         private LinkedList<InstructionXML> listeInstructions = new LinkedList<InstructionXML>();
-    /** Onglet pour renseigner les propriétés physiques des Robots et les conditions de simulation*/
-    private JPanel PhysicUserTAB = new JPanel();
-    /** Panneau contenant les différents paramètres physiques*/
-        private JPanel PhysicPan = new JPanel();
     /** Onglet contenant le fichier XML généré.
      * Peut être mis-à-jour en renseignant les instruction dans l'onglet progUserTAB
      * Peut être complété à la main avant de lancer la simulation.*/
     private JPanel progXMLtextTAB = new JPanel();
+        /**Panel contenant les boutons de gestion du fichier XML */
         private JPanel boutonsXMLPAN = new JPanel();
             //private JButton[] boutonsXML;
+        /**Zone de visualisation du fichier XML*/
         private JTextArea xmlProgArea= new JTextArea();
+    /** Onglet pour renseigner les propriétés physiques des Robots et les conditions de simulation*/
+    private JPanel PhysicUserTAB;
     /** Onglet contenant la simulation d'essaims de robots*/
     private Panneau simulation1TAB ;//= new JPanel();
-    private JPanel simulation2TAB ;//= new JPanel();
+    //private Panneau simulation2TAB ;//= new JPanel();
     /** Thread sur lequel tourne la simulation.
      * Comprend le rafraichissement des positions et de l'affichage*/
     private Thread simu1 = new Thread();
-    private Thread simu2 ;//= new Thread();
+    //private Thread simu2 ;//= new Thread();
     /** à true si une simulation est active, à false sinon.*/
     private boolean runningSimulation=false;
 
+    /** Largeur initiale de la fenêtre de l'interface*/
     private int frameWidth;
+    /** Hauteur initiale de la fenêtre de l'interface*/
     private int frameHeight;
+    /** Gestionnaire d'onglets de l'interface*/
     private JTabbedPane tabManager =new JTabbedPane();
 
 
@@ -58,9 +62,11 @@ public class MainWindow extends JFrame{
         frameWidth=(int) screenSize.getWidth()*3/4;
         frameHeight=(int) screenSize.getHeight()*3/4;
         Robot.initArea(this.frameWidth-22,this.frameHeight-68);
+        Robot.initArea((int)(1.5*this.frameWidth),(int)(1.5*this.frameHeight));
 
         initProgPane();
         initXMLpane(saveFilename);
+        PhysicUserTAB= new PhysiqueXML();
     }
 
     /**
@@ -99,7 +105,7 @@ public class MainWindow extends JFrame{
                 simu1.interrupt();
                 simulation1TAB = new Panneau();
                 simulation1TAB.setSimulationType(SimulationType.XMLCONTROLED);
-                try{tabManager.remove(2);} catch(IndexOutOfBoundsException e1) {}
+                try{tabManager.remove(2);} catch(IndexOutOfBoundsException e1) {}// remove(2) si on n'affiche pas PhysicUserTAB, remove(3) sinon
                 tabManager.add("Sim1",simulation1TAB);
                 runningSimulation=false;
                 simulation1TAB.activate_placement();
@@ -185,19 +191,6 @@ public class MainWindow extends JFrame{
 
         for (JButton button : boutonsXML) boutonsXMLPAN.add(button);
     }
-    
-    /**
-     * Initialise les éléments de l'onglet PhysicUserTAB.
-     */
-    private void initPhysPane(){
-        PhysicUserTAB.setLayout(new BorderLayout());
-
-        JScrollPane scrollProg = new JScrollPane(PhysicPan);
-        scrollProg.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        PhysicUserTAB.add(scrollProg,BorderLayout.CENTER);
-        PhysiqueXML phys = new PhysiqueXML();
-        PhysicPan.add(phys);
-    }
 
     /**
      * Initialise le bouton de suppression d'instruction pour l'objet InstructionXML ciblée.
@@ -219,7 +212,7 @@ public class MainWindow extends JFrame{
         });
     }
     /**
-     * Crée un fichier XML de comportement à partir des instructions données.
+     * Crée un fichier XML de comportement à partir des instructions données et le sauvegarde dans le dossier du projet.
      * @param listerInstructions Informations pour remplir les champs. Chaque valeur est précédée par son nom.
      * @param saveFilename Nom du fichier XML de destination.
      */
@@ -241,15 +234,16 @@ public class MainWindow extends JFrame{
             ex.printStackTrace();
         }
     }
-
+    
     /**
-     * Crée un fichier XML de physique à partir des instructions données.
-     * @param listerInstructions
+     * Crée un fichier XML de caractéristiques physiques de Robots et
+     * de conditions de simulation à partir des champs remplis dans l'onglet associé et le sauvegarde dans le dossier du projet.
+     * @param listeParametres Informations pour remplir les champs. Chaque valeur est précédée par son nom.
      * @deprecated son utilisation est instable
      */
-    private void updateXMLphys(String[][] listerInstructions){
-     CreatXml RobotPhysique = new CreatXml();
-        for(String[] element : listerInstructions){
+    private void updateXMLphys(String[][] listeParametres){
+        CreatXml RobotPhysique = new CreatXml();
+        for(String[] element : listeParametres){
             Element fonction = null;
             for(int i=0; i < element.length; i+=2) {
                 System.out.println(element[i]);
@@ -265,7 +259,7 @@ public class MainWindow extends JFrame{
             ex.printStackTrace();
         }
     }
-    
+
     /**
      * Sauve un text dans un fichier.
      * @param nomFichier Nom sous lequel le fichier est enregistré.
@@ -306,14 +300,14 @@ public class MainWindow extends JFrame{
     }
 
     /**
-     * Réunnit les différents onglets et affiche la fenêtre d'interface graphique.
+     * Réunit les différents onglets et affiche la fenêtre d'interface graphique.
      * @see JTabbedPane
      */
     public void afficheFenetre(){
 
         tabManager.add("Program", progUserTAB);
-        //tabManager.add("Physic", PhysicUserTAB);
         tabManager.add("XML", progXMLtextTAB);
+        //tabManager.add("Paramètres",new JScrollPane(PhysicUserTAB));
         //tabManager.add("Sim1",simulation1TAB);
         ((JButton)((JPanel) progUserTAB.getComponent(1)).getComponent(1)).doClick(); //JButton resetSimu -> ajoute le panneau de simulation
 
@@ -324,14 +318,15 @@ public class MainWindow extends JFrame{
         setVisible(true);
     }
 
+    /**
+     * Fonction principale du projet.
+     * @param args nothing here...
+     */
     public static void main(String[] args) {
         MainWindow AntHill=new MainWindow("src/testxml/ComportementTest.xml");
         Robot.areaPrompt();
 
         AntHill.afficheFenetre();
-        EssaimRobot aze=new EssaimRobot();
-        aze.add(new Robotxml(10)); aze.add(new Robotxml(10));
-        aze.remplitMatrix();
-        aze.menacesProches(aze.get(0));
     }
+
 }
