@@ -15,6 +15,9 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	private int theta = 0;*/
 	private boolean[] touchesDeplacement;
 	private int cameraY, cameraX;
+	/** type de simulation par défault simulera un déplacement prédéfini de fourmis qui
+	* ne prend pas en compte de comportement en XML.
+	*/
 	private SimulationType simulationType=SimulationType.DEFAULT;
 	private int cpt_fr = 0;
 	private int cpt_fb=0;
@@ -27,6 +30,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	private ArrayList<Robotxml> robots;
 	private ArrayList<Ressources> resources;
 	private ArrayList<Integer> save_resources;
+	/** Bordures de la zone de simulation dans laquelle sont censées se déplacer les fourmis*/
 	private MapBorder[] borders;
 	private Fourmiliere fourmiliere;
 	double theta=0;
@@ -56,6 +60,9 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 		borders[3]= new MapBorder(BorderSide.LEFT,0);
 	}
 
+	/**
+	 * Lance une simulation selon le type sélectionné en amont.
+	 */
 	@Override
 	public void run() {
 		switch (simulationType){
@@ -67,10 +74,21 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 		}
 	}
 
+	/**
+	 * Change le type de simulation. Cette sélection entre en compte au prochain appel de {@link #run}.
+	 * @param simulationType type de simulation sélectionné
+	 */
 	public void setSimulationType(SimulationType simulationType) {
 		this.simulationType = simulationType;
 	}
-	
+
+	/**
+	 * Repeint l'ensemble des composants de la simulation. Cette fonction repeint les robots et les ressources
+	 * ainsi que les bordures de la zone de simulation. Les positions d'affichage sont relatives à une caméra qui peut être déplacée
+	 * @see #deplaceCamera
+	 * @param g the Graphics object to protect
+	 */
+	@Override
   	public void paintComponent(Graphics g) {
 		int maxX=Robot.getArea().width;
 		int maxY=Robot.getArea().height;
@@ -311,7 +329,10 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	public void desactivate_placement(){
 		placement=false;
 	}
+  	
+	@Override
   	public void keyTyped(KeyEvent e) {}
+	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(1);
@@ -323,6 +344,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 			case(39): touchesDeplacement[3]=true; break; //go right
 		}
 	}
+	@Override
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()){
 			case(38): touchesDeplacement[0]=false; break; //go up
@@ -331,12 +353,19 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 			case(39): touchesDeplacement[3]=false; break; //go right
 		}
 	}
+
+	/**
+	 * Déplace la caméra dans une des 8 directions possibles du plan à l'aide des flèches directionnelles.
+	 * Il est possible de se déplacer dans les 4 directions correspondant aux flèches
+	 * ainsi que toute combinaison de deux flèches orthogonales.
+	 */
 	private void deplaceCamera(){
-		if(touchesDeplacement[0]) cameraY-=2;
-		if(touchesDeplacement[1]) cameraX-=2;
-		if(touchesDeplacement[2]) cameraY+=2;
-		if(touchesDeplacement[3]) cameraX+=2;
+		if(touchesDeplacement[0]) cameraY-=5;
+		if(touchesDeplacement[1]) cameraX-=5;
+		if(touchesDeplacement[2]) cameraY+=5;
+		if(touchesDeplacement[3]) cameraX+=5;
 	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
