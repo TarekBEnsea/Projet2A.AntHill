@@ -300,7 +300,9 @@ public class Robot extends Element{
 	 * @param thetaDeviation Angle de déviation, indépendante du sens de rotation, compris dans [0,{@link Math#PI pi}]
 	 */
 	public void devieTraj(double thetaObstacle,double thetaDeviation){
-		double angle=((this.theta- thetaObstacle)%(2*Math.PI)+3*Math.PI)%(2*Math.PI)-Math.PI; //donne l'angle relatif à l'obstacle dans [-pi,pi]
+		//pourquoi [-pi,pi]???
+		//double angle=((this.theta- thetaObstacle)%(2*Math.PI)+3*Math.PI)%(2*Math.PI)-Math.PI; //donne l'angle relatif à l'obstacle dans [-pi,pi]
+		double angle=((this.theta-thetaObstacle)%(2*Math.PI)+2*Math.PI)%(2*Math.PI); //donne l'angle relatif à l'obstacle dans [0;2pi]
 		if(thetaDeviation<0) thetaDeviation=0;
 		else if(thetaDeviation>Math.PI) thetaDeviation=Math.PI;
 
