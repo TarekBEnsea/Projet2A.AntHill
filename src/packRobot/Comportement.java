@@ -5,6 +5,10 @@ import testxml.InterXml;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+/**
+ * Classe permettant de choisir le prochain comportement d'une fourmi en fonciton du fichier XML.
+ * Permet d'update les variables pour faire fonctionner le comportement choisi.
+ */
 public class Comportement {
     /**
      * Retourne le nom de la fonction. Si le nom de la fonction est "" alors le comportement n'agis plus.

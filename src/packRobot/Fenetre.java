@@ -3,11 +3,20 @@ package packRobot;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Ancienne fenêtre de simulation sans onglets
+ * @deprecated
+ */
 public class Fenetre extends JFrame{
   private Panneau pan;
   static double width;
   static double height;
-  
+
+  /**
+   * Classe de création d'une fenêtre pour le lancement de la simulation
+   * @throws InterruptedException
+   * @deprecated
+   */
   public Fenetre() throws InterruptedException {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     this.width = screenSize.getWidth();

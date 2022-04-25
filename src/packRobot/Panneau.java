@@ -110,10 +110,13 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 		}
 	}
 
+	/**
+	 * Fonction updatant les positions des fourmis à chaque frame
+	 * @throws InterruptedException
+	 */
   	public void go() throws InterruptedException {
 		Robotxml fourmi1, fourmi2;
-		Ressources ressource1;
-	  	for(;;){
+		for(;;){
 		  	for (int i=0; i<robots.size(); i++){
 				fourmi1=robots.get(i);
 			  	fourmi1.mouvInPanel();
@@ -159,19 +162,16 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 
 
 			this.repaint();
-			Thread.sleep(25);
+			Thread.sleep(timeBetweenFrame);
 		}
 	}
 
-
+	/**
+	 * Fonction initialisant le comportement des fourmis et lancant la fonction {@link #run_simulation(InterXml)} pour chaque frame tant que l'objectif n'est pas atteint.
+	 */
 	public void testgo() {
 
-		long past = System.currentTimeMillis();
-		long duration = 0;
-
-
 		InterXml comportementsimple = new InterXml("src/testxml/ComportementTest.xml");
-
 
 		for (Robotxml robot : robots) {
 			robot.setComportement(new Comportement(robot, robots, resources, comportementsimple, "", -1));
@@ -190,6 +190,11 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 		}, 0, timeBetweenFrame);
 	}
 
+	/**
+	 * Fonction updatant les caractéristiques des fourmis : leurs positions, leurs comportements, leurs sprites, leurs interaction avec les ressources.
+	 * Update la postion de la caméra.
+	 * @param comportementsimple fichier XML des comportements
+	 */
 	private void run_simulation(InterXml comportementsimple) {
 		Robotxml fourmi;
 		for (int i = 0; i < robots.size(); i++) {
@@ -284,30 +289,15 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 				}
 			}
 
-			/*fourmi1.setTime(fourmi1.getTime() - duration);
-
-			if(fourmi1.getTime() < 0) {
-				fourmi1.setK(fourmi1.getK() + 1);
-				fourmi1.setTime(comportementsimple.ReadCompState(fourmi1.getListeComportement().get(fourmi1.getK()), "time"));
-			}*/
 		}
 		deplaceCamera();
 		this.repaint();
 	}
-	/*
-			try {
-				Thread.sleep(timeBetweenFrame);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 
-
-			long now = System.currentTimeMillis();
-			duration = now - past;
-			past = now;
-		}
-	}*/
-
+	/**
+	 * Place un nombre nb de ressource sur la carte à des positions randomisées.
+	 * @param nb nombre de ressource à placer
+	 */
 	public void rand_ress(int nb) {
 		for (int j = 0; j < nb; j++) {
 			String name;
@@ -318,6 +308,11 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 			resources.add(new Ressources(name));
 		}
 	}
+
+	/**
+	 * Place un nombre nb de fourmis sur la carte à des positions randomisées.
+	 * @param nb nombre de fourmis à placer
+	 */
 	public void rand_ants(int nb){
 		for(int i = 0; i<nb; i++) {
 			robots.add(new Robotxml(timeBetweenFrame));
@@ -329,7 +324,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	public void desactivate_placement(){
 		placement=false;
 	}
-  	
+
 	@Override
   	public void keyTyped(KeyEvent e) {}
 	@Override
@@ -365,7 +360,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 		if(touchesDeplacement[2]) cameraY+=5;
 		if(touchesDeplacement[3]) cameraX+=5;
 	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
@@ -435,6 +430,9 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	}
 }
 
+/**
+ * Type de simulation. Correspond au lancement de {@link Panneau#go()} ou {@link Panneau#testgo()}
+ */
 enum SimulationType{
 	DEFAULT,XMLCONTROLED
 }

@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 /**
  * Définition physique d'un robot mobile en 2D.</p>

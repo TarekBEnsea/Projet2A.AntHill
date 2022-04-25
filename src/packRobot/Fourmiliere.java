@@ -8,11 +8,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Classe permettant de créer le sprite de la fourmilière et de l'afficher.
+ */
 public class Fourmiliere extends Element{
     private Image image;
     private int width;
     private int height;
 
+    /**
+     * Création du sprite de la fourmilière et de sa zone d'interaction
+     */
     public Fourmiliere() {
         rayonContact = 10;
         width = 200;
@@ -29,6 +35,13 @@ public class Fourmiliere extends Element{
         }
     }
 
+    /**
+     * Affichage du sprite de la fourmilière en focntion de la position de la caméra
+     * @param g paramètre de la fonction {@link Panneau#paintComponent(Graphics)}
+     * @param cameraX position de la caméra sur l'axe X pour un affichage relatif à la caméra
+     * @param cameraY position de la caméra sur l'axe Y pour un affichage relatif à la caméra
+     * @see Panneau#paintComponent(Graphics)
+     */
     public void draw(Graphics g,int cameraX, int cameraY){
         g.drawImage(image, (int) (posX - width/2)-cameraX, (int) (posY - height/2)-cameraY, null);
     }
