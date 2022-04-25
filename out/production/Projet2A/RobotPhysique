@@ -21,8 +21,8 @@
     <fourmi>
         <forme>cercle</forme>
         <couleur>red</couleur>
-        <effectif>50</effectif>
-        <ressources>10</ressources>
+        <effectif>0</effectif>
+        <ressources>0</ressources>
     </fourmi>
 
     <fourmilière>

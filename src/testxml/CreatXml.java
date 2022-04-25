@@ -20,6 +20,9 @@ public class CreatXml {
     public Document xml;
     public Element root;
 
+    /**
+     * Constructeur de l'objet CreatXML crée un document XML à l'aide de la méthode DocBuilder
+     */
     public CreatXml(){
         try {
            DocumentBuilder builder = factory.newDocumentBuilder();
@@ -31,12 +34,23 @@ public class CreatXml {
         }
     }
 
+    /**
+     * Création d'une fonction dans le fichier XML dont on va attribuer un nom
+     * @param name
+     * @return
+     */
     public Element newFonction(String name){
         Element fonction = xml.createElement(name);
         root.appendChild(fonction);
         return fonction;
     }
 
+    /**
+     * Ajout des éléments dans la fonction qui a été créer
+     * @param name Le nom de la variable
+     * @param value Sa valeur
+     * @param fonction La fonction dans laquelle il se trouve
+     */
     public void newElement(String name, String value, Element fonction){
         if(name.equals("id")){
             fonction.setAttribute("id", value);
@@ -47,7 +61,7 @@ public class CreatXml {
             node.appendChild(xml.createTextNode(value));
         }
     }
-
+/*
     public void addGoToXY(String id, String sx, String sy, String sprio, String soutof) {
         Element fonction = xml.createElement("GotoXY");
         root.appendChild(fonction);
@@ -71,28 +85,13 @@ public class CreatXml {
         y.appendChild(xml.createTextNode(sy));//position en y de l'écran
         priority.appendChild(xml.createTextNode(sprio));//numéro de priorité
         outofbound.appendChild(xml.createTextNode(soutof));//0 ou 1
-    }
+    }*/
 
-    public void addMouvXY(String id, String sx, String sy, String sprio, String soutof) {
-        Element fonction = xml.createElement("MouvXY");
-        root.appendChild(fonction);
-        Element name = xml.createElement("name");
-        Element x = xml.createElement("x");
-        Element y = xml.createElement("y");
-        Element priority = xml.createElement("priority");
-        Element outofbound = xml.createElement("outofbound");
-        fonction.appendChild(name);
-        fonction.appendChild(x);
-        fonction.appendChild(y);
-        fonction.appendChild(priority);
-        fonction.appendChild(outofbound);
-
-        fonction.setAttribute("id", id);
-        x.appendChild(xml.createTextNode(sx));//position en x de l'écran
-        y.appendChild(xml.createTextNode(sy));//position en y de l'écran
-        priority.appendChild(xml.createTextNode(sprio));//numéro de priorité
-        outofbound.appendChild(xml.createTextNode(soutof));//0 ou 1
-    }
+    /**
+     * Validation du fichier XML suivit par sa création
+     * @param s
+     * @throws TransformerException
+     */
     public void finishXML(String s) throws TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();

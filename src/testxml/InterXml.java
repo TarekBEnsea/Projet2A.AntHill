@@ -59,7 +59,7 @@ public class InterXml {
     }
 
     /**
-     *
+     *Crée un tableau qui contient tout les Ids du fichier XML
      * @param s
      * @return
      */
@@ -80,8 +80,8 @@ public class InterXml {
 
     /**
      * Permet de lire l'Id d'un comportement dont on connait le nom dans un fichier XML qui possède la racine Comportement
-     * @param Id
-     * @param s
+     * @param Id l'Id de la fonction
+     * @param s le nom de la vairable de la fonction
      * @return
      */
     public String ReadCompStateId(int Id, String s){
@@ -136,6 +136,13 @@ public class InterXml {
         return Integer.valueOf(value);
     }
     // Modifier une variable d'état comprise dans un noeud
+
+    /**
+     * Modifie la valeur contenu dans une fonction dont on conait l'Id
+     * @param Id correspondant à la fonction
+     * @param Com la variable de la fonction à modifier
+     * @param value la valeur à modifier
+     */
     public void WriteCompVal(int Id, String Com, String value){
         Node comp = document.getElementsByTagName("Comportement").item(0);
         NodeList listfonction = comp.getChildNodes();

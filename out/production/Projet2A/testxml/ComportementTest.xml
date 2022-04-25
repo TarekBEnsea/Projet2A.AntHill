@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Comportement>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Comportement>
     <GoToElement id="0">
         <name>GoToElement</name>
-        <x>-15000</x>
-        <y>-15000</y>
         <priority>2</priority>
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
@@ -14,8 +13,8 @@
     </GoToElement>
     <Communique id="1">
         <name>Communique</name>
-        <priority>1</priority>
-        <antsnextto>0</antsnextto>
+        <priority>0</priority>
+        <antsnextto>1</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
         <lastcomportementfinished>-1</lastcomportementfinished>
         <outofbound>0</outofbound>
@@ -23,33 +22,6 @@
         <fourmisansinfo>1</fourmisansinfo>
         <iscarrying>0</iscarrying>
     </Communique>
-
-    <MouvXY id="3">
-        <name>MouvXY</name>
-        <x>50</x>
-        <y>100</y>
-        <priority>6</priority>
-        <antsnextto>0</antsnextto>
-        <ressourcesnextto>0</ressourcesnextto>
-        <lastcomportementfinished>-1</lastcomportementfinished>
-        <outofbound>0</outofbound>
-        <information>0</information>
-        <fourmisansinfo>0</fourmisansinfo>
-        <iscarrying>0</iscarrying>
-    </MouvXY>
-    <MouvXY id="4">
-        <name>MouvXY</name>
-        <x>50</x>
-        <y>-100</y>
-        <priority>5</priority>
-        <antsnextto>0</antsnextto>
-        <ressourcesnextto>0</ressourcesnextto>
-        <lastcomportementfinished>3</lastcomportementfinished>
-        <outofbound>0</outofbound>
-        <information>0</information>
-        <fourmisansinfo>0</fourmisansinfo>
-        <iscarrying>0</iscarrying>
-    </MouvXY>
     <GetInformation id="2">
         <name>GetInformation</name>
         <priority>3</priority>
@@ -61,24 +33,37 @@
         <fourmisansinfo>0</fourmisansinfo>
         <iscarrying>0</iscarrying>
     </GetInformation>
-    <GoToXY id="5">
-        <name>GoToXY</name>
-        <x>100</x>
-        <y>100</y>
+    <MouvXY id="3">
+        <name>MouvXY</name>
+        <x>0</x>
+        <y>500</y>
         <priority>4</priority>
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
-        <lastcomportementfinished>-1</lastcomportementfinished>
-        <outofbound>1</outofbound>
+        <lastcomportementfinished>4</lastcomportementfinished>
+        <outofbound>0</outofbound>
         <information>0</information>
         <fourmisansinfo>0</fourmisansinfo>
         <iscarrying>0</iscarrying>
-    </GoToXY>
-    <GoToXY id="6">
+    </MouvXY>
+    <MouvXY id="4">
+        <name>MouvXY</name>
+        <x>0</x>
+        <y>-500</y>
+        <priority>5</priority>
+        <antsnextto>0</antsnextto>
+        <ressourcesnextto>0</ressourcesnextto>
+        <lastcomportementfinished>-1</lastcomportementfinished>
+        <outofbound>0</outofbound>
+        <information>0</information>
+        <fourmisansinfo>0</fourmisansinfo>
+        <iscarrying>0</iscarrying>
+    </MouvXY>
+    <GoToXY id="5">
         <name>GoToXY</name>
-        <x>20</x>
-        <y>20</y>
-        <priority>0</priority>
+        <x>10</x>
+        <y>10</y>
+        <priority>1</priority>
         <antsnextto>0</antsnextto>
         <ressourcesnextto>0</ressourcesnextto>
         <lastcomportementfinished>-1</lastcomportementfinished>
@@ -87,5 +72,4 @@
         <fourmisansinfo>0</fourmisansinfo>
         <iscarrying>1</iscarrying>
     </GoToXY>
-
 </Comportement>

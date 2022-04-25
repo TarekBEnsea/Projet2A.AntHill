@@ -329,10 +329,10 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
   	public void keyTyped(KeyEvent e) {}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+		/*if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(1);
 		}
-		else switch (e.getKeyCode()){
+		else*/ switch (e.getKeyCode()){
 			case(38): touchesDeplacement[0]=true; break; //go up
 			case(37): touchesDeplacement[1]=true; break; //go left
 			case(40): touchesDeplacement[2]=true; break; //go down
