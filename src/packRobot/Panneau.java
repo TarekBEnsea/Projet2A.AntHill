@@ -365,6 +365,10 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	public void mouseClicked(MouseEvent e) {
 	}
 
+	/**
+	 * Place soit une ressource soit une fourmi sur la zone sélectionnée de la carte
+	 * @param e
+	 */
 	@Override
 	public void mousePressed(MouseEvent e){
 		if(placement) {
@@ -406,6 +410,10 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 
 	}
 
+	/**
+	 * Permet la rotation de la fourmi au moment de son placement lorsqu'on reste appuyé sur celle-ci
+	 * @param e
+	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (dragged && placement) {
