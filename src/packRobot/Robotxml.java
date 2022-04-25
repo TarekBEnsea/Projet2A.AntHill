@@ -4,6 +4,11 @@ import testxml.InterXml;
 
 import java.util.ArrayList;
 
+/**
+ * Couche supérieure d'abstraction de la classe {@link Robot} qui permet d'inclure le suivi de comportements
+ * décrits en XML.
+ * @see Comportement
+ */
 public class Robotxml extends Robot{
 
     private int k = 0;
