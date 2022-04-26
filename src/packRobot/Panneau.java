@@ -310,7 +310,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	}
 
 	/**
-	 * Place un nombre nb de fourmis sur la carte à des positions randomisées.
+	 * Place un nombre nb de fourmis sur la carte à des positions aléotoire.
 	 * @param nb nombre de fourmis à placer
 	 */
 	public void rand_ants(int nb){
@@ -411,7 +411,7 @@ public class Panneau extends JPanel implements KeyListener, Runnable, MouseListe
 	}
 
 	/**
-	 * Permet la rotation de la fourmi au moment de son placement lorsqu'on reste appuyé sur celle-ci
+	 * Permet la rotation de la fourmi au moment de son placement lorsque l'on reste appuyé sur celle-ci
 	 * @param e
 	 */
 	@Override
