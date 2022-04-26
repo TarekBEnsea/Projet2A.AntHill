@@ -45,8 +45,11 @@ public class InstructionXML extends JPanel {
     private JPanel triggerPan = new JPanel();//"cases à cocher pour les triggers"
         /** Tableau contenant les différentes boîtes de selection des triggers*/
         private JCheckBox[] triggers;
-        private JTextField trigParam;
-        private int indexTrig;
+        /** zone pour renseigner l'ID de l'instruction à surveiller. 
+         * Le capteur est actif (permet le lancement de l'instruction) quand l'instruction en question s'est terminée*/
+        private JTextField finInstructBox;
+        /** Indice de {@link finInstructBox} parmis les {@link JComponent composant} de {@link triggerPan}*/
+        private int finInstructIndex;
     /** Champ pour renseigner la priorité, sous forme d'entiers naturels
      * 0 est la priorité la plus forte, +inifity la priorité la plus faible*/
     private JTextField priorite;
@@ -142,15 +145,15 @@ public class InstructionXML extends JPanel {
             triggerPan.add(cbox);
             nombreTrigger+=1;
             if(cbox.getText().equals("fin instruc")){
-                indexTrig = 2*nombreTrigger-1;
+                finInstructIndex = 2*nombreTrigger-1;
                 cbox.addItemListener(new ItemListener() {
                     @Override
                     public void itemStateChanged(ItemEvent e) {
                         if( e.getStateChange() == ItemEvent.SELECTED){
-                            trigParam = new JTextField(2);
-                            triggerPan.add(trigParam, indexTrig);
+                            finInstructBox = new JTextField(2);
+                            triggerPan.add(finInstructBox, finInstructIndex);
                         }else{
-                            triggerPan.remove(indexTrig);
+                            triggerPan.remove(finInstructIndex);
                         }
                         validate();
                     }
@@ -187,7 +190,7 @@ public class InstructionXML extends JPanel {
         for(int i = 0; i< nomsTriggersComplet.length; i++){
             synthTab[6+2*nombreParam+2*i]= nomsTriggersComplet[i];
             if(triggers[i].isSelected()) {
-                if(triggers[i].getText().equals("fin instruc")) synthTab[7+2*nombreParam+2*i]=trigParam.getText();
+                if(triggers[i].getText().equals("fin instruc")) synthTab[7+2*nombreParam+2*i]=finInstructBox.getText();
                 else synthTab[7+2*nombreParam+2*i]="1";
             }
             else if(triggers[i].getText().equals("fin instruc")) synthTab[7+2*nombreParam+2*i]="-1";
