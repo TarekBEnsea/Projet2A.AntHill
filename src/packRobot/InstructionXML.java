@@ -48,7 +48,7 @@ public class InstructionXML extends JPanel {
         /** zone pour renseigner l'ID de l'instruction à surveiller. 
          * Le capteur est actif (permet le lancement de l'instruction) quand l'instruction en question s'est terminée*/
         private JTextField finInstructBox;
-        /** Indice de {@link finInstructBox} parmis les {@link JComponent composant} de {@link triggerPan}*/
+        /** Indice de {@link #finInstructBox} parmis les {@link JComponent composant} de {@link #triggerPan}*/
         private int finInstructIndex;
     /** Champ pour renseigner la priorité, sous forme d'entiers naturels
      * 0 est la priorité la plus forte, +inifity la priorité la plus faible*/
