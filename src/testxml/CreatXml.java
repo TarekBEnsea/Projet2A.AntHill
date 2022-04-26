@@ -14,6 +14,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 
+/**
+ * Classe qui permet la création et l'initialisation d'un fichier XML
+ */
 public class CreatXml {
 
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

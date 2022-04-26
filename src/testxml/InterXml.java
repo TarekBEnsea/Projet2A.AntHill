@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Classe permettant l'interprétation des données d'un fichier XML.
+ */
 public class InterXml {
 
     private Document document = null;
