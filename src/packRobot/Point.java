@@ -2,6 +2,9 @@ package packRobot;
 
 import java.io.Serializable;
 
+/**
+ * Classe permettant de désigner un point sur la carte
+ */
 public class Point implements Serializable {
 
     int X;

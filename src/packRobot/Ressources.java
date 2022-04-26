@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Classe permettant l'ajout des ressources sur la simulation
+ */
 public class Ressources extends Element{
 
     double max1=Robot.getArea().width;
